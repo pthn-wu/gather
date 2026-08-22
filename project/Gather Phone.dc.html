@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#EFECF6;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#6D28D9;text-decoration:none}a:hover{color:#4F46E5}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:radial-gradient(120% 55% at 50% 0%,#E4DEF6 0%,#EFECF6 55%);padding:44px 40px 60px">
+  <div style="max-width:1180px;margin:0 auto">
+    <img src="assets/gather-logo-web.png" alt="Gather" style="height:30px;display:block;margin-left:-4px">
+    <div style="font-family:Poppins,sans-serif;font-size:26px;font-weight:600;color:#1B2136;letter-spacing:-.02em;margin-top:20px">Gather as a native app</div>
+    <div style="font-size:14px;color:#6B7189;line-height:1.55;margin-top:8px;max-width:640px">The same build inside an iPhone frame — status bar and home indicator accounted for. Every screen is live: tap through community pick, verification, catalog, checkout and the community area.</div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:56px;margin-top:36px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ frameW }}" height="{{ frameH }}" hint-size="402px,874px">
+          <iframe src="Gather.dc.html?frame=1" title="Gather app" style="width:100%;height:100%;border:0;display:block;background:#fff"></iframe>
+        </x-import>
+        <div style="font-size:12px;font-weight:700;color:#6B7189;text-align:center">iPhone · 402 × 874</div>
+      </div>
+
+      <div style="flex:1;min-width:280px;max-width:400px;display:flex;flex-direction:column;gap:14px">
+        <div style="padding:18px 19px;border-radius:20px;background:#fff;border:1px solid #EEECF7">
+          <div style="font-size:13px;font-weight:800;color:#1B2136">Four communities live</div>
+          <div style="display:flex;flex-direction:column;gap:9px;margin-top:12px">
+            <sc-for list="{{ towers }}" as="t" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:11px">
+                <div style="width:32px;height:32px;border-radius:10px;flex:none;background:#F1EBFE;color:#4F46E5;font-family:'JetBrains Mono',monospace;font-size:11px;display:flex;align-items:center;justify-content:center">{{ t.abbr }}</div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:700;color:#1B2136">{{ t.name }}</div><div style="font-size:11px;color:#8B90A5;margin-top:1px">{{ t.note }}</div></div>
+                <div style="font-size:13px;font-weight:800;color:#1B2136">{{ t.households }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font-size:11.5px;color:#8B90A5;line-height:1.5;margin-top:12px">Each tower keeps its own tier progress, collection point and organiser roster. Switching community re-prices the catalog.</div>
+        </div>
+
+        <div style="padding:18px 19px;border-radius:20px;background:#1B2136;color:#fff">
+          <div style="font-size:13px;font-weight:800">If you ship this as an app</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.72);line-height:1.6;margin-top:8px">The web build already handles safe areas, so it wraps cleanly in a shell. Native adds push for tier unlocks and cutoff reminders, plus a wallet pass for the collection slip.</div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <a href="Gather.dc.html" style="flex:1;padding:14px;border-radius:14px;background:#fff;border:1px solid #E8E6F0;font-size:12.5px;font-weight:700;color:#1B2136;text-align:center">Open web version</a>
+          <button onClick="{{ toggleSize }}" style="flex:1;padding:14px;border:0;border-radius:14px;background:linear-gradient(100deg,#C026D3,#6D28D9 55%,#4F46E5);color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">{{ sizeLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state={small:false};
+  renderVals(){
+    const s=this.state;
+    return {
+      frameW:s.small?390:402,frameH:s.small?760:874,
+      sizeLabel:s.small?'Show iPhone 16 Pro':'Show smaller device',
+      toggleSize:()=>this.setState({small:!s.small}),
+      towers:[
+        {abbr:'G1',name:'Gems 1',note:'Tower 1 · 480 units · cycle 34',households:143},
+        {abbr:'G2',name:'Gems 2',note:'Tower 2 · 320 units · cycle 31',households:96},
+        {abbr:'G3',name:'Gems 3',note:'Tower 3 · 268 units · cycle 22',households:61},
+        {abbr:'G4',name:'Gems 4',note:'Tower 4 · 214 units · cycle 9',households:38}
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

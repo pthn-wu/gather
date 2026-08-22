@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F8F5F1;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#1E1926}
+a{color:#5B34D9;text-decoration:none}a:hover{color:#3F1FB0}
+input,button,textarea,select{font-family:inherit}
+.row:hover{background:#FDFBF7}
+.card:hover{border-color:#D8CFC5}
+</style>
+</helmet>
+
+<div style="display:flex;min-width:1420px;min-height:100vh;background:#F8F5F1">
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;display:grid;grid-template-columns:minmax(440px,1fr) minmax(520px,600px);gap:56px;padding:64px 72px;align-items:start">
+    <div style="position:sticky;top:64px">
+      <img src="assets/gather-logo-web.png" alt="Gather" width="262" height="80" style="width:132px;height:auto;display:block">
+      <div style="font-family:Poppins,sans-serif;font-size:38px;font-weight:600;letter-spacing:-.025em;line-height:1.15;margin-top:32px">Ordering together,<br>block by block</div>
+      <div style="font-size:14px;color:#5B5364;line-height:1.7;margin-top:18px;max-width:440px;text-wrap:pretty">Pick your community, then sign in with the account your property office gave you. Group prices, cutoffs and collection points are set per property — the more households order, the less everyone pays.</div>
+      <div style="display:flex;gap:36px;margin-top:32px;padding-top:24px;border-top:1.5px solid #1E1926">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:22px">4</div>
+          <div style="font-size:12px;color:#6F6678;margin-top:4px">towers live</div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:22px">338</div>
+          <div style="font-size:12px;color:#6F6678;margin-top:4px">households ordering</div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:22px">K 1.08M</div>
+          <div style="font-size:12px;color:#6F6678;margin-top:4px">saved last cycle</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1.5px solid {{ homeBorder }}">
+        <input value="{{ homeQuery }}" onChange="{{ onHomeQuery }}" placeholder="Search condo, estate or street" style="flex:1;min-width:0;border:0;background:transparent;font-size:14px;font-weight:600;color:#1E1926;outline:none;padding:0">
+      </div>
+      <div style="margin-top:6px">
+        <sc-for list="{{ communities }}" as="c" hint-placeholder-count="4">
+          <div class="row" onClick="{{ c.pick }}" style="display:grid;grid-template-columns:64px minmax(0,1fr) 128px 96px;gap:16px;align-items:center;padding:18px 12px;border-bottom:1px solid #EFE8E0;cursor:pointer;background:{{ c.bg }}">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#6F6678">{{ c.abbr }}</div>
+            <div style="min-width:0">
+              <div style="font-size:14.5px;font-weight:700;letter-spacing:-.01em">{{ c.name }}</div>
+              <div style="font-size:12px;color:#928892;margin-top:3px">{{ c.address }}</div>
+            </div>
+            <div style="font-size:12px;color:#6F6678">{{ c.meta }}</div>
+            <div style="font-size:12px;font-weight:700;color:{{ c.stateFg }};text-align:right">{{ c.chip }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="margin-top:26px;padding-top:20px;border-top:1px solid #E7DFD5">
+        <div style="font-size:13.5px;font-weight:800">Don't see your property?</div>
+        <div style="font-size:12.5px;color:#6F6678;line-height:1.6;margin-top:5px;max-width:460px">Gather opens a property once 40 households register interest. Capital Retail then sets the delivery days with the office.</div>
+        <button onClick="{{ requestProperty }}" style="margin-top:14px;padding:11px 16px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Register interest</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isAuth }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;display:flex;justify-content:center;padding:72px 36px">
+    <div style="width:520px">
+      <img src="assets/gather-logo-web.png" alt="Gather" width="262" height="80" style="width:104px;height:auto;display:block">
+      <div style="font-family:Poppins,sans-serif;font-size:30px;font-weight:600;letter-spacing:-.02em;margin-top:28px">{{ authTitle }}</div>
+      <div style="font-size:13.5px;color:#5B5364;line-height:1.65;margin-top:8px;text-wrap:pretty">{{ authBlurb }}</div>
+
+      <sc-if value="{{ signStep }}" hint-placeholder-val="{{ true }}">
+      <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:26px;margin-top:24px">
+        <div style="font-size:12px;font-weight:700;color:#928892">Username</div>
+        <input value="{{ signUser }}" onChange="{{ onSignUser }}" placeholder="given by the property office" style="width:100%;margin-top:7px;padding:12px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:14px;font-weight:600;color:#1E1926;outline:none">
+        <div style="font-size:12px;font-weight:700;color:#928892;margin-top:18px">Password</div>
+        <input type="password" value="{{ signPw }}" onChange="{{ onSignPw }}" placeholder="••••••••" style="width:100%;margin-top:7px;padding:12px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:14px;font-weight:600;color:#1E1926;outline:none">
+        <div style="font-size:12.5px;color:#6F6678;line-height:1.6;margin-top:16px">First sign-in? Use the temporary password from the office — you'll set your own next.</div>
+        <button onClick="{{ signIn }}" style="margin-top:20px;width:100%;padding:14px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:14px;font-weight:700;cursor:pointer">Sign in to {{ communityName }}</button>
+        <button onClick="{{ backHome }}" style="margin-top:10px;width:100%;padding:12px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#6F6678;font-size:12.5px;font-weight:700;cursor:pointer">Choose another property</button>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ setupStep }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:26px;margin-top:24px">
+        <div style="font-size:12px;font-weight:700;color:#928892">Pick an avatar</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:12px">
+          <sc-for list="{{ avatarOptions }}" as="av" hint-placeholder-count="8">
+            <button onClick="{{ av.pick }}" style="aspect-ratio:1;border-radius:50%;border:0;padding:0;cursor:pointer;background:{{ av.grad }};color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:{{ av.ring }}">{{ av.initials }}</button>
+          </sc-for>
+          <button onClick="{{ pickPhoto }}" style="aspect-ratio:1;border-radius:50%;border:1.5px dashed #D6CEC6;padding:0;cursor:pointer;background:{{ photoTile }};color:#928892;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:{{ photoRing }}">{{ photoLabel }}</button>
+        </div>
+        <input type="file" accept="image/*" ref="{{ photoRef }}" onChange="{{ onPhoto }}" style="display:none">
+        <sc-if value="{{ hasPhoto }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ removePhoto }}" style="margin-top:12px;border:0;background:transparent;padding:0;cursor:pointer;font-size:12px;font-weight:700;color:#5B34D9">Remove photo</button>
+        </sc-if>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#928892">Username</div>
+            <input value="{{ username }}" onChange="{{ onUsername }}" style="width:100%;margin-top:7px;padding:12px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926;outline:none">
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#928892">Display name</div>
+            <input value="{{ displayName }}" onChange="{{ onDisplay }}" style="width:100%;margin-top:7px;padding:12px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926;outline:none">
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#928892">New password</div>
+            <input type="password" value="{{ pw1 }}" onChange="{{ onPw1 }}" placeholder="at least 8 characters" style="width:100%;margin-top:7px;padding:12px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926;outline:none">
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#928892">Confirm password</div>
+            <input type="password" value="{{ pw2 }}" onChange="{{ onPw2 }}" placeholder="repeat it" style="width:100%;margin-top:7px;padding:12px 14px;border:1px solid {{ pwBorder }};border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926;outline:none">
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:{{ pwNoteColor }};margin-top:12px">{{ pwNote }}</div>
+        <button onClick="{{ saveAccount }}" style="margin-top:20px;width:100%;padding:14px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:14px;font-weight:700;cursor:pointer">Save and start ordering</button>
+        <button onClick="{{ skipSetup }}" style="margin-top:10px;width:100%;padding:12px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#6F6678;font-size:12.5px;font-weight:700;cursor:pointer">Do this later</button>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ inApp }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;flex:1;min-width:0">
+
+  <div style="width:232px;flex:none;background:#FDFBF8;border-right:1px solid #EDE5DC;padding:28px 22px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh">
+    <img src="assets/gather-logo-web.png" alt="Gather" width="262" height="80" style="width:98px;height:auto;display:block">
+    <div style="display:flex;align-items:baseline;gap:8px;margin-top:26px">
+      <div style="flex:1;min-width:0;font-size:14px;font-weight:800;letter-spacing:-.01em">{{ communityName }}</div>
+      <button onClick="{{ changeCommunity }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:11.5px;font-weight:700;color:#5B34D9">Change</button>
+    </div>
+    <div style="font-size:12px;color:#7B7280;margin-top:3px;line-height:1.5">{{ unitFull }}<br>{{ displayName }}</div>
+
+    <div style="display:flex;flex-direction:column;margin-top:26px">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+        <button onClick="{{ n.pick }}" style="display:flex;align-items:baseline;gap:10px;width:100%;text-align:left;padding:10px 0 10px 14px;border:0;border-left:2px solid {{ n.rule }};background:transparent;color:{{ n.fg }};font-size:13.5px;font-weight:{{ n.weight }};cursor:pointer">
+          <span style="flex:1">{{ n.label }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A79E9E">{{ n.badge }}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="flex:1"></div>
+    <div style="padding-top:18px;border-top:1px solid #EDE5DC">
+      <div style="font-size:11.5px;color:#7B7280">Tuesday drop closes in</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:14px;margin-top:3px">{{ countdown }}</div>
+      <div style="font-size:11.5px;color:#9A9199;line-height:1.5;margin-top:7px">Cycle {{ cycleNo }} · collection at {{ collectPoint }}</div>
+    </div>
+  </div>
+
+  <div style="flex:1;min-width:0">
+
+    <sc-if value="{{ isShop }}" hint-placeholder-val="{{ true }}">
+    <div style="position:sticky;top:0;z-index:6;background:rgba(248,245,241,.97);backdrop-filter:blur(10px);border-bottom:1px solid #E7DFD5;padding:28px 36px 0">
+      <div style="display:flex;align-items:baseline;gap:26px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">This week's sheet</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ shopHeadline }}</div>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:20px">
+          <div style="display:flex;align-items:center;gap:8px;width:280px;padding:7px 0;border-bottom:1.5px solid {{ pqBorder }}">
+            <input value="{{ pq }}" onChange="{{ onPq }}" placeholder="Search the sheet" style="flex:1;min-width:0;border:0;background:transparent;font-size:13px;font-weight:600;color:#1E1926;outline:none;padding:0">
+            <sc-if value="{{ hasPq }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ clearPq }}" style="border:0;background:transparent;padding:0;cursor:pointer;color:#7B7280;font-size:12px;font-weight:700">clear</button>
+            </sc-if>
+          </div>
+          <button onClick="{{ cycleShopSort }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:12.5px;font-weight:700;color:#5B34D9;white-space:nowrap">{{ shopSortLabel }}</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:18px;margin-top:20px;overflow-x:auto;scrollbar-width:none">
+        <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+          <button onClick="{{ c.pick }}" style="flex:none;display:flex;align-items:baseline;gap:6px;padding:0 0 12px;border:0;background:transparent;cursor:pointer;font-size:13px;font-weight:{{ c.weight }};color:{{ c.fg }};border-bottom:2px solid {{ c.line }};margin-bottom:-1px;white-space:nowrap">
+            {{ c.label }}
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:#A79E9E">{{ c.count }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="padding:26px 36px 48px;display:grid;grid-template-columns:minmax(740px,1fr) 348px;gap:26px;align-items:start">
+      <div style="min-width:0">
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px">
+          <sc-for list="{{ products }}" as="p" hint-placeholder-count="9">
+            <div class="card" onClick="{{ p.open }}" style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column">
+              <div style="aspect-ratio:4/3;background:repeating-linear-gradient(135deg,#F2EBE3 0 8px,#F8F3ED 8px 16px);display:flex;align-items:center;justify-content:center">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#A79E9E;letter-spacing:.04em">{{ p.slot }}</div>
+              </div>
+              <div style="padding:15px 16px 16px;display:flex;flex-direction:column;flex:1">
+                <div style="font-size:14px;font-weight:700;letter-spacing:-.01em;line-height:1.35">{{ p.name }}</div>
+                <div style="font-size:11.5px;color:#928892;margin-top:3px">{{ p.unit }} · {{ p.cat }}</div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-top:12px">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:500">{{ p.priceLabel }}</div>
+                  <div style="font-size:11.5px;color:#928892;text-decoration:line-through">{{ p.retailLabel }}</div>
+                  <div style="font-size:11.5px;font-weight:700;color:#0C7C58">−{{ p.savePct }}%</div>
+                </div>
+                <div style="margin-top:12px">
+                  <div style="height:3px;background:#EFE8E0;border-radius:2px;overflow:hidden">
+                    <div style="height:3px;background:#5B34D9;width:{{ p.pctW }}"></div>
+                  </div>
+                  <div style="font-size:11.5px;color:#6F6678;margin-top:7px;line-height:1.45">{{ p.progressText }}</div>
+                </div>
+                <div style="flex:1"></div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:14px">
+                  <div style="flex:1;font-size:11.5px;color:#928892">{{ p.social }}</div>
+                  <button onClick="{{ p.add }}" style="padding:8px 14px;border:1px solid #1E1926;border-radius:8px;background:#1E1926;color:#fff;font-size:12px;font-weight:700;cursor:pointer">Add</button>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ noProducts }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:64px 0;border-top:1.5px solid #1E1926">
+            <div style="font-size:15px;font-weight:800">Nothing on the sheet matches</div>
+            <div style="font-size:13px;color:#6F6678;margin-top:7px;max-width:430px;line-height:1.55">Try another word, or ask for it on the Community wishlist — Capital Retail reads it before setting the next sheet.</div>
+            <button onClick="{{ resetShop }}" style="margin-top:14px;border:0;background:transparent;padding:0;cursor:pointer;font-size:13px;font-weight:700;color:#5B34D9">Clear search and category</button>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="position:sticky;top:176px;background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+        <div style="display:flex;align-items:baseline;gap:9px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Your Tuesday order</div>
+          <div style="flex:1"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A79E9E">{{ cartCount }}</div>
+        </div>
+        <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12.5px;color:#7B7280;line-height:1.55;margin-top:14px">Nothing added yet. Prices fall as more units join across {{ communityName }}, so early orders help everyone.</div>
+        </sc-if>
+        <sc-if value="{{ cartAny }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:11px;margin-top:16px">
+            <sc-for list="{{ cartLines }}" as="l" hint-placeholder-count="2">
+              <div style="display:flex;align-items:baseline;gap:12px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;line-height:1.35">{{ l.name }}</div>
+                  <div style="font-size:11.5px;color:#9A9199;margin-top:2px">{{ l.qty }} × {{ l.priceLabel }} · {{ l.tierNote }}</div>
+                </div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500">{{ l.total }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:18px;padding-top:16px;border-top:1px solid #EFE8E0;display:flex;align-items:baseline;justify-content:space-between">
+            <div style="font-size:13px;font-weight:800">Subtotal</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:500">{{ subtotal }}</div>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:7px">
+            <div style="font-size:12px;color:#0C7C58;font-weight:700">Saved against retail</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#0C7C58">{{ savings }}</div>
+          </div>
+          <button onClick="{{ goCart }}" style="margin-top:18px;width:100%;padding:12px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:13px;font-weight:700;cursor:pointer">Review order</button>
+        </sc-if>
+        <div style="font-size:11.5px;color:#9A9199;line-height:1.5;margin-top:14px">Cutoff Sunday 10pm. Anything after that joins the Friday drop.</div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isProduct }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:28px 36px 48px">
+      <button onClick="{{ goShop }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:12.5px;font-weight:700;color:#5B34D9">← Back to the sheet</button>
+      <div style="display:grid;grid-template-columns:minmax(560px,1fr) 400px;gap:32px;align-items:start;margin-top:20px">
+        <div style="min-width:0">
+          <div style="aspect-ratio:16/10;background:repeating-linear-gradient(135deg,#F2EBE3 0 10px,#F8F3ED 10px 20px);border:1px solid #EBE3DA;border-radius:10px;display:flex;align-items:center;justify-content:center">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A79E9E;letter-spacing:.04em">{{ prod.slot }}</div>
+          </div>
+          <div style="font-family:Poppins,sans-serif;font-size:26px;font-weight:600;letter-spacing:-.02em;margin-top:24px">{{ prod.name }}</div>
+          <div style="font-size:13px;color:#6F6678;margin-top:5px">{{ prod.unit }} · {{ prod.cat }} · supplied by Capital Retail</div>
+          <div style="font-size:13.5px;color:#3F3947;line-height:1.65;margin-top:18px;max-width:620px;text-wrap:pretty">{{ prod.nextText }}</div>
+
+          <div style="margin-top:28px;padding-top:20px;border-top:1.5px solid #1E1926">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Neighbours on this item</div>
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:16px;max-width:640px">
+              <sc-for list="{{ comments }}" as="c" hint-placeholder-count="2">
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <div style="width:32px;height:32px;border-radius:50%;flex:none;background:{{ c.bg }};color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ c.initials }}</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:12.5px;font-weight:700">{{ c.who }} <span style="color:#9A9199;font-weight:600">{{ c.unit }}</span></div>
+                    <div style="font-size:13px;color:#3F3947;line-height:1.55;margin-top:3px;text-wrap:pretty">{{ c.text }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:9px;margin-top:18px;max-width:640px">
+              <input value="{{ draft }}" onChange="{{ onDraft }}" placeholder="Ask the block a question…" style="flex:1;padding:11px 13px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13px;color:#1E1926;outline:none">
+              <button onClick="{{ postComment }}" style="padding:0 16px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Post</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="position:sticky;top:28px;background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500">{{ prod.priceLabel }}</div>
+            <div style="font-size:12.5px;color:#928892;text-decoration:line-through">{{ prod.retailLabel }}</div>
+            <div style="font-size:12.5px;font-weight:700;color:#0C7C58">−{{ prod.savePct }}%</div>
+          </div>
+          <div style="font-size:12px;color:#6F6678;margin-top:5px">{{ prod.tierLabel }} · {{ prod.social }}</div>
+
+          <div style="margin-top:18px;padding-top:16px;border-top:1px solid #EFE8E0">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#928892">Price tiers this cycle</div>
+            <div style="display:flex;flex-direction:column;margin-top:12px">
+              <sc-for list="{{ prod.tiers }}" as="t" hint-placeholder-count="4">
+                <div style="display:flex;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid #F3ECE4">
+                  <div style="width:7px;height:7px;border-radius:50%;border:1.5px solid {{ t.dot }};background:{{ t.fill }};flex:none"></div>
+                  <div style="flex:1;font-size:12.5px;font-weight:{{ t.weight }};color:{{ t.fg }}">{{ t.label }}</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:{{ t.fg }}">{{ t.price }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:12px;margin-top:20px">
+            <div style="display:flex;align-items:center;border:1px solid #E5DCD3;border-radius:9px;overflow:hidden">
+              <button onClick="{{ dec }}" style="width:38px;height:40px;border:0;background:#fff;font-size:16px;font-weight:600;color:#1E1926;cursor:pointer">−</button>
+              <div style="width:44px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:14px">{{ qty }}</div>
+              <button onClick="{{ inc }}" style="width:38px;height:40px;border:0;background:#fff;font-size:16px;font-weight:600;color:#1E1926;cursor:pointer">+</button>
+            </div>
+            <div style="flex:1;text-align:right">
+              <div style="font-size:11.5px;color:#928892">Line total</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:500">{{ prod.lineTotal }}</div>
+            </div>
+          </div>
+          <button onClick="{{ addProd }}" style="margin-top:14px;width:100%;padding:13px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer">Add to Tuesday order</button>
+          <button onClick="{{ startSplit }}" style="margin-top:9px;width:100%;padding:12px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12.5px;font-weight:700;cursor:pointer">Offer to split this</button>
+          <div style="font-size:11.5px;color:#9A9199;line-height:1.5;margin-top:14px">Collect at {{ collectPoint }} on Tuesday, 6–9pm. Pay now by MMQR or with cash at the table.</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isCart }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:28px 36px 48px">
+      <div style="display:flex;align-items:baseline;gap:24px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Your Tuesday order</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ cartCount }} items · cutoff Sunday 10pm</div>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(700px,1fr) 348px;gap:26px;align-items:start;margin-top:22px">
+        <div style="min-width:0">
+          <div style="display:grid;grid-template-columns:minmax(220px,1fr) 120px 132px 110px 40px;gap:14px;align-items:baseline;padding:0 12px 11px;border-bottom:1.5px solid #1E1926;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#928892">
+            <div>Item</div><div style="text-align:right">Unit price</div><div style="text-align:center">Quantity</div><div style="text-align:right">Total</div><div></div>
+          </div>
+          <sc-for list="{{ cartRows }}" as="l" hint-placeholder-count="2">
+            <div class="row" style="display:grid;grid-template-columns:minmax(220px,1fr) 120px 132px 110px 40px;gap:14px;align-items:center;padding:15px 12px;border-bottom:1px solid #EFE8E0">
+              <div style="min-width:0">
+                <div style="font-size:13.5px;font-weight:700;line-height:1.35">{{ l.name }}</div>
+                <div style="font-size:11.5px;color:#928892;margin-top:3px">{{ l.unit }} · {{ l.tierNote }}</div>
+              </div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ l.priceLabel }}</div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:0;border:1px solid #E5DCD3;border-radius:8px;overflow:hidden;width:118px;margin:0 auto">
+                <button onClick="{{ l.dec }}" style="width:36px;height:34px;border:0;background:#fff;font-size:15px;cursor:pointer">−</button>
+                <div style="width:44px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px">{{ l.qty }}</div>
+                <button onClick="{{ l.inc }}" style="width:36px;height:34px;border:0;background:#fff;font-size:15px;cursor:pointer">+</button>
+              </div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:500">{{ l.total }}</div>
+              <button onClick="{{ l.remove }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:11.5px;font-weight:700;color:#928892">Remove</button>
+            </div>
+          </sc-for>
+          <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:56px 12px">
+              <div style="font-size:15px;font-weight:800">Your order is empty</div>
+              <div style="font-size:13px;color:#6F6678;margin-top:7px;max-width:430px;line-height:1.55">Add anything from this week's sheet before Sunday 10pm and it arrives with the Tuesday drop.</div>
+              <button onClick="{{ goShop }}" style="margin-top:14px;border:0;background:transparent;padding:0;cursor:pointer;font-size:13px;font-weight:700;color:#5B34D9">Browse the sheet</button>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="position:sticky;top:28px;background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Summary</div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:16px">
+            <div style="font-size:12.5px;color:#6F6678">Retail value</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6F6678;text-decoration:line-through">{{ retailTotal }}</div>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:8px">
+            <div style="font-size:12.5px;font-weight:700;color:#0C7C58">Group saving</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#0C7C58">−{{ savings }}</div>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid #EFE8E0">
+            <div style="font-size:13px;font-weight:800">Total</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:500">{{ subtotal }}</div>
+          </div>
+          <div style="font-size:12px;color:#6F6678;line-height:1.55;margin-top:14px">Collect at {{ collectPoint }}, Tuesday 6–9pm. Prices can still fall if more neighbours join before cutoff — you pay the lower price.</div>
+          <button onClick="{{ goCheckout }}" style="margin-top:18px;width:100%;padding:13px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer">Continue to payment</button>
+          <button onClick="{{ goShop }}" style="margin-top:9px;width:100%;padding:12px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#6F6678;font-size:12.5px;font-weight:700;cursor:pointer">Keep shopping</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isCheckout }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:28px 36px 48px">
+      <button onClick="{{ goCart }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:12.5px;font-weight:700;color:#5B34D9">← Back to your order</button>
+      <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em;margin-top:16px">Checkout</div>
+      <div style="display:grid;grid-template-columns:minmax(640px,1fr) 372px;gap:28px;align-items:start;margin-top:22px">
+        <div style="min-width:0;display:flex;flex-direction:column;gap:26px">
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Collection</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px">
+              <div>
+                <div style="font-size:12px;color:#928892">Where</div>
+                <div style="font-size:14px;font-weight:700;margin-top:4px">{{ collectPoint }}</div>
+                <div style="font-size:12px;color:#6F6678;margin-top:3px">{{ communityName }} · {{ unitFull }}</div>
+              </div>
+              <div>
+                <div style="font-size:12px;color:#928892">When</div>
+                <div style="font-size:14px;font-weight:700;margin-top:4px">Tuesday 25 Aug, 6–9pm</div>
+                <div style="font-size:12px;color:#6F6678;margin-top:3px">Bring a trolley for the bulk cases</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Payment</div>
+            <div style="display:flex;flex-direction:column;gap:0;margin-top:14px">
+              <sc-for list="{{ payOptions }}" as="o" hint-placeholder-count="2">
+                <button onClick="{{ o.pick }}" style="display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:15px 0;border:0;border-bottom:1px solid #F3ECE4;background:transparent;cursor:pointer">
+                  <div style="width:14px;height:14px;border-radius:50%;border:1.5px solid {{ o.ring }};background:{{ o.fill }};flex:none;margin-top:2px"></div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13.5px;font-weight:700;color:{{ o.fg }}">{{ o.label }}</div>
+                    <div style="font-size:12px;color:#6F6678;margin-top:3px;line-height:1.5">{{ o.note }}</div>
+                  </div>
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ payQr }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;gap:20px;align-items:center;margin-top:20px;padding-top:20px;border-top:1px solid #EFE8E0">
+                <img src="assets/mmqr-ctzpay.png" alt="MMQR" style="width:132px;height:auto;display:block;border:1px solid #EBE3DA;border-radius:8px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:700">Scan with any bank or wallet app</div>
+                  <div style="font-size:12.5px;color:#6F6678;line-height:1.55;margin-top:5px">One MMQR code, settled through CTZPay. Your payment is matched to order {{ nextCode }} automatically — no screenshot needed.</div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Note for the collection table</div>
+            <input value="{{ note }}" onChange="{{ onNote }}" placeholder="e.g. my husband will collect, unit A #14-07" style="width:100%;margin-top:14px;padding:12px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13px;color:#1E1926;outline:none">
+          </div>
+        </div>
+
+        <div style="position:sticky;top:28px;background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">{{ cartCount }} items</div>
+          <div style="display:flex;flex-direction:column;gap:11px;margin-top:14px">
+            <sc-for list="{{ cartLines }}" as="l" hint-placeholder-count="3">
+              <div style="display:flex;align-items:baseline;gap:12px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;line-height:1.35">{{ l.name }}</div>
+                  <div style="font-size:11.5px;color:#9A9199;margin-top:2px">{{ l.qty }} × {{ l.priceLabel }}</div>
+                </div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ l.total }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:18px;padding-top:16px;border-top:1px solid #EFE8E0">
+            <div style="font-size:13px;font-weight:800">To pay</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:500">{{ subtotal }}</div>
+          </div>
+          <div style="font-size:12px;color:#0C7C58;font-weight:700;margin-top:7px">You save {{ savings }} against retail</div>
+          <button onClick="{{ placeOrder }}" style="margin-top:18px;width:100%;padding:14px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer">{{ placeLabel }}</button>
+          <div style="font-size:11.5px;color:#9A9199;line-height:1.5;margin-top:12px">You can edit or cancel this order until Sunday 10pm.</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isOrders }}" hint-placeholder-val="{{ false }}">
+    <div style="position:sticky;top:0;z-index:6;background:rgba(248,245,241,.97);backdrop-filter:blur(10px);border-bottom:1px solid #E7DFD5;padding:28px 36px 0">
+      <div style="display:flex;align-items:baseline;gap:26px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Your orders</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ headline }}</div>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:20px">
+          <div style="display:flex;align-items:center;gap:8px;width:300px;padding:7px 0;border-bottom:1.5px solid {{ searchBorder }}">
+            <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="Search code, item or month" style="flex:1;min-width:0;border:0;background:transparent;font-size:13px;font-weight:600;color:#1E1926;outline:none;padding:0">
+            <sc-if value="{{ hasQuery }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ clearQuery }}" style="border:0;background:transparent;padding:0;cursor:pointer;color:#7B7280;font-size:12px;font-weight:700">clear</button>
+            </sc-if>
+          </div>
+          <button onClick="{{ cycleSort }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:12.5px;font-weight:700;color:#5B34D9;white-space:nowrap">{{ sortLabel }}</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:22px;margin-top:20px">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+          <button onClick="{{ f.pick }}" style="display:flex;align-items:baseline;gap:6px;padding:0 0 12px;border:0;background:transparent;cursor:pointer;font-size:13px;font-weight:{{ f.weight }};color:{{ f.fg }};border-bottom:2px solid {{ f.line }};margin-bottom:-1px">
+            {{ f.label }}
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:#A79E9E">{{ f.count }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="padding:26px 36px 48px;display:grid;grid-template-columns:minmax(740px,1fr) 348px;gap:26px;align-items:start">
+      <div style="min-width:0">
+        <sc-if value="{{ hasDue }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:baseline;gap:10px;padding:0 0 16px;border-bottom:1px solid #E7DFD5;margin-bottom:22px">
+            <div style="font-size:13px;font-weight:700;color:#B3253A">{{ dueTitle }}</div>
+            <button onClick="{{ showDue }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:12.5px;font-weight:700;color:#5B34D9">Show them</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-bottom:36px">
+            <div style="display:flex;align-items:baseline;gap:9px;padding-bottom:11px;border-bottom:1.5px solid #1E1926">
+              <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Not yet received</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A79E9E">{{ activeCount }}</div>
+            </div>
+            <sc-for list="{{ activeOrders }}" as="o" hint-placeholder-count="3">
+              <div class="row" onClick="{{ o.open }}" style="display:grid;grid-template-columns:112px 172px minmax(160px,1fr) 96px 108px;gap:14px;align-items:baseline;padding:17px 12px;border-bottom:1px solid #EFE8E0;cursor:pointer;background:{{ o.rowBg }};box-shadow:inset 2px 0 0 {{ o.rule }}">
+                <div style="min-width:0">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500">{{ o.code }}</div>
+                  <div style="font-size:11.5px;color:#928892;margin-top:4px">{{ o.placed }}</div>
+                </div>
+                <div style="min-width:0">
+                  <div style="display:flex;align-items:center;gap:5px">
+                    <sc-for list="{{ o.stops }}" as="st" hint-placeholder-count="3">
+                      <div style="width:6px;height:6px;border-radius:50%;border:1.5px solid {{ st.border }};background:{{ st.bg }};flex:none"></div>
+                      <div style="width:12px;height:1px;background:{{ st.line }}"></div>
+                    </sc-for>
+                    <div style="font-size:12.5px;font-weight:700;color:{{ o.statusFg }};margin-left:2px">{{ o.status }}</div>
+                  </div>
+                  <div style="font-size:12px;color:#6F6678;margin-top:5px">{{ o.when }}</div>
+                </div>
+                <div style="min-width:0">
+                  <div style="font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.summary }}</div>
+                  <div style="font-size:11.5px;color:#928892;margin-top:4px">{{ o.itemNote }}</div>
+                </div>
+                <div style="min-width:0;text-align:right">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500">{{ o.total }}</div>
+                  <div style="font-size:11.5px;font-weight:600;color:{{ o.payFg }};margin-top:4px">{{ o.payLabel }}</div>
+                </div>
+                <button onClick="{{ o.act }}" style="width:100%;padding:8px 6px;border:1px solid {{ o.actBorder }};border-radius:8px;background:{{ o.actBg }};color:{{ o.actFg }};font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">{{ o.actShort }}</button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ hasPast }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div style="display:flex;align-items:baseline;gap:9px;padding-bottom:11px;border-bottom:1.5px solid #1E1926">
+              <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Received</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A79E9E">{{ pastCount }}</div>
+            </div>
+            <sc-for list="{{ pastOrders }}" as="o" hint-placeholder-count="4">
+              <div class="row" onClick="{{ o.open }}" style="display:grid;grid-template-columns:112px 172px minmax(160px,1fr) 96px 108px;gap:14px;align-items:baseline;padding:14px 12px;border-bottom:1px solid #EFE8E0;cursor:pointer;background:{{ o.rowBg }};box-shadow:inset 2px 0 0 {{ o.rule }}">
+                <div style="min-width:0;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500">{{ o.code }}</div>
+                <div style="min-width:0;font-size:12.5px;color:#6F6678">{{ o.when }}</div>
+                <div style="min-width:0;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.summary }}</div>
+                <div style="min-width:0;text-align:right">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:500">{{ o.total }}</div>
+                  <div style="font-size:11.5px;font-weight:600;color:{{ o.payFg }};margin-top:4px">{{ o.payLabel }}</div>
+                </div>
+                <button onClick="{{ o.act }}" style="width:100%;padding:7px 6px;border:1px solid {{ o.actBorder }};border-radius:8px;background:{{ o.actBg }};color:{{ o.actFg }};font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">{{ o.actShort }}</button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ noOrders }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:64px 0;border-top:1.5px solid #1E1926">
+            <div style="font-size:15px;font-weight:800">No orders match</div>
+            <div style="font-size:13px;color:#6F6678;margin-top:7px;max-width:430px;line-height:1.55">{{ emptyHint }}</div>
+            <button onClick="{{ reset }}" style="margin-top:14px;border:0;background:transparent;padding:0;cursor:pointer;font-size:13px;font-weight:700;color:#5B34D9">Clear search and filters</button>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="position:sticky;top:176px;background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+        <div style="display:flex;align-items:baseline;gap:10px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500">{{ sel.code }}</div>
+          <div style="flex:1"></div>
+          <div style="font-size:12px;font-weight:700;color:{{ sel.statusFg }}">{{ sel.status }}</div>
+        </div>
+        <div style="font-size:17.5px;font-weight:800;letter-spacing:-.01em;margin-top:14px">{{ sel.when }}</div>
+        <div style="font-size:12.5px;color:#7B7280;margin-top:4px;line-height:1.5">{{ sel.point }}</div>
+
+        <div style="display:flex;flex-direction:column;margin-top:20px;padding-top:18px;border-top:1px solid #EFE8E0">
+          <sc-for list="{{ sel.timeline }}" as="t" hint-placeholder-count="4">
+            <div style="display:flex;gap:11px;align-items:flex-start">
+              <div style="width:9px;flex:none;display:flex;flex-direction:column;align-items:center;padding-top:4px">
+                <div style="width:7px;height:7px;border-radius:50%;border:1.5px solid {{ t.border }};background:{{ t.dot }}"></div>
+                <div style="width:1px;flex:1;min-height:{{ t.tail }}px;background:{{ t.line }}"></div>
+              </div>
+              <div style="padding-bottom:14px">
+                <div style="font-size:12.5px;font-weight:{{ t.weight }};color:{{ t.fg }}">{{ t.label }}</div>
+                <div style="font-size:11.5px;color:#9A9199;margin-top:2px">{{ t.when }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="padding-top:16px;border-top:1px solid #EFE8E0">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#928892">{{ sel.itemNote }}</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:13px">
+            <sc-for list="{{ sel.lines }}" as="l" hint-placeholder-count="3">
+              <div style="display:flex;align-items:baseline;gap:12px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600">{{ l.name }}</div>
+                  <div style="font-size:11.5px;color:#9A9199;margin-top:2px">{{ l.note }}</div>
+                </div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500">{{ l.total }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="margin-top:18px;padding-top:16px;border-top:1px solid #EFE8E0;display:flex;align-items:baseline;justify-content:space-between">
+          <div style="font-size:13px;font-weight:800">Total</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:500">{{ sel.total }}</div>
+        </div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:7px">
+          <div style="font-size:12px;color:#6F6678">Retail would have been</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6F6678">{{ sel.retail }}</div>
+        </div>
+        <div style="font-size:12.5px;font-weight:700;color:{{ sel.payFg }};margin-top:14px;line-height:1.5">{{ sel.payDetail }}</div>
+
+        <div style="display:flex;gap:9px;margin-top:20px">
+          <button onClick="{{ sel.act }}" style="flex:1;padding:12px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:13px;font-weight:700;cursor:pointer">{{ sel.actLabel }}</button>
+          <button onClick="{{ sel.receipt }}" style="padding:12px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#6F6678;font-size:12.5px;font-weight:700;cursor:pointer">Receipt</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isUpdates }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:28px 36px 48px">
+      <div style="display:flex;align-items:baseline;gap:24px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Updates</div>
+        <div style="font-size:12.5px;color:#7B7280">Price drops, cutoffs and collection notices for {{ communityName }}</div>
+        <div style="flex:1"></div>
+        <button onClick="{{ markRead }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:12.5px;font-weight:700;color:#5B34D9">Mark all read</button>
+      </div>
+      <div style="max-width:820px;margin-top:22px">
+        <sc-for list="{{ alerts }}" as="n" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;padding:18px 12px;border-bottom:1px solid #EFE8E0;background:{{ n.bg }};box-shadow:inset 2px 0 0 {{ n.rule }}">
+            <div style="font-size:11.5px;color:#928892;font-weight:600">{{ n.when }}</div>
+            <div style="min-width:0">
+              <div style="font-size:14px;font-weight:800;letter-spacing:-.01em">{{ n.title }}</div>
+              <div style="font-size:13px;color:#3F3947;line-height:1.6;margin-top:5px;text-wrap:pretty">{{ n.body }}</div>
+              <button onClick="{{ n.act }}" style="margin-top:9px;border:0;background:transparent;padding:0;cursor:pointer;font-size:12.5px;font-weight:700;color:#5B34D9">{{ n.cta }}</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isCommunity }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:28px 36px 48px">
+      <div style="display:flex;align-items:baseline;gap:24px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">{{ communityName }}</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ communityMeta }}</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:22px;border-top:1.5px solid #1E1926;border-bottom:1px solid #EFE8E0">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="padding:18px 20px 18px 0">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500">{{ s.value }}</div>
+            <div style="font-size:12px;color:#6F6678;margin-top:4px;line-height:1.45">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(420px,1fr) minmax(360px,420px);gap:32px;align-items:start;margin-top:32px">
+        <div style="min-width:0">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding-bottom:11px;border-bottom:1.5px solid #1E1926">Splits open on the block</div>
+          <sc-for list="{{ splits }}" as="sp" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:14px;padding:16px 12px;border-bottom:1px solid #EFE8E0">
+              <div style="width:34px;height:34px;border-radius:50%;flex:none;background:{{ sp.bg }};color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ sp.initials }}</div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13.5px;font-weight:700;line-height:1.35">{{ sp.item }}</div>
+                <div style="font-size:11.5px;color:#928892;margin-top:3px">{{ sp.who }} · {{ sp.detail }}</div>
+              </div>
+              <div style="width:120px;flex:none;font-size:11.5px;font-weight:700;color:{{ sp.needColor }};text-align:right">{{ sp.needText }}</div>
+              <button onClick="{{ sp.toggle }}" style="width:96px;flex:none;padding:8px 0;border:1px solid {{ sp.btnBorder }};border-radius:8px;background:{{ sp.btnBg }};color:{{ sp.btnFg }};font-size:12px;font-weight:700;cursor:pointer">{{ sp.btnLabel }}</button>
+            </div>
+          </sc-for>
+
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding-bottom:11px;border-bottom:1.5px solid #1E1926;margin-top:36px">Live from the block</div>
+          <sc-for list="{{ activity }}" as="a" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:12px;padding:13px 12px;border-bottom:1px solid #EFE8E0">
+              <div style="width:28px;height:28px;border-radius:50%;flex:none;background:{{ a.bg }};color:#fff;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ a.initials }}</div>
+              <div style="flex:1;font-size:12.5px;color:#3F3947;line-height:1.5;text-wrap:pretty">{{ a.text }}</div>
+              <div style="font-size:11px;color:#A79E9E;font-weight:600;flex:none">{{ a.when }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="min-width:0">
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Wishlist for next sheet</div>
+            <div style="font-size:12.5px;color:#6F6678;line-height:1.55;margin-top:7px">Most-wanted items go to Capital Retail before they set the Friday sheet.</div>
+            <div style="display:flex;flex-direction:column;margin-top:16px">
+              <sc-for list="{{ wishes }}" as="w" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #F3ECE4">
+                  <button onClick="{{ w.vote }}" style="width:46px;flex:none;padding:7px 0;border:1px solid {{ w.border }};border-radius:8px;background:{{ w.bg }};color:{{ w.fg }};font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;cursor:pointer">{{ w.votes }}</button>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13px;font-weight:700">{{ w.name }}</div>
+                    <div style="font-size:11.5px;color:#928892;margin-top:2px">{{ w.note }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:9px;margin-top:16px">
+              <input value="{{ wish }}" onChange="{{ onWish }}" placeholder="Suggest an item…" style="flex:1;min-width:0;padding:11px 13px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13px;color:#1E1926;outline:none">
+              <button onClick="{{ addWish }}" style="padding:0 15px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Add</button>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px;margin-top:20px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Collection buddy</div>
+            <div style="font-size:12.5px;color:#6F6678;line-height:1.6;margin-top:8px">Away on Tuesday? Ask a neighbour to collect for you — the office logs who picked up and the receipt still comes to you.</div>
+            <button onClick="{{ askBuddy }}" style="margin-top:14px;padding:11px 15px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12.5px;font-weight:700;cursor:pointer">Ask a neighbour</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isAccount }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:28px 36px 48px">
+      <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Account</div>
+      <div style="display:grid;grid-template-columns:minmax(520px,1fr) 372px;gap:28px;align-items:start;margin-top:22px">
+        <div style="min-width:0;display:flex;flex-direction:column;gap:20px">
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Your details</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px">
+              <div>
+                <div style="font-size:11.5px;font-weight:700;color:#928892">Display name</div>
+                <input value="{{ displayName }}" onChange="{{ onDisplay }}" style="width:100%;margin-top:6px;padding:11px 13px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926;outline:none">
+              </div>
+              <div>
+                <div style="font-size:11.5px;font-weight:700;color:#928892">Username</div>
+                <input value="{{ username }}" onChange="{{ onUsername }}" style="width:100%;margin-top:6px;padding:11px 13px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926;outline:none">
+              </div>
+              <div>
+                <div style="font-size:11.5px;font-weight:700;color:#928892">Block</div>
+                <input value="{{ block }}" onChange="{{ onBlock }}" style="width:100%;margin-top:6px;padding:11px 13px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926;outline:none">
+              </div>
+              <div>
+                <div style="font-size:11.5px;font-weight:700;color:#928892">Unit</div>
+                <input value="{{ unit }}" onChange="{{ onUnit }}" style="width:100%;margin-top:6px;padding:11px 13px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926;outline:none">
+              </div>
+            </div>
+            <div style="font-size:11.5px;color:#9A9199;line-height:1.5;margin-top:14px">Your unit was verified by the {{ communityName }} property office. Ask them to change it if you move.</div>
+            <button onClick="{{ saveProfile }}" style="margin-top:16px;padding:11px 16px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Save changes</button>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Default payment</div>
+            <div style="display:flex;flex-direction:column;margin-top:12px">
+              <sc-for list="{{ payOptions }}" as="o" hint-placeholder-count="2">
+                <button onClick="{{ o.pick }}" style="display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:14px 0;border:0;border-bottom:1px solid #F3ECE4;background:transparent;cursor:pointer">
+                  <div style="width:14px;height:14px;border-radius:50%;border:1.5px solid {{ o.ring }};background:{{ o.fill }};flex:none;margin-top:2px"></div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13.5px;font-weight:700;color:{{ o.fg }}">{{ o.label }}</div>
+                    <div style="font-size:12px;color:#6F6678;margin-top:3px;line-height:1.5">{{ o.note }}</div>
+                  </div>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+        <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Avatar and password</div>
+          <div style="display:flex;align-items:center;gap:16px;margin-top:16px">
+            <div style="width:56px;height:56px;border-radius:50%;flex:none;background:{{ myGrad }};color:#fff;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ myInitials }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13.5px;font-weight:700">{{ displayName }}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#928892;margin-top:3px">@{{ username }} · verified at {{ unitFull }}</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(9,1fr);gap:10px;margin-top:18px">
+            <sc-for list="{{ avatarOptions }}" as="av" hint-placeholder-count="8">
+              <button onClick="{{ av.pick }}" style="aspect-ratio:1;border-radius:50%;border:0;padding:0;cursor:pointer;background:{{ av.grad }};color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:{{ av.ring }}">{{ av.initials }}</button>
+            </sc-for>
+            <button onClick="{{ pickPhoto }}" style="aspect-ratio:1;border-radius:50%;border:1.5px dashed #D6CEC6;padding:0;cursor:pointer;background:{{ photoTile }};color:#928892;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:{{ photoRing }}">{{ photoLabel }}</button>
+          </div>
+          <input type="file" accept="image/*" ref="{{ photoRef }}" onChange="{{ onPhoto }}" style="display:none">
+          <sc-if value="{{ hasPhoto }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ removePhoto }}" style="margin-top:12px;border:0;background:transparent;padding:0;cursor:pointer;font-size:12px;font-weight:700;color:#5B34D9">Remove photo</button>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px">
+            <div>
+              <div style="font-size:11.5px;font-weight:700;color:#928892">New password</div>
+              <input type="password" value="{{ pw1 }}" onChange="{{ onPw1 }}" placeholder="at least 8 characters" style="width:100%;margin-top:6px;padding:11px 13px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926;outline:none">
+            </div>
+            <div>
+              <div style="font-size:11.5px;font-weight:700;color:#928892">Confirm password</div>
+              <input type="password" value="{{ pw2 }}" onChange="{{ onPw2 }}" placeholder="repeat it" style="width:100%;margin-top:6px;padding:11px 13px;border:1px solid {{ pwBorder }};border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926;outline:none">
+            </div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:{{ pwNoteColor }};margin-top:12px">{{ pwNote }}</div>
+          <button onClick="{{ savePassword }}" style="margin-top:16px;padding:11px 16px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12.5px;font-weight:700;cursor:pointer">Update password</button>
+        </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Since you joined</div>
+          <div style="display:flex;flex-direction:column;margin-top:14px">
+            <sc-for list="{{ accountStats }}" as="s" hint-placeholder-count="3">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;padding:11px 0;border-bottom:1px solid #F3ECE4">
+                <div style="font-size:12.5px;color:#6F6678">{{ s.label }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:500">{{ s.value }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <button onClick="{{ signOut }}" style="margin-top:20px;width:100%;padding:12px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#B3253A;font-size:12.5px;font-weight:700;cursor:pointer">Sign out</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:56px 36px 48px;display:flex;justify-content:center">
+      <div style="width:720px">
+        <div style="font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#0C7C58">Order placed</div>
+        <div style="font-family:Poppins,sans-serif;font-size:32px;font-weight:600;letter-spacing:-.02em;margin-top:12px">You're in the Tuesday drop</div>
+        <div style="font-size:13.5px;color:#5B5364;line-height:1.65;margin-top:8px;max-width:560px;text-wrap:pretty">{{ doneBlurb }}</div>
+
+        <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:26px;margin-top:26px">
+          <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px">
+            <div>
+              <div style="font-size:11.5px;color:#928892">Order</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:14px;margin-top:5px">{{ doneCode }}</div>
+            </div>
+            <div>
+              <div style="font-size:11.5px;color:#928892">Items</div>
+              <div style="font-size:14px;font-weight:700;margin-top:5px">{{ doneCount }}</div>
+            </div>
+            <div>
+              <div style="font-size:11.5px;color:#928892">Total</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:14px;margin-top:5px">{{ doneTotal }}</div>
+            </div>
+            <div>
+              <div style="font-size:11.5px;color:#928892">Payment</div>
+              <div style="font-size:13px;font-weight:700;margin-top:5px;line-height:1.4">{{ donePay }}</div>
+            </div>
+          </div>
+          <div style="margin-top:22px;padding-top:20px;border-top:1px solid #EFE8E0;display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ doneSteps }}" as="d" hint-placeholder-count="3">
+              <div style="display:flex;gap:11px;align-items:flex-start">
+                <div style="width:7px;height:7px;border-radius:50%;background:#1E1926;flex:none;margin-top:6px"></div>
+                <div style="font-size:13px;color:#3F3947;line-height:1.55">{{ d.text }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:24px">
+            <button onClick="{{ goOrders }}" style="padding:13px 18px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:13px;font-weight:700;cursor:pointer">Track this order</button>
+            <button onClick="{{ goShop }}" style="padding:13px 18px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:13px;font-weight:700;cursor:pointer">Keep shopping</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1E1926;color:#fff;font-size:12.5px;font-weight:600;padding:11px 17px;border-radius:9px;z-index:20">{{ toast }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:940}}">
+const money=n=>'K '+Math.round(n).toLocaleString('en-US');
+const grad=(a,b)=>'linear-gradient(135deg,'+a+','+b+')';
+const tierIdx=j=>j>=100?3:j>=50?2:j>=20?1:0;
+const P=[
+ {id:1,name:'Shan Highland Tomatoes',unit:'1kg pack',cat:'Fresh produce',slot:'produce shot',retail:4500,prices:[4200,3900,3600,3300],joined:63},
+ {id:2,name:'Free-range Eggs, 30s tray',unit:'30 eggs',cat:'Fresh produce',slot:'egg tray shot',retail:13000,prices:[12000,11000,10200,9500],joined:96},
+ {id:3,name:'Beef Striploin, chilled',unit:'500g pack',cat:'Meat & seafood',slot:'beef cut shot',retail:32000,prices:[29500,27500,25500,23000],joined:31},
+ {id:4,name:'Salmon Fillet, frozen',unit:'400g, skin-on',cat:'Meat & seafood',slot:'salmon shot',retail:45000,prices:[41000,38000,35000,32000],joined:47},
+ {id:5,name:'Paw San Rice, 10kg sack',unit:'10kg sack',cat:'Pantry',slot:'rice sack shot',retail:48000,prices:[44000,41000,38000,35000],joined:88},
+ {id:6,name:'Sunflower Cooking Oil',unit:'1L bottle',cat:'Pantry',slot:'oil bottle shot',retail:9800,prices:[9000,8300,7700,7200],joined:24},
+ {id:7,name:'Laundry Detergent Refill',unit:'3.6L pouch',cat:'Household',slot:'detergent shot',retail:24000,prices:[22000,20000,18500,17000],joined:52},
+ {id:8,name:'Bamboo Toilet Roll, 30-pack',unit:'30 rolls',cat:'Bulk cases',slot:'paper case shot',retail:28000,prices:[25500,23000,21000,19000],joined:71},
+ {id:9,name:'Mineral Water, 24-bottle case',unit:'24 × 600ml',cat:'Bulk cases',slot:'water case shot',retail:9500,prices:[8800,8000,7200,6500],joined:104},
+ {id:10,name:'Frozen Pork Dumplings',unit:'1kg pack',cat:'Frozen',slot:'dumpling shot',retail:16000,prices:[14500,13200,12000,11000],joined:19},
+ {id:11,name:'Coconut Water, 12-pack',unit:'12 × 330ml',cat:'Snacks & drinks',slot:'drinks shot',retail:18000,prices:[16500,15000,13800,12500],joined:12},
+ {id:12,name:'Baby Wipes, 6 × 80s',unit:'480 wipes',cat:'Baby & care',slot:'wipes shot',retail:26000,prices:[23500,21500,19500,18000],joined:38}
+];
+const CATS=['All','Fresh produce','Meat & seafood','Pantry','Household','Snacks & drinks','Baby & care','Bulk cases','Frozen'];
+const SPLITS=[
+ {id:1,item:'Paw San Rice, 10kg sack',who:'Ko Myat · #07-12',detail:'wants 5kg, splitting the sack',initials:'KM',bg:grad('#F4485F','#C026D3'),need:1},
+ {id:2,item:'Bamboo Toilet Roll, 30-pack',who:'Su Su Hlaing · #09-05',detail:'splitting 15 + 15',initials:'SH',bg:grad('#FB9C3C','#F4485F'),need:1},
+ {id:3,item:'Beef Striploin, chilled',who:'Zaw Min · #03-11',detail:'buying 4 packs, 2 spare',initials:'ZM',bg:grad('#4F46E5','#06B6D4'),need:2},
+ {id:4,item:'Mineral Water, 24-bottle case',who:'Nilar Win · #11-03',detail:'two cases, one trolley trip',initials:'NW',bg:grad('#C026D3','#6D28D9'),need:1}
+];
+const WISHES=[
+ {id:1,name:'Yoghurt, 1kg tub',note:'asked by 6 households',votes:23},
+ {id:2,name:'Village eggs, 30s',note:'free-range, local farm',votes:18},
+ {id:3,name:'Instant coffee mix, 30s',note:'Capital Retail can source',votes:14},
+ {id:4,name:'Dog food, 8kg bag',note:'three households keen',votes:9}
+];
+const COMMENTS={
+ 5:[{who:'Nilar Win',unit:'#11-03',initials:'NW',bg:grad('#C026D3','#6D28D9'),text:'Last cycle the rice came in sealed and dry, good stuff.'},
+    {who:'Ko Myat',unit:'#07-12',initials:'KM',bg:grad('#F4485F','#C026D3'),text:'Anyone want to split a sack? I only need 5kg.'}],
+ 9:[{who:'Zaw Min',unit:'#03-11',initials:'ZM',bg:grad('#4F46E5','#06B6D4'),text:'Bring a trolley — the cases are heavy from the collection point.'}],
+ 1:[{who:'Su Su Hlaing',unit:'#09-05',initials:'SH',bg:grad('#FB9C3C','#F4485F'),text:'These were sweet last cycle — I got two packs for cooking.'}]
+};
+const COMMS=[
+ {name:'Gems 1',label:'Gems 1 Condo',abbr:'G1',code:'G1',address:'Gems Residences · Tower 1 · 480 units',households:143,units:312,collect:'Tower 1 guardhouse',cycle:34,open:true},
+ {name:'Gems 2',label:'Gems 2 Condo',abbr:'G2',code:'G2',address:'Gems Residences · Tower 2 · 320 units',households:96,units:204,collect:'Tower 2 lobby',cycle:31,open:true},
+ {name:'Gems 3',label:'Gems 3 Condo',abbr:'G3',code:'G3',address:'Gems Residences · Tower 3 · 268 units',households:61,units:138,collect:'Tower 3 guardhouse',cycle:22,open:true},
+ {name:'Gems 4',label:'Gems 4 Condo',abbr:'G4',code:'G4',address:'Gems Residences · Tower 4 · 214 units',households:38,units:84,collect:'Tower 4 lobby',cycle:9,open:false}
+];
+const AVATARS=[['#C026D3','#6D28D9'],['#F4485F','#C026D3'],['#FB9C3C','#F4485F'],['#4F46E5','#06B6D4'],['#0F9268','#4F46E5'],['#6D28D9','#4F46E5'],['#A855B8','#F4485F'],['#1E1926','#4F46E5']];
+const POINT='Tower 1 guardhouse';
+const RAW=[
+  {n:2481,st:'ready',paid:true,ts:825,placed:'Sun 23 Aug',when:'Ready Tue 25 Aug, 6–9pm',
+   dates:['Sun 23 Aug','Mon 24 Aug','Tue 25 Aug, 6–9pm','—'],
+   lines:[{name:'Paw San rice, 10kg',note:'1 sack · 100-unit tier',total:32000},{name:'Mineral water, case',note:'2 cases · K 9,500 each',total:19000}],retail:65000},
+  {n:2476,st:'packing',paid:false,ts:828,placed:'Mon 24 Aug',when:'Collect Fri 28 Aug, 6–9pm',
+   dates:['Mon 24 Aug','Thu 27 Aug','Fri 28 Aug, 6–9pm','—'],
+   lines:[{name:'Salmon fillet, 1kg',note:'1 pack · 50-unit tier',total:28500},{name:'Village eggs, 30s',note:'1 tray',total:14000},{name:'Cooking oil, 5L',note:'1 bottle',total:19000}],retail:73800},
+  {n:2470,st:'placed',paid:false,ts:901,placed:'Tue 25 Aug',when:'Collect Tue 1 Sep, 6–9pm',
+   dates:['Tue 25 Aug','Sun 31 Aug','Tue 1 Sep, 6–9pm','—'],
+   lines:[{name:'Detergent refill, 2L',note:'1 pouch',total:18200},{name:'Tomatoes, 3kg',note:'group price',total:12000}],retail:38600},
+  {n:2390,st:'collected',paid:true,ts:815,placed:'Wed 13 Aug',when:'Collected Fri 15 Aug, 7:12pm',
+   dates:['Wed 13 Aug','Thu 14 Aug','Fri 15 Aug','Fri 15 Aug, 7:12pm'],
+   lines:[{name:'Salmon fillet, 1kg',note:'2 packs',total:57000},{name:'Toilet roll, 12s',note:'1 pack',total:21000}],retail:97500},
+  {n:2352,st:'collected',paid:false,ts:812,placed:'Sun 10 Aug',when:'Collected Tue 12 Aug, 6:40pm',
+   dates:['Sun 10 Aug','Mon 11 Aug','Tue 12 Aug','Tue 12 Aug, 6:40pm'],
+   lines:[{name:'Chicken thigh, 2kg',note:'20-unit tier',total:28600},{name:'Mineral water, case',note:'1 case',total:14000}],retail:52400},
+  {n:2288,st:'collected',paid:true,ts:808,placed:'Wed 6 Aug',when:'Collected Fri 8 Aug, 7:35pm',
+   dates:['Wed 6 Aug','Thu 7 Aug','Fri 8 Aug','Fri 8 Aug, 7:35pm'],
+   lines:[{name:'Detergent refill, 2L',note:'1 pouch',total:18200},{name:'Tomatoes, 2kg',note:'group price',total:12000}],retail:38600},
+  {n:2201,st:'collected',paid:true,ts:729,placed:'Sun 27 Jul',when:'Collected Tue 29 Jul, 6:20pm',
+   dates:['Sun 27 Jul','Mon 28 Jul','Tue 29 Jul','Tue 29 Jul, 6:20pm'],
+   lines:[{name:'Paw San rice, 10kg',note:'1 sack',total:33400},{name:'Cooking oil, 5L',note:'1 bottle',total:19000},{name:'Onions, 3kg',note:'group price',total:12000}],retail:80500}
+];
+const STAGE={placed:0,packing:1,ready:2,collected:3};
+const LABELS=['Order placed','Packed by Capital Retail','Ready at collection point','Received by you'];
+const STATUS={placed:'Order in',packing:'Packing',ready:'Ready',collected:'Collected'};
+
+class Component extends DCLogic {
+  photoRef=React.createRef();
+  state={phase:'home',authStep:0,comm:'Gems 1',homeQuery:'',signUser:'',signPw:'',avatar:0,photo:null,pw1:'',pw2:'',
+    doneCode:'',doneTotal:'',doneCount:0,donePay:'',
+    screen:'shop',cat:'All',pq:'',shopSort:'pop',pid:5,qty:1,cart:{5:1,9:2},draft:'',
+    query:'',filter:'all',sort:'new',sel:2481,pay:'mmqr',note:'',
+    splitsIn:[2],votes:{},wish:'',display:'Thida Aung',username:'thida.aung',block:'A',unit:'14-07',
+    now:Date.now(),toast:''};
+  deadline=Date.now()+(2*86400+6*3600+41*60)*1000;
+  componentDidMount(){this.t=setInterval(()=>this.setState({now:Date.now()}),1000);}
+  componentWillUnmount(){clearInterval(this.t);if(this.tt)clearTimeout(this.tt);}
+  flash(m){this.setState({toast:m});if(this.tt)clearTimeout(this.tt);this.tt=setTimeout(()=>this.setState({toast:''}),2200);}
+  go(s){this.setState({screen:s});}
+  addTo(id,n){const c={...this.state.cart};c[id]=(c[id]||0)+n;this.setState({cart:c});this.flash('Added to your Tuesday order');}
+
+  renderVals(){
+    const s=this.state;
+    const left=Math.max(0,this.deadline-s.now);
+    const dd=Math.floor(left/86400000),hh=Math.floor(left/3600000)%24,mm=Math.floor(left/60000)%60,ss=Math.floor(left/1000)%60;
+    const countdown=dd+'d '+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+':'+String(ss).padStart(2,'0');
+    const comm=COMMS.find(c=>c.name===s.comm)||COMMS[0];
+    const f=comm.households/COMMS[0].households;
+    const hasPhoto=!!s.photo;
+    const nameParts=(s.display||'').split(/[.\-_\s]+/).filter(Boolean);
+    const myInitials=hasPhoto?'':(nameParts.length?nameParts.map(x=>x[0]).join('').slice(0,2).toUpperCase():'YOU');
+    const myGrad=hasPhoto?('url('+s.photo+') center/cover no-repeat'):grad(AVATARS[s.avatar][0],AVATARS[s.avatar][1]);
+    const pwMatch=s.pw1.length>0&&s.pw1===s.pw2;
+
+    const mkP=p=>{
+      const joined=Math.max(1,Math.round(p.joined*f))+(s.cart[p.id]||0),ti=tierIdx(joined),price=p.prices[ti];
+      const marks=[20,50,100],next=marks.find(m=>joined<m);
+      return {...p,joined,price,priceLabel:money(price),retailLabel:money(p.retail),
+        savePct:Math.round((1-price/p.retail)*100),
+        pctW:Math.min(100,Math.round(joined/100*100))+'%',
+        tierLabel:ti===0?'Group price':ti===1?'1 tier unlocked':ti+' tiers unlocked',
+        progressText:next?(joined+' of '+next+' units · '+(next-joined)+' more drops it to '+money(p.prices[marks.indexOf(next)+1])):'Deepest tier unlocked at '+money(p.prices[3]),
+        social:joined+' units from '+Math.round(joined/1.8)+' neighbours',
+        open:()=>this.setState({screen:'product',pid:p.id,qty:1}),
+        add:e=>{e.stopPropagation();this.addTo(p.id,1);}};
+    };
+    const all=P.map(mkP);
+    const pq=s.pq.trim().toLowerCase();
+    const catList=s.cat==='All'?all:all.filter(p=>p.cat===s.cat);
+    const shopSorters={pop:(a,b)=>b.joined-a.joined,price:(a,b)=>a.price-b.price,save:(a,b)=>b.savePct-a.savePct};
+    const products=catList.filter(p=>!pq||(p.name+' '+p.cat+' '+p.unit).toLowerCase().indexOf(pq)>-1).sort(shopSorters[s.shopSort]);
+    const cur=all.find(p=>p.id===s.pid)||all[0];
+    const marks=[20,50,100];
+    const nx=marks.find(m=>cur.joined<m);
+    const prod={...cur,
+      lineTotal:money(cur.price*s.qty),
+      nextText:nx?('Gems 1 has '+cur.joined+' units in this cycle. '+(nx-cur.joined)+' more and the price drops to '+money(cur.prices[marks.indexOf(nx)+1])+' for everyone who ordered — including you, refunded at the table.')
+        :'The block already unlocked the deepest tier for this cycle, so this is the lowest price Capital Retail will quote.',
+      tiers:[{n:'Any quantity',i:0},{n:'20+ units',i:1},{n:'50+ units',i:2},{n:'100+ units',i:3}].map(t=>{
+        const on=tierIdx(cur.joined)>=t.i;
+        return {label:t.n,price:money(cur.prices[t.i]),dot:on?'#5B34D9':'#D6CEC6',fill:on?'#5B34D9':'#fff',
+          fg:on?'#1E1926':'#9A9199',weight:on?700:600};})};
+
+    const cartKeys=Object.keys(s.cart).filter(k=>s.cart[k]>0);
+    const mkLine=k=>{const p=all.find(x=>x.id===+k);
+      return {name:p.name,unit:p.unit,qty:s.cart[k],priceLabel:p.priceLabel,total:money(p.price*s.cart[k]),
+        tierNote:p.joined>=100?'top tier':p.joined>=50?'tier 2':p.joined>=20?'tier 1':'group price',
+        inc:()=>this.addTo(p.id,1),
+        dec:()=>{const c={...s.cart};c[k]=Math.max(0,(c[k]||0)-1);if(!c[k])delete c[k];this.setState({cart:c});},
+        remove:()=>{const c={...s.cart};delete c[k];this.setState({cart:c});this.flash(p.name+' removed');}};};
+    const cartLines=cartKeys.map(mkLine);
+    const sub=cartKeys.reduce((a,k)=>{const p=all.find(x=>x.id===+k);return a+p.price*s.cart[k];},0);
+    const ret=cartKeys.reduce((a,k)=>{const p=all.find(x=>x.id===+k);return a+p.retail*s.cart[k];},0);
+    const count=cartKeys.reduce((a,k)=>a+s.cart[k],0);
+
+    const mkOrder=o=>{
+      const stage=STAGE[o.st],rec=o.st==='collected',due=!o.paid&&rec;
+      const total=o.lines.reduce((a,l)=>a+l.total,0),qty=o.lines.length;
+      return {raw:o,received:rec,due,total_n:total,
+        code:comm.code+'-'+o.n,status:STATUS[o.st],
+        statusFg:rec?'#6F6678':o.st==='ready'?'#5B34D9':'#1E1926',
+        when:o.when,placed:'Placed '+o.placed,point:comm.collect+' · '+comm.label,
+        summary:o.lines.map(l=>l.name.split(',')[0]).join(', '),
+        itemNote:qty+(qty===1?' item':' items'),
+        stops:[0,1,2].map(k=>({border:k<=stage?'#1E1926':'#D6CEC6',bg:k<=stage?'#1E1926':'#fff',line:k<stage?'#1E1926':'#E7DFD5'})),
+        timeline:LABELS.map((lb,k)=>({label:lb,when:o.dates[k]==='—'?'pending':o.dates[k],
+          border:k<=stage?'#1E1926':'#D6CEC6',dot:k<=stage?'#1E1926':'#fff',
+          line:k<stage?'#1E1926':'#E7DFD5',tail:k===3?0:14,
+          weight:k===stage?800:600,fg:k<=stage?'#1E1926':'#9A9199'})),
+        total:money(total),retail:money(o.retail),
+        lines:o.lines.map(l=>({name:l.name,note:l.note,total:money(l.total)})),
+        payLabel:o.paid?'Paid':rec?'Payment due':'Pay on collection',
+        payDetail:o.paid?'Paid in full by MMQR, receipt issued.':rec?'Outstanding '+money(total)+' — the office will add it to your next collection.':'You can pay by MMQR now or with cash when you collect.',
+        payFg:o.paid?'#6F6678':rec?'#B3253A':'#6F6678',
+        actLabel:due?'Pay now':rec?'Order again':o.st==='ready'?'Collection pass':'Edit order',
+        actShort:due?'Pay now':rec?'Reorder':o.st==='ready'?'Get pass':'Edit',
+        actBg:due?'#1E1926':'#fff',actFg:due?'#fff':'#1E1926',actBorder:due?'#1E1926':'#E5DCD3',
+        open:()=>this.setState({sel:o.n}),
+        receipt:()=>this.flash('Receipt '+comm.code+'-'+o.n+'.pdf downloaded'),
+        act:()=>this.flash(due?'Opening MMQR payment for '+comm.code+'-'+o.n:rec?'Items added to your Tuesday order':o.st==='ready'?'Collection pass ready — show at '+comm.collect:'Editing '+comm.code+'-'+o.n+' before Sunday cutoff')};
+    };
+    const orders=RAW.map(mkOrder);
+    const q=s.query.trim().toLowerCase();
+    const matchQ=o=>!q||(o.code+' '+o.summary+' '+o.when+' '+o.raw.lines.map(l=>l.name).join(' ')).toLowerCase().indexOf(q)>-1;
+    const passF=(o,f)=>f==='all'?true:f==='awaiting'?!o.received:f==='ready'?o.raw.st==='ready':f==='collected'?o.received:!o.raw.paid;
+    const oSorters={new:(a,b)=>b.raw.ts-a.raw.ts,old:(a,b)=>a.raw.ts-b.raw.ts,big:(a,b)=>b.total_n-a.total_n};
+    const searched=orders.filter(matchQ);
+    const list=searched.filter(o=>passF(o,s.filter)).sort(oSorters[s.sort]);
+    const FILTERS=[{k:'all',label:'All'},{k:'awaiting',label:'Not received'},{k:'ready',label:'Ready now'},{k:'collected',label:'Received'},{k:'unpaid',label:'Unpaid'}];
+    const dueList=orders.filter(o=>o.due);
+    const active=list.filter(o=>!o.received),past=list.filter(o=>o.received);
+    const mark=o=>({...o,rowBg:o.raw.n===s.sel?'#FDFBF7':'#fff',rule:o.raw.n===s.sel?'#5B34D9':'transparent'});
+    const sortLabels={new:'Newest first',old:'Oldest first',big:'Largest first'};
+    const sortNext={new:'old',old:'big',big:'new'};
+    const shopSortLabels={pop:'Most joined',price:'Lowest price',save:'Biggest saving'};
+    const shopSortNext={pop:'price',price:'save',save:'pop'};
+
+    const payOptions=[{k:'mmqr',label:'MMQR now',note:'One QR for every bank and wallet, settled by CTZPay'},
+      {k:'later',label:'Pay on collection',note:'Cash or MMQR at the collection table on Tuesday'}].map(o=>({
+        label:o.label,note:o.note,pick:()=>this.setState({pay:o.k}),
+        ring:s.pay===o.k?'#5B34D9':'#D6CEC6',fill:s.pay===o.k?'#5B34D9':'#fff',
+        fg:s.pay===o.k?'#1E1926':'#6F6678'}));
+
+    return {
+      countdown,toast:s.toast,cycleNo:comm.cycle,collectPoint:comm.collect,
+      communityName:comm.label,unitFull:'Blk '+s.block+' #'+s.unit,displayName:s.display,username:s.username,
+      isHome:s.phase==='home',isAuth:s.phase==='auth',inApp:s.phase==='app',
+      signStep:s.authStep===0,setupStep:s.authStep===1,
+      authTitle:s.authStep===0?'Sign in':'Set up your account',
+      authBlurb:s.authStep===0?('Accounts for '+comm.label+' are created by the property office, which verifies your unit before you get access. No SMS codes.'):'Choose an avatar, then set the username and password you will use from now on.',
+      homeQuery:s.homeQuery,homeBorder:s.homeQuery?'#5B34D9':'#DED5CC',
+      onHomeQuery:e=>this.setState({homeQuery:e.target.value}),
+      communities:COMMS.filter(c=>!s.homeQuery.trim()||(c.label+' '+c.address).toLowerCase().indexOf(s.homeQuery.trim().toLowerCase())>-1).map(c=>({
+        name:c.label,abbr:c.abbr,address:c.address,
+        meta:c.households+' households · cycle '+c.cycle,
+        chip:c.open?'Open':'Filling',stateFg:c.open?'#0C7C58':'#B3253A',
+        bg:c.name===s.comm?'#FDFBF7':'#fff',
+        pick:()=>this.setState({comm:c.name,phase:'auth',authStep:0})})),
+      requestProperty:()=>this.flash('Interest registered — the office will hear from Capital Retail'),
+      signUser:s.signUser,onSignUser:e=>this.setState({signUser:e.target.value}),
+      signPw:s.signPw,onSignPw:e=>this.setState({signPw:e.target.value}),
+      signIn:()=>this.setState({authStep:1}),
+      backHome:()=>this.setState({phase:'home'}),
+      avatarOptions:AVATARS.map((a,i)=>({grad:grad(a[0],a[1]),initials:myInitials||'YOU',
+        ring:s.avatar===i&&!hasPhoto?'0 0 0 2px #fff, 0 0 0 4px #5B34D9':'none',
+        pick:()=>this.setState({avatar:i,photo:null})})),
+      pickPhoto:()=>{if(this.photoRef.current)this.photoRef.current.click();},
+      photoRef:this.photoRef,
+      onPhoto:e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>this.setState({photo:r.result});r.readAsDataURL(file);},
+      removePhoto:()=>this.setState({photo:null}),
+      hasPhoto,photoTile:hasPhoto?('url('+s.photo+') center/cover no-repeat'):'#FBF8F4',
+      photoRing:hasPhoto?'0 0 0 2px #fff, 0 0 0 4px #5B34D9':'none',
+      photoLabel:hasPhoto?'':'photo',
+      myGrad,myInitials,
+      pw1:s.pw1,pw2:s.pw2,onPw1:e=>this.setState({pw1:e.target.value}),onPw2:e=>this.setState({pw2:e.target.value}),
+      pwBorder:s.pw2.length&&!pwMatch?'#D98A96':'#E5DCD3',
+      pwNote:s.pw2.length===0?'Use something you can remember at the collection table.':pwMatch?'Passwords match.':'Passwords do not match yet.',
+      pwNoteColor:s.pw2.length===0?'#928892':pwMatch?'#0C7C58':'#B3253A',
+      saveAccount:()=>{if(!pwMatch){this.flash('Enter the same password twice to continue');return;}this.setState({phase:'app',screen:'shop',pw1:'',pw2:''});},
+      skipSetup:()=>this.setState({phase:'app',screen:'shop'}),
+      savePassword:()=>{if(!pwMatch){this.flash('Enter the same password twice');return;}this.setState({pw1:'',pw2:''});this.flash('Password updated');},
+      isDone:s.screen==='done',
+      doneCode:s.doneCode,doneTotal:s.doneTotal,doneCount:s.doneCount,donePay:s.donePay,
+      doneBlurb:'Your order is locked into the '+comm.label+' Tuesday drop. Prices can still fall until Sunday cutoff — if they do, the difference comes back to you at the table.',
+      doneSteps:[{text:'Sunday 10pm — cutoff. Capital Retail confirms final tier prices for the block.'},
+        {text:'Tuesday 6–9pm — collect at '+comm.collect+'. Bring a trolley for bulk cases.'},
+        {text:'Show your name or unit at the table; the office ticks you off the collection sheet.'}],
+      goOrders:()=>this.go('orders'),
+      block:s.block,unit:s.unit,
+      onDisplay:e=>this.setState({display:e.target.value}),onUsername:e=>this.setState({username:e.target.value}),
+      onBlock:e=>this.setState({block:e.target.value}),onUnit:e=>this.setState({unit:e.target.value}),
+      saveProfile:()=>this.flash('Account updated'),
+      signOut:()=>this.setState({phase:'home',screen:'shop',signPw:'',homeQuery:''}),
+
+      isShop:s.screen==='shop',isProduct:s.screen==='product',isCart:s.screen==='cart',
+      isCheckout:s.screen==='checkout',isOrders:s.screen==='orders',isUpdates:s.screen==='updates',
+      isCommunity:s.screen==='community',isAccount:s.screen==='account',
+      changeCommunity:()=>this.setState({phase:'home'}),
+
+      nav:[{k:'shop',label:'Shop'},{k:'cart',label:'Your order',badge:count},{k:'orders',label:'Orders',badge:orders.filter(o=>!o.received).length},
+        {k:'updates',label:'Updates',badge:4},{k:'community',label:'Community'},{k:'account',label:'Account'}].map(n=>{
+        const on=s.screen===n.k||(n.k==='shop'&&s.screen==='product')||(n.k==='cart'&&s.screen==='checkout');
+        return {label:n.label,badge:n.badge||'',rule:on?'#5B34D9':'#EDE5DC',
+          fg:on?'#1E1926':'#6F6678',weight:on?800:600,pick:()=>this.go(n.k)};}),
+
+      shopHeadline:products.length+' items from Capital Retail · prices fall as neighbours join',
+      pq:s.pq,hasPq:s.pq.length>0,pqBorder:s.pq?'#5B34D9':'#DED5CC',
+      onPq:e=>this.setState({pq:e.target.value}),clearPq:()=>this.setState({pq:''}),
+      cats:CATS.map(c=>{const on=s.cat===c;
+        return {label:c,count:(c==='All'?all:all.filter(p=>p.cat===c)).length,
+          fg:on?'#1E1926':'#7B7280',weight:on?800:600,line:on?'#5B34D9':'transparent',
+          pick:()=>this.setState({cat:c})};}),
+      shopSortLabel:shopSortLabels[s.shopSort],
+      cycleShopSort:()=>this.setState({shopSort:shopSortNext[s.shopSort]}),
+      products,noProducts:products.length===0,
+      resetShop:()=>this.setState({pq:'',cat:'All'}),
+
+      prod,qty:s.qty,
+      inc:()=>this.setState({qty:s.qty+1}),dec:()=>this.setState({qty:Math.max(1,s.qty-1)}),
+      addProd:()=>this.addTo(cur.id,s.qty),
+      startSplit:()=>this.flash('Split offered — neighbours will see it on Community'),
+      comments:COMMENTS[cur.id]||[{who:'May Thu',unit:'#12-08',initials:'MT',bg:grad('#0F9268','#4F46E5'),text:'First time joining on this one — anyone tried it before?'}],
+      draft:s.draft,onDraft:e=>this.setState({draft:e.target.value}),
+      postComment:()=>{if(!s.draft.trim())return;this.setState({draft:''});this.flash('Posted to the block');},
+
+      cartLines,cartRows:cartLines,cartCount:count,cartEmpty:count===0,cartAny:count>0,
+      subtotal:money(sub),retailTotal:money(ret),savings:money(ret-sub),
+      goShop:()=>this.go('shop'),goCart:()=>this.go('cart'),goCheckout:()=>{if(!count){this.flash('Add something to your order first');return;}this.go('checkout');},
+      payOptions,payQr:s.pay==='mmqr',nextCode:comm.code+'-2492',
+      note:s.note,onNote:e=>this.setState({note:e.target.value}),
+      placeLabel:s.pay==='mmqr'?'Pay '+money(sub)+' by MMQR':'Place order, pay at collection',
+      placeOrder:()=>{if(!count){this.flash('Your order is empty');return;}this.setState({screen:'done',cart:{},doneCode:comm.code+'-2492',doneTotal:money(sub),doneCount:count,donePay:s.pay==='mmqr'?'Paid by MMQR · CTZPay':'Pay at collection'});},
+
+      headline:list.length+(list.length===1?' order · ':' orders · ')+money(list.reduce((a,o)=>a+o.total_n,0))+' with '+comm.name,
+      query:s.query,hasQuery:s.query.length>0,searchBorder:s.query?'#5B34D9':'#DED5CC',
+      onQuery:e=>this.setState({query:e.target.value}),clearQuery:()=>this.setState({query:''}),
+      filters:FILTERS.map(f=>{const on=s.filter===f.k;
+        return {label:f.label,count:searched.filter(o=>passF(o,f.k)).length,
+          fg:on?'#1E1926':'#7B7280',weight:on?800:600,line:on?'#5B34D9':'transparent',
+          pick:()=>this.setState({filter:f.k})};}),
+      sortLabel:sortLabels[s.sort],cycleSort:()=>this.setState({sort:sortNext[s.sort]}),
+      hasDue:dueList.length>0&&s.filter!=='unpaid',
+      dueTitle:dueList.length+(dueList.length===1?' received order still owes ':' received orders still owe ')+money(dueList.reduce((a,o)=>a+o.total_n,0))+'.',
+      showDue:()=>this.setState({filter:'unpaid',query:''}),
+      activeOrders:active.map(mark),pastOrders:past.map(mark),
+      hasActive:active.length>0,hasPast:past.length>0,
+      activeCount:active.length,pastCount:past.length,noOrders:list.length===0,
+      emptyHint:q?'Nothing matches “'+s.query+'” in this view. Try an item name, an order code, or switch the filter above.':'Nothing in this view yet.',
+      reset:()=>this.setState({query:'',filter:'all'}),
+      sel:orders.find(o=>o.raw.n===s.sel)||list[0]||orders[0],
+
+      alerts:[
+        {title:'100-unit tier unlocked on mineral water',body:'The case dropped to K 6,500. Your order was adjusted and K 3,000 comes back to you at the table.',when:'12 min ago',cta:'See the order',rule:'#5B34D9',bg:'#FDFBF7',act:()=>this.go('orders')},
+        {title:'8 more units for cheaper rice',body:'Paw San Rice is at 88 of 100 units for this cycle. Share it with your neighbours and everyone pays K 35,000.',when:'2 hours ago',cta:'Open the item',rule:'transparent',bg:'#fff',act:()=>this.setState({screen:'product',pid:5})},
+        {title:'Ko Myat asked a question',body:'“Anyone want to split a sack? I only need 5kg.” on Paw San Rice.',when:'Yesterday',cta:'Reply on the item',rule:'transparent',bg:'#fff',act:()=>this.setState({screen:'product',pid:5})},
+        {title:'Cutoff Sunday 10pm',body:'Orders after cutoff roll into the Friday drop instead. Edits are free until then.',when:'Yesterday',cta:'Review your order',rule:'transparent',bg:'#fff',act:()=>this.go('cart')},
+        {title:'Order '+comm.code+'-2390 collected',body:'Thanks for picking up on time — the collection table clears faster when everyone comes in their window.',when:'15 Aug',cta:'View receipt',rule:'transparent',bg:'#fff',act:()=>this.setState({screen:'orders',sel:2390})}],
+      markRead:()=>this.flash('All updates marked read'),
+
+      communityMeta:comm.households+' households · cycle '+comm.cycle+' · collection at '+comm.collect,
+      stats:[{value:String(comm.households),label:'households ordering this cycle'},{value:String(comm.units),label:'units on the sheet so far'},
+        {value:money(comm.households*3200),label:'saved together this cycle'},{value:String(comm.cycle),label:'cycles run without a miss'}],
+      splits:SPLITS.map(sp=>{const inIt=s.splitsIn.indexOf(sp.id)>-1,leftN=Math.max(0,sp.need-(inIt?1:0));
+        return {item:sp.item,who:sp.who,detail:sp.detail,initials:sp.initials,bg:sp.bg,
+          needText:leftN===0?'Split complete':leftN+(leftN===1?' household needed':' households needed'),
+          needColor:leftN===0?'#0C7C58':'#928892',
+          btnLabel:inIt?'Joined':'Join',btnBorder:inIt?'#0C7C58':'#1E1926',
+          btnBg:inIt?'#fff':'#1E1926',btnFg:inIt?'#0C7C58':'#fff',
+          toggle:()=>{const n=inIt?s.splitsIn.filter(x=>x!==sp.id):[...s.splitsIn,sp.id];this.setState({splitsIn:n});this.flash(inIt?'Left the split':'You joined '+sp.who.split(' · ')[0]+"'s split");}};}),
+      wishes:WISHES.map(w=>{const v=s.votes[w.id]||0,voted=v>0;
+        return {name:w.name,note:w.note,votes:w.votes+v,
+          border:voted?'#5B34D9':'#E5DCD3',bg:voted?'#F5F1FD':'#fff',fg:voted?'#5B34D9':'#6F6678',
+          vote:()=>this.setState({votes:{...s.votes,[w.id]:voted?0:1}})};}),
+      wish:s.wish,onWish:e=>this.setState({wish:e.target.value}),
+      addWish:()=>{if(!s.wish.trim())return;this.setState({wish:''});this.flash('Added to the wishlist — neighbours can vote now');},
+      activity:[{initials:'NW',bg:grad('#C026D3','#6D28D9'),text:'#11-03 joined Paw San Rice ×2 — tipped the 100-unit tier',when:'4m'},
+        {initials:'KM',bg:grad('#F4485F','#C026D3'),text:'#07-12 opened a split on the 10kg rice sack',when:'22m'},
+        {initials:'SH',bg:grad('#FB9C3C','#F4485F'),text:'#09-05 asked about the tomatoes on the product page',when:'1h'},
+        {initials:'ZM',bg:grad('#4F46E5','#06B6D4'),text:'#03-11 collected order G1-2288 at the guardhouse',when:'3h'},
+        {initials:'MT',bg:grad('#0F9268','#4F46E5'),text:'#12-08 added baby wipes to the wishlist',when:'5h'}],
+      askBuddy:()=>this.flash('Buddy request sent to the block chat'),
+      accountStats:[{label:'Orders placed',value:'18'},{label:'Saved against retail',value:money(214000)},
+        {label:'Collected on time',value:'17 of 18'},{label:'Member since',value:'Feb 2026'}]
+    };
+  }
+}
+</script>
+</body>
+</html>

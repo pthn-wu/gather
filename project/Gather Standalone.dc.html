@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<template id="__bundler_thumbnail" data-bg-color="#4F46E5">
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+<rect width="1200" height="800" fill="#4F46E5"/>
+<circle cx="470" cy="400" r="86" fill="#C026D3"/>
+<circle cx="600" cy="330" r="86" fill="#FFFFFF" fill-opacity=".92"/>
+<circle cx="730" cy="400" r="86" fill="#6D28D9"/>
+<circle cx="600" cy="470" r="86" fill="#FFFFFF" fill-opacity=".55"/>
+</svg>
+</template>
+
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#EFECF6;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#6D28D9;text-decoration:none}a:hover{color:#4F46E5}
+input,textarea,button{font-family:inherit}
+input:focus,textarea:focus{outline:2px solid #C4B5FD;outline-offset:1px}
+.gs::-webkit-scrollbar{display:none}
+@keyframes gpop{0%{transform:scale(.86);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes gup{0%{transform:translateY(10px);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes gfade{0%{opacity:0}100%{opacity:1}}
+@keyframes gshine{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+</style>
+</helmet>
+
+<div style="height:100dvh;min-height:100dvh;display:flex;justify-content:center;background:radial-gradient(120% 60% at 50% 0%,#E4DEF6 0%,#EFECF6 60%);overflow:hidden">
+<div style="width:100%;max-width:430px;background:#FFFFFF;height:100%;min-height:0;position:relative;box-shadow:0 0 0 1px rgba(27,33,54,.06),0 30px 80px -30px rgba(77,29,149,.35);display:flex;flex-direction:column;overflow:hidden">
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div class="gs" style="flex:1;min-height:0;overflow-y:auto;padding:{{ padTop }}px 22px 30px;scrollbar-width:none">
+  <img src="assets/gather-logo-web.png" alt="Gather" style="height:32px;display:block;margin-left:-5px">
+  <div style="font-family:Poppins,sans-serif;font-size:25px;font-weight:600;color:#1B2136;letter-spacing:-.02em;line-height:1.2;margin-top:22px">Where are you<br>ordering with?</div>
+  <div style="font-size:13.5px;color:#6B7189;line-height:1.5;margin-top:8px">Pick your community, then sign in with the account your property office gave you. Group prices and collection points are set per property.</div>
+
+  <div style="display:flex;align-items:center;gap:10px;margin-top:18px;padding:13px 15px;border-radius:15px;border:1px solid #E8E6F0;background:#FAF9FD">
+    <div style="width:13px;height:13px;border:2px solid #9AA0B4;border-radius:50%;flex:none"></div>
+    <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="Search condo, estate or street" style="flex:1;border:0;background:transparent;font-size:13.5px;font-weight:600;color:#1B2136;padding:0;outline:0">
+  </div>
+
+  <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#8B90A5;margin:24px 0 11px">Communities near you</div>
+  <div style="display:flex;flex-direction:column;gap:11px">
+    <sc-for list="{{ communities }}" as="c" hint-placeholder-count="4">
+      <div onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};background:{{ c.bg }};border-radius:20px;padding:14px 15px;cursor:pointer">
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <div style="width:44px;height:44px;border-radius:14px;flex:none;background:{{ c.tint }};color:{{ c.mono }};font-family:'JetBrains Mono',monospace;font-size:13px;display:flex;align-items:center;justify-content:center">{{ c.abbr }}</div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:7px">
+              <div style="font-size:15px;font-weight:800;color:#1B2136;letter-spacing:-.01em">{{ c.name }}</div>
+              <div style="font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:{{ c.chipBg }};color:{{ c.chipFg }}">{{ c.chip }}</div>
+            </div>
+            <div style="font-size:12px;color:#8B90A5;margin-top:3px">{{ c.address }}</div>
+            <div style="font-size:12px;color:#6B7189;font-weight:600;margin-top:7px">{{ c.meta }}</div>
+          </div>
+          <div style="width:8px;height:8px;border-right:2px solid #B9BDCC;border-top:2px solid #B9BDCC;transform:rotate(45deg);margin-top:17px;flex:none"></div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="margin-top:22px;padding:15px 16px;border-radius:18px;background:#FAF9FD;border:1px solid #EEECF7">
+    <div style="font-size:12.5px;font-weight:800;color:#1B2136">Don't see your property?</div>
+    <div style="font-size:12px;color:#6B7189;line-height:1.5;margin-top:5px">Gather opens a property once 40 households register interest. Capital Retail then sets the delivery days.</div>
+    <button onClick="{{ requestProperty }}" style="margin-top:11px;padding:11px 16px;border:0;border-radius:12px;background:#1B2136;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Request my property</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isOnboarding }}" hint-placeholder-val="{{ false }}">
+<div class="gs" style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;padding:{{ padTop }}px 22px 28px;scrollbar-width:none">
+  <div style="display:flex;align-items:center;justify-content:space-between">
+    <img src="assets/gather-logo-web.png" alt="Gather" style="height:28px;display:block;margin-left:-4px">
+    <button onClick="{{ toHome }}" style="border:1px solid #EDEBF5;background:#FAF9FD;border-radius:11px;padding:8px 12px;font-size:12px;font-weight:700;color:#6B7189;cursor:pointer">Change</button>
+  </div>
+  <div style="margin-top:22px;display:inline-flex;align-self:flex-start;align-items:center;gap:8px;padding:7px 12px 7px 8px;border-radius:11px;background:#F5F2FE">
+    <div style="width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,#C026D3,#4F46E5);color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ communityAbbr }}</div>
+    <div style="font-size:12.5px;font-weight:800;color:#4F46E5">{{ communityName }}</div>
+  </div>
+
+  <div style="margin-top:16px">
+    <div style="font-family:Poppins,sans-serif;font-size:25px;font-weight:600;color:#1B2136;letter-spacing:-.02em;line-height:1.18">{{ authTitle }}</div>
+    <div style="font-size:13.5px;color:#6B7189;line-height:1.5;margin-top:8px">{{ authBlurb }}</div>
+  </div>
+
+  <sc-if value="{{ signStep }}" hint-placeholder-val="{{ true }}">
+  <div style="margin-top:24px;display:flex;flex-direction:column;gap:16px">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8B90A5;margin-bottom:9px">Username</div>
+      <input value="{{ signUser }}" onChange="{{ onSignUser }}" placeholder="given by the property office" style="width:100%;padding:14px 15px;border-radius:14px;border:1.5px solid #E8E6F0;background:#FAF9FD;font-size:15px;font-weight:600;color:#1B2136">
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8B90A5;margin-bottom:9px">Password</div>
+      <input type="password" value="{{ signPw }}" onChange="{{ onSignPw }}" placeholder="••••••••" style="width:100%;padding:14px 15px;border-radius:14px;border:1.5px solid #E8E6F0;background:#FAF9FD;font-size:15px;font-weight:600;color:#1B2136">
+    </div>
+    <div style="padding:13px 15px;border-radius:14px;background:#F5F2FE;display:flex;gap:10px;align-items:flex-start">
+      <div style="width:7px;height:7px;border-radius:50%;background:#6D28D9;margin-top:6px;flex:none"></div>
+      <div style="font-size:12.5px;color:#5B4B84;line-height:1.5">First sign-in? Use the temporary password from the office — you will set your own username and password next.</div>
+    </div>
+  </div>
+  <div style="flex:1"></div>
+  <button onClick="{{ signIn }}" style="margin-top:26px;width:100%;padding:17px;border:0;border-radius:16px;background:linear-gradient(100deg,#C026D3,#6D28D9 55%,#4F46E5);color:#fff;font-size:15.5px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px -8px rgba(109,40,217,.6)">Sign in</button>
+  <div style="text-align:center;font-size:11.5px;color:#9AA0B4;margin-top:14px">No account? Ask the {{ communityName }} office to add your unit.</div>
+  </sc-if>
+
+  <sc-if value="{{ setupStep }}" hint-placeholder-val="{{ false }}">
+  <div style="margin-top:20px;animation:gup .3s ease both">
+    <div style="display:flex;gap:11px;align-items:center;padding:13px 14px;border-radius:16px;background:#E7F7F0;border:1px solid #C6EBDA">
+      <div style="width:26px;height:26px;border-radius:50%;background:#0F9268;flex:none;display:flex;align-items:center;justify-content:center">
+        <div style="width:11px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)"></div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:12.5px;font-weight:800;color:#0B6B4D">{{ unitFull }} verified</div>
+        <div style="font-size:11.5px;color:#3F7F68;margin-top:1px">by the {{ communityName }} property owner</div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8B90A5;margin:22px 0 10px">Pick your avatar</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+      <sc-for list="{{ avatarOptions }}" as="av" hint-placeholder-count="8">
+        <button onClick="{{ av.pick }}" style="aspect-ratio:1;border-radius:50%;border:0;padding:0;cursor:pointer;background:{{ av.grad }};color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:{{ av.ring }}">{{ av.initials }}</button>
+      </sc-for>
+      <button onClick="{{ pickPhoto }}" style="aspect-ratio:1;border-radius:50%;border:1.5px dashed #C9C5DC;padding:0;cursor:pointer;background:{{ photoTile }};display:flex;align-items:center;justify-content:center;box-shadow:{{ photoRing }}">
+        <sc-if value="{{ noPhoto }}" hint-placeholder-val="{{ true }}">
+          <div style="width:17px;height:13px;border:1.6px solid #8B90A5;border-radius:4px;position:relative">
+            <div style="position:absolute;top:-4.5px;left:4px;width:7px;height:3px;border:1.6px solid #8B90A5;border-bottom:0;border-radius:2px 2px 0 0;background:#F4F2FA"></div>
+            <div style="position:absolute;top:2.5px;left:5px;width:5px;height:5px;border:1.6px solid #8B90A5;border-radius:50%"></div>
+          </div>
+        </sc-if>
+      </button>
+    </div>
+    <input type="file" accept="image/*" ref="{{ photoRef }}" onChange="{{ onPhoto }}" style="display:none">
+    <sc-if value="{{ hasPhoto }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ removePhoto }}" style="margin-top:11px;border:0;background:none;padding:0;cursor:pointer;font-size:12px;font-weight:700;color:#6D28D9">Remove photo</button>
+    </sc-if>
+
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:22px">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8B90A5;margin-bottom:9px">Username</div>
+        <input value="{{ username }}" onChange="{{ onUsername }}" style="width:100%;padding:14px 15px;border-radius:14px;border:1.5px solid #E8E6F0;background:#FAF9FD;font-size:15px;font-weight:600;color:#1B2136">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8B90A5;margin-bottom:9px">New password</div>
+        <input type="password" value="{{ pw1 }}" onChange="{{ onPw1 }}" placeholder="at least 8 characters" style="width:100%;padding:14px 15px;border-radius:14px;border:1.5px solid #E8E6F0;background:#FAF9FD;font-size:15px;font-weight:600;color:#1B2136">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8B90A5;margin-bottom:9px">Confirm password</div>
+        <input type="password" value="{{ pw2 }}" onChange="{{ onPw2 }}" placeholder="repeat it" style="width:100%;padding:14px 15px;border-radius:14px;border:1.5px solid {{ pwBorder }};background:#FAF9FD;font-size:15px;font-weight:600;color:#1B2136">
+        <div style="font-size:11.5px;color:{{ pwNoteColor }};font-weight:600;margin-top:7px">{{ pwNote }}</div>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1"></div>
+  <button onClick="{{ saveAccount }}" style="margin-top:22px;width:100%;padding:17px;border:0;border-radius:16px;background:linear-gradient(100deg,#C026D3,#6D28D9 55%,#4F46E5);color:#fff;font-size:15.5px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px -8px rgba(109,40,217,.6)">Save and enter Gather</button>
+  <button onClick="{{ skipSetup }}" style="margin-top:8px;width:100%;padding:12px;border:0;border-radius:14px;background:transparent;color:#8B90A5;font-size:13px;font-weight:600;cursor:pointer">Do this later</button>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ inApp }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;display:flex;flex-direction:column;min-height:0">
+
+  <sc-if value="{{ mainHeader }}" hint-placeholder-val="{{ true }}">
+  <div style="padding:{{ headTop }}px 18px 12px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #F1EFF7;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20">
+    <img src="assets/gather-logo-web.png" alt="Gather" style="height:24px;display:block">
+    <div style="flex:1"></div>
+    <button onClick="{{ goAccount }}" style="width:42px;height:42px;border-radius:50%;border:0;padding:0;cursor:pointer;background:{{ myGrad }};color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ myInitials }}</button>
+    <button onClick="{{ goCart }}" style="position:relative;width:42px;height:42px;border-radius:13px;border:1px solid #EDEBF5;background:#FAF9FD;cursor:pointer;display:flex;align-items:center;justify-content:center">
+      <div style="width:15px;height:13px;border:2px solid #1B2136;border-radius:0 0 4px 4px;border-top:0;position:relative"><div style="position:absolute;top:-7px;left:1px;width:9px;height:7px;border:2px solid #1B2136;border-bottom:0;border-radius:5px 5px 0 0"></div></div>
+      <sc-if value="{{ hasCart }}" hint-placeholder-val="{{ true }}">
+        <div style="position:absolute;top:-5px;right:-5px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:#F4485F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2.5px #fff">{{ cartCount }}</div>
+      </sc-if>
+    </button>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ subHeader }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:{{ headTop }}px 18px 12px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #F1EFF7;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20">
+    <button onClick="{{ back }}" style="width:38px;height:38px;border-radius:12px;border:1px solid #EDEBF5;background:#FAF9FD;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0">
+      <div style="width:9px;height:9px;border-left:2px solid #1B2136;border-bottom:2px solid #1B2136;transform:rotate(45deg);margin-left:-2px"></div>
+    </button>
+    <div style="font-family:Poppins,sans-serif;font-size:16px;font-weight:600;color:#1B2136;letter-spacing:-.01em">{{ subTitle }}</div>
+  </div>
+  </sc-if>
+
+  <div class="gs" style="flex:1;overflow-y:auto;scrollbar-width:none">
+
+  <sc-if value="{{ isCatalog }}" hint-placeholder-val="{{ true }}">
+  <div style="padding:16px 18px 22px">
+    <sc-if value="{{ loud }}" hint-placeholder-val="{{ true }}">
+    <div style="border-radius:22px;padding:18px 18px 16px;background:linear-gradient(105deg,#C026D3 0%,#6D28D9 46%,#4F46E5 100%);position:relative;overflow:hidden;box-shadow:0 14px 30px -14px rgba(109,40,217,.65)">
+      <div style="position:absolute;top:-46px;right:-24px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.11)"></div>
+      <div style="position:absolute;bottom:-34px;left:-20px;width:96px;height:96px;border-radius:50%;background:rgba(244,72,95,.35)"></div>
+      <div style="position:relative;display:flex;align-items:center;gap:8px">
+        <div style="width:7px;height:7px;border-radius:50%;background:#FB9C3C"></div>
+        <div style="font-size:11px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.85)">{{ communityName }} · this cycle</div>
+      </div>
+      <div style="position:relative;font-family:Poppins,sans-serif;font-size:23px;font-weight:600;color:#fff;letter-spacing:-.02em;margin-top:9px;line-height:1.2">Tuesday drop is<br>filling up fast</div>
+      <div style="position:relative;display:flex;align-items:flex-end;gap:16px;margin-top:16px">
+        <div>
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.7)">Orders close in</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:500;color:#fff;letter-spacing:-.01em;margin-top:2px">{{ countdown }}</div>
+        </div>
+        <div style="width:1px;height:34px;background:rgba(255,255,255,.22)"></div>
+        <div>
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.7)">Households in</div>
+          <div style="font-size:22px;font-weight:800;color:#fff;margin-top:2px">{{ households }}</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ quiet }}" hint-placeholder-val="{{ false }}">
+    <div style="border-radius:20px;padding:17px 18px;background:#FAF9FD;border:1px solid #EEECF7">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:7px;height:7px;border-radius:50%;background:#6D28D9"></div>
+        <div style="font-size:11px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:#8B90A5">{{ communityName }} · this cycle</div>
+      </div>
+      <div style="font-family:Poppins,sans-serif;font-size:21px;font-weight:600;color:#1B2136;letter-spacing:-.02em;margin-top:8px">Tuesday drop</div>
+      <div style="display:flex;align-items:flex-end;gap:16px;margin-top:14px">
+        <div>
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#9AA0B4">Closes in</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:20px;color:#4F46E5;margin-top:2px">{{ countdown }}</div>
+        </div>
+        <div style="width:1px;height:32px;background:#E8E6F0"></div>
+        <div>
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#9AA0B4">Households</div>
+          <div style="font-size:20px;font-weight:800;color:#1B2136;margin-top:2px">{{ households }}</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <div class="gs" style="display:flex;gap:8px;overflow-x:auto;margin:18px -18px 0;padding:0 18px 2px;scrollbar-width:none">
+      <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+        <button onClick="{{ c.pick }}" style="flex:none;padding:9px 14px;border-radius:11px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap">{{ c.label }}</button>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:20px">
+      <div style="font-family:Poppins,sans-serif;font-size:17px;font-weight:600;color:#1B2136;letter-spacing:-.01em">{{ catTitle }}</div>
+      <div style="font-size:11.5px;font-weight:600;color:#9AA0B4">{{ shownCount }} items</div>
+    </div>
+
+    <sc-if value="{{ layoutDeals }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+      <sc-for list="{{ shown }}" as="p" hint-placeholder-count="4">
+        <div onClick="{{ p.open }}" style="border:1px solid #EEECF7;border-radius:20px;padding:12px;background:#fff;cursor:pointer;box-shadow:0 2px 10px -6px rgba(27,33,54,.18)">
+          <div style="display:flex;gap:12px">
+            <div style="width:88px;height:88px;border-radius:15px;flex:none;background-image:repeating-linear-gradient(135deg,{{ p.tint }} 0 6px,rgba(255,255,255,.75) 6px 12px);display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;overflow:hidden">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#5B4B84;background:rgba(255,255,255,.88);padding:2px 4px;border-radius:3px">{{ p.slot }}</div>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;gap:6px">
+                <div style="font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#A855B8">{{ p.tierLabel }}</div>
+              </div>
+              <div style="font-size:14.5px;font-weight:700;color:#1B2136;line-height:1.28;margin-top:3px;text-wrap:pretty">{{ p.name }}</div>
+              <div style="font-size:11.5px;color:#9AA0B4;margin-top:2px">{{ p.unit }}</div>
+              <div style="display:flex;align-items:baseline;gap:7px;margin-top:7px">
+                <div style="font-size:19px;font-weight:800;color:#1B2136;letter-spacing:-.02em">{{ p.priceLabel }}</div>
+                <div style="font-size:12px;color:#9AA0B4;text-decoration:line-through">{{ p.retailLabel }}</div>
+                <div style="font-size:10.5px;font-weight:800;color:#0F9268;background:#E7F7F0;padding:2px 6px;border-radius:6px">-{{ p.savePct }}%</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:11px">
+            <sc-if value="{{ progressBar }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:1">
+              <div style="height:7px;border-radius:4px;background:#F1EFF8;overflow:hidden;position:relative">
+                <div style="height:100%;width:{{ p.pct }}%;background:linear-gradient(90deg,#C026D3,#6D28D9 60%,#4F46E5);border-radius:4px"></div>
+              </div>
+              <div style="font-size:11px;color:#6B7189;margin-top:5px;font-weight:600">{{ p.progressText }}</div>
+            </div>
+            </sc-if>
+            <sc-if value="{{ progressPips }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1">
+              <div style="display:flex;gap:3px">
+                <sc-for list="{{ p.pips }}" as="pip" hint-placeholder-count="10">
+                  <div style="flex:1;height:9px;border-radius:2px;background:{{ pip.bg }}"></div>
+                </sc-for>
+              </div>
+              <div style="font-size:11px;color:#6B7189;margin-top:5px;font-weight:600">{{ p.progressText }}</div>
+            </div>
+            </sc-if>
+            <button onClick="{{ p.add }}" style="flex:none;padding:9px 15px;border-radius:12px;border:0;background:#1B2136;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Join</button>
+          </div>
+          <sc-if value="{{ community }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed #EFEDF7">
+            <div style="display:flex">
+              <sc-for list="{{ p.avatars }}" as="a" hint-placeholder-count="3">
+                <div style="width:22px;height:22px;border-radius:50%;background:{{ a.bg }};color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff;margin-left:-6px">{{ a.initials }}</div>
+              </sc-for>
+            </div>
+            <div style="font-size:11.5px;color:#6B7189;font-weight:600">{{ p.social }}</div>
+          </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ layoutGrid }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px">
+      <sc-for list="{{ shown }}" as="p" hint-placeholder-count="4">
+        <div onClick="{{ p.open }}" style="border:1px solid #EEECF7;border-radius:18px;overflow:hidden;background:#fff;cursor:pointer">
+          <div style="height:104px;background-image:repeating-linear-gradient(135deg,{{ p.tint }} 0 6px,rgba(255,255,255,.75) 6px 12px);display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#5B4B84;background:rgba(255,255,255,.88);padding:2px 4px;border-radius:3px">{{ p.slot }}</div>
+          </div>
+          <div style="padding:10px 11px 12px">
+            <div style="font-size:13px;font-weight:700;color:#1B2136;line-height:1.25;height:33px;overflow:hidden">{{ p.name }}</div>
+            <div style="display:flex;align-items:baseline;gap:5px;margin-top:6px">
+              <div style="font-size:16px;font-weight:800;color:#1B2136">{{ p.priceLabel }}</div>
+              <div style="font-size:10.5px;color:#9AA0B4;text-decoration:line-through">{{ p.retailLabel }}</div>
+            </div>
+            <div style="height:6px;border-radius:3px;background:#F1EFF8;margin-top:9px;overflow:hidden"><div style="height:100%;width:{{ p.pct }}%;background:linear-gradient(90deg,#C026D3,#4F46E5)"></div></div>
+            <div style="font-size:10.5px;color:#6B7189;margin-top:5px;font-weight:600">{{ p.joined }} units in</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ layoutList }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top:10px;border:1px solid #EEECF7;border-radius:18px;overflow:hidden">
+      <sc-for list="{{ shown }}" as="p" hint-placeholder-count="5">
+        <div onClick="{{ p.open }}" style="display:flex;align-items:center;gap:11px;padding:11px 13px;border-bottom:1px solid #F4F2FA;cursor:pointer">
+          <div style="width:44px;height:44px;border-radius:11px;flex:none;background-image:repeating-linear-gradient(135deg,{{ p.tint }} 0 5px,rgba(255,255,255,.75) 5px 10px)"></div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13.5px;font-weight:700;color:#1B2136;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</div>
+            <div style="font-size:11px;color:#9AA0B4;margin-top:2px">{{ p.progressText }}</div>
+          </div>
+          <div style="text-align:right;flex:none">
+            <div style="font-size:15px;font-weight:800;color:#1B2136">{{ p.priceLabel }}</div>
+            <div style="font-size:10.5px;color:#9AA0B4;text-decoration:line-through">{{ p.retailLabel }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <div style="margin-top:20px;padding:15px 16px;border-radius:18px;background:#FAF9FD;border:1px solid #EEECF7">
+      <div style="font-size:12.5px;font-weight:800;color:#1B2136">Fulfilled by Capital Retail</div>
+      <div style="font-size:12px;color:#6B7189;line-height:1.5;margin-top:5px">Deliveries every Tuesday &amp; Friday, 6–9pm. Collect from the {{ collectPoint }} within 24 hours.</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isProduct }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="height:210px;background-image:repeating-linear-gradient(135deg,{{ prod.tint }} 0 8px,rgba(255,255,255,.72) 8px 16px);display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#5B4B84;background:rgba(255,255,255,.9);padding:4px 8px;border-radius:5px">{{ prod.slot }}</div>
+    </div>
+    <div style="padding:16px 18px 24px">
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#A855B8">{{ prod.cat }}</div>
+      <div style="font-family:Poppins,sans-serif;font-size:22px;font-weight:600;color:#1B2136;letter-spacing:-.02em;line-height:1.22;margin-top:6px">{{ prod.name }}</div>
+      <div style="font-size:13px;color:#6B7189;margin-top:4px">{{ prod.unit }} · sold by Capital Retail</div>
+
+      <div style="display:flex;align-items:flex-end;gap:10px;margin-top:14px">
+        <div style="font-size:32px;font-weight:800;color:#1B2136;letter-spacing:-.03em;line-height:1">{{ prod.priceLabel }}</div>
+        <div style="font-size:14px;color:#9AA0B4;text-decoration:line-through;padding-bottom:3px">{{ prod.retailLabel }}</div>
+        <div style="font-size:11px;font-weight:800;color:#0F9268;background:#E7F7F0;padding:3px 8px;border-radius:7px;margin-bottom:4px;white-space:nowrap">Save {{ prod.savePct }}%</div>
+      </div>
+
+      <div style="margin-top:18px;border:1px solid #EEECF7;border-radius:20px;padding:15px 16px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:13.5px;font-weight:800;color:#1B2136">Block progress</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6D28D9">{{ prod.joined }} / 100 units</div>
+        </div>
+        <div style="height:10px;border-radius:5px;background:#F1EFF8;margin-top:12px;position:relative;overflow:hidden">
+          <div style="height:100%;width:{{ prod.pct }}%;background:linear-gradient(90deg,#F4485F,#C026D3 40%,#6D28D9 75%,#4F46E5);border-radius:5px"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#9AA0B4">20</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#9AA0B4;margin-left:26%">50</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#9AA0B4">100</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+          <sc-for list="{{ prod.tiers }}" as="t" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:13px;background:{{ t.bg }};border:1px solid {{ t.border }}">
+              <div style="width:20px;height:20px;border-radius:50%;flex:none;background:{{ t.dot }};display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800">{{ t.mark }}</div>
+              <div style="flex:1;font-size:12.5px;font-weight:700;color:#1B2136">{{ t.label }}</div>
+              <div style="font-size:13.5px;font-weight:800;color:{{ t.priceColor }}">{{ t.price }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size:12px;color:#6B7189;line-height:1.5;margin-top:11px">{{ prod.nextText }}</div>
+      </div>
+
+      <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:2px;border:1px solid #E8E6F0;border-radius:14px;padding:4px">
+          <button onClick="{{ dec }}" style="width:38px;height:38px;border:0;background:#FAF9FD;border-radius:11px;font-size:19px;font-weight:700;color:#1B2136;cursor:pointer">–</button>
+          <div style="width:40px;text-align:center;font-size:16px;font-weight:800;color:#1B2136">{{ qty }}</div>
+          <button onClick="{{ inc }}" style="width:38px;height:38px;border:0;background:#FAF9FD;border-radius:11px;font-size:19px;font-weight:700;color:#1B2136;cursor:pointer">+</button>
+        </div>
+        <button onClick="{{ addProd }}" style="flex:1;padding:16px;border:0;border-radius:15px;background:linear-gradient(100deg,#C026D3,#6D28D9 55%,#4F46E5);color:#fff;font-size:14.5px;font-weight:700;cursor:pointer;box-shadow:0 10px 22px -10px rgba(109,40,217,.7)">Join for {{ prod.lineTotal }}</button>
+      </div>
+
+      <sc-if value="{{ community }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:22px">
+        <div style="font-family:Poppins,sans-serif;font-size:15px;font-weight:600;color:#1B2136">Neighbours in on this</div>
+        <div style="display:flex;align-items:center;margin-top:10px">
+          <sc-for list="{{ prod.avatars }}" as="a" hint-placeholder-count="5">
+            <div style="width:32px;height:32px;border-radius:50%;background:{{ a.bg }};color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2.5px #fff;margin-left:-8px">{{ a.initials }}</div>
+          </sc-for>
+          <div style="margin-left:8px;font-size:12.5px;color:#6B7189;font-weight:600">{{ prod.social }}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+          <sc-for list="{{ comments }}" as="c" hint-placeholder-count="2">
+            <div style="display:flex;gap:10px">
+              <div style="width:30px;height:30px;border-radius:50%;flex:none;background:{{ c.bg }};color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ c.initials }}</div>
+              <div style="background:#FAF9FD;border-radius:4px 14px 14px 14px;padding:9px 12px">
+                <div style="font-size:11.5px;font-weight:800;color:#1B2136">{{ c.who }} <span style="color:#A0A5B8;font-weight:600">· {{ c.unit }}</span></div>
+                <div style="font-size:12.5px;color:#4A5068;line-height:1.45;margin-top:2px">{{ c.text }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <input value="{{ draft }}" onChange="{{ onDraft }}" placeholder="Ask the group…" style="flex:1;padding:12px 14px;border-radius:13px;border:1px solid #E8E6F0;background:#fff;font-size:13px;color:#1B2136">
+          <button onClick="{{ postComment }}" style="padding:0 16px;border:0;border-radius:13px;background:#1B2136;color:#fff;font-size:13px;font-weight:700;cursor:pointer">Post</button>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isCart }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:16px 18px 24px">
+    <sc-if value="{{ hasCart }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ lines }}" as="l" hint-placeholder-count="3">
+          <div style="display:flex;gap:11px;align-items:center;border:1px solid #EEECF7;border-radius:17px;padding:11px">
+            <div style="width:54px;height:54px;border-radius:13px;flex:none;background-image:repeating-linear-gradient(135deg,{{ l.tint }} 0 5px,rgba(255,255,255,.75) 5px 10px)"></div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13.5px;font-weight:700;color:#1B2136;line-height:1.3">{{ l.name }}</div>
+              <div style="font-size:11.5px;color:#9AA0B4;margin-top:2px">{{ l.priceLabel }} × {{ l.qty }} · {{ l.tierNote }}</div>
+            </div>
+            <div style="text-align:right;flex:none">
+              <div style="font-size:14.5px;font-weight:800;color:#1B2136">{{ l.total }}</div>
+              <button onClick="{{ l.remove }}" style="border:0;background:transparent;color:#F4485F;font-size:11.5px;font-weight:700;cursor:pointer;padding:4px 0 0">Remove</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:18px;padding:15px 16px;border-radius:18px;background:linear-gradient(100deg,#FDF4FF,#F5F3FF);border:1px solid #EFE4FE">
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:#5B4B84;font-weight:600"><div>Retail total</div><div style="text-decoration:line-through">{{ retailTotal }}</div></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:#5B4B84;font-weight:600;margin-top:7px"><div>Group price</div><div>{{ subtotal }}</div></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:#0F9268;font-weight:700;margin-top:7px"><div>You save</div><div>{{ savings }}</div></div>
+        <div style="height:1px;background:#E9DDFB;margin:11px 0"></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:14px;font-weight:800;color:#1B2136">Total</div><div style="font-size:22px;font-weight:800;color:#1B2136;letter-spacing:-.02em">{{ subtotal }}</div></div>
+      </div>
+
+      <div style="margin-top:14px;display:flex;gap:10px;align-items:flex-start;padding:13px 15px;border-radius:16px;background:#FFF7ED;border:1px solid #FDE4C4">
+        <div style="width:7px;height:7px;border-radius:50%;background:#FB9C3C;margin-top:6px;flex:none"></div>
+        <div style="font-size:12.5px;color:#7C4A11;line-height:1.5">Prices may drop further before cutoff. If Gems 1 crosses the next tier you are refunded the difference automatically.</div>
+      </div>
+
+      <button onClick="{{ goCheckout }}" style="margin-top:18px;width:100%;padding:17px;border:0;border-radius:16px;background:linear-gradient(100deg,#C026D3,#6D28D9 55%,#4F46E5);color:#fff;font-size:15.5px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px -10px rgba(109,40,217,.65)">Continue to checkout</button>
+    </div>
+    </sc-if>
+    <sc-if value="{{ emptyCart }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:60px 20px;text-align:center">
+      <div style="width:64px;height:64px;border-radius:20px;margin:0 auto;background:#F5F2FE;display:flex;align-items:center;justify-content:center"><div style="width:20px;height:18px;border:2.5px solid #6D28D9;border-top:0;border-radius:0 0 6px 6px"></div></div>
+      <div style="font-family:Poppins,sans-serif;font-size:17px;font-weight:600;color:#1B2136;margin-top:16px">Nothing joined yet</div>
+      <div style="font-size:13px;color:#6B7189;margin-top:6px;line-height:1.5">Add items before Sunday 10pm to ride this week's group price.</div>
+      <button onClick="{{ goShop }}" style="margin-top:18px;padding:13px 22px;border:0;border-radius:14px;background:#1B2136;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer">Browse the drop</button>
+    </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isCheckout }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:16px 18px 24px">
+    <div style="display:flex;gap:7px;margin-bottom:18px">
+      <div style="flex:1;height:4px;border-radius:2px;background:#6D28D9"></div>
+      <div style="flex:1;height:4px;border-radius:2px;background:#6D28D9"></div>
+      <div style="flex:1;height:4px;border-radius:2px;background:#EDEAF7"></div>
+    </div>
+
+    <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#8B90A5">Collection</div>
+    <div style="margin-top:10px;border:1px solid #EEECF7;border-radius:18px;padding:14px 15px">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="width:46px;height:46px;border-radius:14px;background:#F5F2FE;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none">
+          <div style="font-size:9px;font-weight:800;color:#6D28D9;letter-spacing:.06em">TUE</div>
+          <div style="font-size:16px;font-weight:800;color:#4F46E5;line-height:1">25</div>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:800;color:#1B2136">Tuesday 25 Aug · 6–9pm</div>
+          <div style="font-size:12px;color:#6B7189;margin-top:2px">{{ collectPoint }}</div>
+        </div>
+      </div>
+      <div style="height:1px;background:#F1EFF7;margin:12px 0"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:12.5px;color:#6B7189">Collecting as</div>
+        <div style="font-size:12.5px;font-weight:800;color:#1B2136">{{ unitFull }}</div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#8B90A5;margin-top:22px">Payment</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+      <sc-for list="{{ payOptions }}" as="o" hint-placeholder-count="2">
+        <div onClick="{{ o.pick }}" style="border:1.5px solid {{ o.border }};background:{{ o.bg }};border-radius:17px;padding:14px 15px;cursor:pointer;display:flex;align-items:center;gap:12px">
+          <div style="width:20px;height:20px;border-radius:50%;border:2px solid {{ o.dotBorder }};flex:none;display:flex;align-items:center;justify-content:center"><div style="width:10px;height:10px;border-radius:50%;background:{{ o.dot }}"></div></div>
+          <div style="flex:1">
+            <div style="font-size:13.5px;font-weight:800;color:#1B2136">{{ o.label }}</div>
+            <div style="font-size:11.5px;color:#8B90A5;margin-top:2px">{{ o.note }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="margin-top:20px;padding:15px 16px;border-radius:18px;background:#FAF9FD;border:1px solid #EEECF7">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#6B7189;font-weight:600"><div>{{ cartCount }} items</div><div>{{ subtotal }}</div></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#6B7189;font-weight:600;margin-top:7px"><div>Collection</div><div style="color:#0F9268;font-weight:700">Free</div></div>
+      <div style="height:1px;background:#EEECF7;margin:11px 0"></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:14px;font-weight:800;color:#1B2136">Pay now</div><div style="font-size:22px;font-weight:800;color:#1B2136;letter-spacing:-.02em">{{ payNowAmount }}</div></div>
+    </div>
+
+    <button onClick="{{ placeOrder }}" style="margin-top:18px;width:100%;padding:17px;border:0;border-radius:16px;background:linear-gradient(100deg,#C026D3,#6D28D9 55%,#4F46E5);color:#fff;font-size:15.5px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px -10px rgba(109,40,217,.65)">{{ payCta }}</button>
+    <div style="text-align:center;font-size:11.5px;color:#9AA0B4;margin-top:12px">Cancel free until cutoff · {{ countdown }} left</div>
+  </div>
+
+  <sc-if value="{{ qrOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:60;background:rgba(20,16,38,.55);display:flex;align-items:flex-end;justify-content:center;animation:gfade .2s ease both">
+    <div style="width:100%;max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:26px 26px 0 0;padding:18px 18px 20px;animation:gup .28s cubic-bezier(.2,.9,.3,1) both;box-shadow:0 -18px 40px -20px rgba(20,16,38,.5)">
+      <div style="width:42px;height:4px;border-radius:2px;background:#E6E3F0;margin:0 auto 16px"></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="flex:1">
+          <div style="font-family:Poppins,sans-serif;font-size:18px;font-weight:600;color:#1B2136;letter-spacing:-.01em">Scan to pay</div>
+          <div style="font-size:12px;color:#6B7189;margin-top:3px">Any Myanmar bank or wallet app · MMQR</div>
+        </div>
+        <button onClick="{{ closeQr }}" style="width:32px;height:32px;border-radius:50%;border:0;background:#F4F2FA;color:#6B7189;font-size:16px;font-weight:700;cursor:pointer;flex:none;line-height:1">×</button>
+      </div>
+
+      <div style="margin-top:16px;border:1px solid #EEECF7;border-radius:22px;padding:16px;text-align:center;background:linear-gradient(180deg,#FBFAFE,#fff)">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#8B90A5">Gather · Capital Retail</div>
+        <img src="assets/mmqr-ctzpay.png" alt="MMQR payment code" style="width:133px;height:auto;image-rendering:pixelated;display:block;margin:12px auto 0">
+        <div style="font-size:11.5px;color:#8B90A5;margin-top:12px">Acquired by <span style="font-weight:800;color:#4F46E5">CTZPay</span> · Citizens Bank</div>
+        <div style="height:1px;background:#F1EFF7;margin:14px 0"></div>
+        <div style="font-size:12px;color:#6B7189;font-weight:600">Amount</div>
+        <div style="font-size:26px;font-weight:800;color:#1B2136;letter-spacing:-.02em;margin-top:2px">{{ qrAmount }}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9AA0B4;margin-top:6px">ref {{ qrRef }}</div>
+      </div>
+
+      <div style="display:flex;gap:9px;align-items:flex-start;margin-top:14px;padding:12px 13px;border-radius:15px;background:#FAF7FF;border:1px solid #EDE7FB">
+        <div style="width:7px;height:7px;border-radius:50%;background:#6D28D9;margin-top:5px;flex:none"></div>
+        <div style="font-size:11.5px;color:#5B4B86;line-height:1.5;text-wrap:pretty">Keep this open until your app confirms. If a tier drops before cutoff, the difference is refunded to the same account.</div>
+      </div>
+
+      <button onClick="{{ placeOrder }}" style="margin-top:14px;width:100%;padding:16px;border:0;border-radius:16px;background:linear-gradient(100deg,#C026D3,#6D28D9 55%,#4F46E5);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px -10px rgba(109,40,217,.65)">I've paid</button>
+      <button onClick="{{ closeQr }}" style="margin-top:9px;width:100%;padding:13px;border:0;background:none;color:#8B90A5;font-size:12.5px;font-weight:700;cursor:pointer">Cancel payment</button>
+    </div>
+  </div>
+  </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:26px 18px 30px;text-align:center">
+    <div style="width:70px;height:70px;border-radius:50%;margin:0 auto;background:linear-gradient(135deg,#C026D3,#4F46E5);display:flex;align-items:center;justify-content:center;animation:gpop .35s cubic-bezier(.2,1.4,.4,1) both;box-shadow:0 14px 30px -12px rgba(109,40,217,.7)">
+      <div style="width:22px;height:12px;border-left:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(-45deg) translate(2px,-3px)"></div>
+    </div>
+    <div style="font-family:Poppins,sans-serif;font-size:22px;font-weight:600;color:#1B2136;letter-spacing:-.02em;margin-top:16px">You're in the Tuesday drop</div>
+    <div style="font-size:13px;color:#6B7189;margin-top:7px;line-height:1.5">Your order joins {{ households }} households in {{ communityName }}. We'll ping you when Capital Retail arrives.</div>
+
+    <div style="margin-top:22px;border:1px solid #EEECF7;border-radius:22px;overflow:hidden;text-align:left">
+      <div style="padding:16px;background:linear-gradient(100deg,#C026D3,#6D28D9 55%,#4F46E5);color:#fff">
+        <div style="font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.78)">Collection slip</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:24px;margin-top:5px;letter-spacing:.02em">{{ orderCode }}</div>
+      </div>
+      <div style="padding:16px;display:flex;gap:14px;align-items:center">
+        <div style="width:88px;height:88px;flex:none;border-radius:12px;background-image:repeating-linear-gradient(45deg,#E9E6F5 0 4px,#fff 4px 8px);border:1px solid #E8E6F0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:#6B7189;background:rgba(255,255,255,.9);padding:1px 3px;border-radius:2px">collection QR</div>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:13.5px;font-weight:800;color:#1B2136">Tue 25 Aug · 6–9pm</div>
+          <div style="font-size:12px;color:#6B7189;margin-top:3px">{{ collectPoint }}</div>
+          <div style="font-size:12px;color:#6B7189;margin-top:3px">{{ unitFull }} · {{ placedCount }} items</div>
+          <div style="display:inline-block;margin-top:8px;font-size:10.5px;font-weight:800;color:#7C4A11;background:#FFF3E1;padding:3px 8px;border-radius:6px">{{ payBadge }}</div>
+        </div>
+      </div>
+      <div style="padding:0 16px 16px">
+        <div style="border-top:1px dashed #E8E6F0;padding-top:12px;display:flex;justify-content:space-between;align-items:baseline">
+          <div style="font-size:12.5px;color:#6B7189;font-weight:600">Order total</div>
+          <div style="font-size:17px;font-weight:800;color:#1B2136">{{ placedTotal }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button onClick="{{ goOrders }}" style="flex:1;padding:15px;border:1px solid #E8E6F0;border-radius:15px;background:#fff;color:#1B2136;font-size:13.5px;font-weight:700;cursor:pointer">My orders</button>
+      <button onClick="{{ goShop }}" style="flex:1;padding:15px;border:0;border-radius:15px;background:#1B2136;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer">Keep shopping</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isOrders }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:16px 18px 24px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ orders }}" as="o" hint-placeholder-count="3">
+        <div style="border:1px solid #EEECF7;border-radius:20px;padding:14px 15px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6B7189">{{ o.code }}</div>
+            <div style="font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:7px;background:{{ o.chipBg }};color:{{ o.chipFg }}">{{ o.status }}</div>
+          </div>
+          <div style="font-size:14.5px;font-weight:700;color:#1B2136;margin-top:8px">{{ o.date }}</div>
+          <div style="font-size:12px;color:#6B7189;margin-top:3px">{{ o.summary }}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:11px;border-top:1px solid #F4F2FA">
+            <div style="font-size:12px;color:#0F9268;font-weight:700">Saved {{ o.saved }}</div>
+            <div style="font-size:16px;font-weight:800;color:#1B2136">{{ o.total }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isAlerts }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:8px 0 24px">
+    <sc-for list="{{ alerts }}" as="n" hint-placeholder-count="5">
+      <div style="display:flex;gap:12px;padding:14px 18px;border-bottom:1px solid #F4F2FA;background:{{ n.bg }}">
+        <div style="width:34px;height:34px;border-radius:11px;flex:none;background:{{ n.tint }};display:flex;align-items:center;justify-content:center"><div style="width:9px;height:9px;border-radius:50%;background:{{ n.dot }}"></div></div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:800;color:#1B2136">{{ n.title }}</div>
+          <div style="font-size:12.5px;color:#6B7189;line-height:1.45;margin-top:3px;text-wrap:pretty">{{ n.body }}</div>
+          <div style="font-size:11px;color:#A0A5B8;margin-top:5px;font-weight:600">{{ n.when }}</div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isAccount }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:18px 18px 24px">
+    <div style="display:flex;gap:14px;align-items:center">
+      <div style="width:64px;height:64px;border-radius:50%;flex:none;background:{{ myGrad }};color:#fff;font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ myInitials }}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:Poppins,sans-serif;font-size:19px;font-weight:600;color:#1B2136;letter-spacing:-.01em">{{ displayName }}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8B90A5;margin-top:3px">@{{ username }}</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:11px;align-items:center;padding:13px 14px;border-radius:16px;background:#E7F7F0;border:1px solid #C6EBDA;margin-top:16px">
+      <div style="width:26px;height:26px;border-radius:50%;background:#0F9268;flex:none;display:flex;align-items:center;justify-content:center">
+        <div style="width:11px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)"></div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:12.5px;font-weight:800;color:#0B6B4D">{{ unitFull }} · {{ communityName }}</div>
+        <div style="font-size:11.5px;color:#3F7F68;margin-top:1px">Verified by the property owner · collection {{ collectPoint }}</div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8B90A5;margin:24px 0 10px">Avatar</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+      <sc-for list="{{ avatarOptions }}" as="av" hint-placeholder-count="8">
+        <button onClick="{{ av.pick }}" style="aspect-ratio:1;border-radius:50%;border:0;padding:0;cursor:pointer;background:{{ av.grad }};color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:{{ av.ring }}">{{ av.initials }}</button>
+      </sc-for>
+      <button onClick="{{ pickPhoto }}" style="aspect-ratio:1;border-radius:50%;border:1.5px dashed #C9C5DC;padding:0;cursor:pointer;background:{{ photoTile }};display:flex;align-items:center;justify-content:center;box-shadow:{{ photoRing }}">
+        <sc-if value="{{ noPhoto }}" hint-placeholder-val="{{ true }}">
+          <div style="width:17px;height:13px;border:1.6px solid #8B90A5;border-radius:4px;position:relative">
+            <div style="position:absolute;top:-4.5px;left:4px;width:7px;height:3px;border:1.6px solid #8B90A5;border-bottom:0;border-radius:2px 2px 0 0;background:#F4F2FA"></div>
+            <div style="position:absolute;top:2.5px;left:5px;width:5px;height:5px;border:1.6px solid #8B90A5;border-radius:50%"></div>
+          </div>
+        </sc-if>
+      </button>
+    </div>
+    <input type="file" accept="image/*" ref="{{ photoRef }}" onChange="{{ onPhoto }}" style="display:none">
+    <sc-if value="{{ hasPhoto }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ removePhoto }}" style="margin-top:11px;border:0;background:none;padding:0;cursor:pointer;font-size:12px;font-weight:700;color:#6D28D9">Remove photo</button>
+    </sc-if>
+
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:24px">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8B90A5;margin-bottom:9px">Username</div>
+        <input value="{{ username }}" onChange="{{ onUsername }}" style="width:100%;padding:14px 15px;border-radius:14px;border:1.5px solid #E8E6F0;background:#FAF9FD;font-size:15px;font-weight:600;color:#1B2136">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8B90A5;margin-bottom:9px">New password</div>
+        <input type="password" value="{{ pw1 }}" onChange="{{ onPw1 }}" placeholder="leave blank to keep current" style="width:100%;padding:14px 15px;border-radius:14px;border:1.5px solid #E8E6F0;background:#FAF9FD;font-size:15px;font-weight:600;color:#1B2136">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8B90A5;margin-bottom:9px">Confirm password</div>
+        <input type="password" value="{{ pw2 }}" onChange="{{ onPw2 }}" style="width:100%;padding:14px 15px;border-radius:14px;border:1.5px solid {{ pwBorder }};background:#FAF9FD;font-size:15px;font-weight:600;color:#1B2136">
+        <div style="font-size:11.5px;color:{{ pwNoteColor }};font-weight:600;margin-top:7px">{{ pwNote }}</div>
+      </div>
+    </div>
+
+    <button onClick="{{ saveProfile }}" style="margin-top:18px;width:100%;padding:16px;border:0;border-radius:15px;background:linear-gradient(100deg,#C026D3,#6D28D9 55%,#4F46E5);color:#fff;font-size:14.5px;font-weight:700;cursor:pointer">Save changes</button>
+
+    <div style="margin-top:20px;padding:14px 15px;border-radius:16px;background:#FAF9FD;border:1px solid #EEECF7">
+      <div style="font-size:12.5px;font-weight:800;color:#1B2136">Unit and residency</div>
+      <div style="font-size:12px;color:#6B7189;line-height:1.5;margin-top:5px">Your unit and community are set by the property office. Moving out or changing unit? Ask them to update the account.</div>
+    </div>
+
+    <button onClick="{{ signOut }}" style="margin-top:14px;width:100%;padding:15px;border:1px solid #F6D3D9;border-radius:15px;background:#fff;color:#F4485F;font-size:13.5px;font-weight:700;cursor:pointer">Sign out</button>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isCommunity }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:16px 18px 24px">
+    <div style="border-radius:22px;padding:18px;background:linear-gradient(112deg,#F4485F 0%,#C026D3 42%,#6D28D9 78%,#4F46E5 100%);position:relative;overflow:hidden;box-shadow:0 14px 30px -14px rgba(109,40,217,.6)">
+      <div style="position:absolute;top:-50px;right:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.12)"></div>
+      <div style="position:relative;font-size:10.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.82)">Together this cycle</div>
+      <div style="position:relative;font-family:Poppins,sans-serif;font-size:34px;font-weight:600;color:#fff;letter-spacing:-.03em;margin-top:6px;line-height:1">{{ togetherSaved }}</div>
+      <div style="position:relative;font-size:13px;color:rgba(255,255,255,.88);font-weight:600;margin-top:5px">saved by {{ households }} households in {{ communityName }}</div>
+      <div style="position:relative;display:flex;align-items:center;margin-top:14px">
+        <sc-for list="{{ heroAvatars }}" as="a" hint-placeholder-count="6">
+          <div style="width:28px;height:28px;border-radius:50%;background:{{ a.bg }};color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px rgba(255,255,255,.9);margin-left:-7px">{{ a.initials }}</div>
+        </sc-for>
+        <div style="margin-left:10px;font-size:11.5px;font-weight:700;color:rgba(255,255,255,.9)">{{ streak }}</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:24px">
+      <div style="font-family:Poppins,sans-serif;font-size:16px;font-weight:600;color:#1B2136;letter-spacing:-.01em">Splits &amp; shares</div>
+      <div style="font-size:11.5px;color:#9AA0B4;font-weight:600">{{ splitCount }} open</div>
+    </div>
+    <div style="font-size:12.5px;color:#6B7189;line-height:1.5;margin-top:4px">Bulk pack too big for one household? Team up with a neighbour.</div>
+    <div style="display:flex;flex-direction:column;gap:11px;margin-top:12px">
+      <sc-for list="{{ splits }}" as="sp" hint-placeholder-count="3">
+        <div style="border:1px solid #EEECF7;border-radius:18px;padding:13px 14px;background:{{ sp.cardBg }}">
+          <div style="display:flex;gap:11px;align-items:center">
+            <div style="width:34px;height:34px;border-radius:50%;flex:none;background:{{ sp.bg }};color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ sp.initials }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13.5px;font-weight:700;color:#1B2136;line-height:1.3">{{ sp.item }}</div>
+              <div style="font-size:11.5px;color:#8B90A5;margin-top:2px">{{ sp.who }} · {{ sp.detail }}</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:11px">
+            <div style="flex:1;font-size:11.5px;font-weight:700;color:{{ sp.needColor }}">{{ sp.needText }}</div>
+            <button onClick="{{ sp.toggle }}" style="padding:9px 16px;border-radius:12px;border:1.5px solid {{ sp.btnBorder }};background:{{ sp.btnBg }};color:{{ sp.btnFg }};font-size:12.5px;font-weight:700;cursor:pointer">{{ sp.btnLabel }}</button>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <button onClick="{{ startSplit }}" style="margin-top:11px;width:100%;padding:13px;border:1.5px dashed #DCD6EE;border-radius:15px;background:#FCFBFE;color:#6D28D9;font-size:12.5px;font-weight:700;cursor:pointer">Start a split of your own</button>
+
+    <div style="font-family:Poppins,sans-serif;font-size:16px;font-weight:600;color:#1B2136;letter-spacing:-.01em;margin-top:26px">Wishlist for next drop</div>
+    <div style="font-size:12.5px;color:#6B7189;line-height:1.5;margin-top:4px">Most-wanted items go to Capital Retail before they set the Friday sheet.</div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-top:12px">
+      <sc-for list="{{ wishes }}" as="w" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:11px;border:1px solid #EEECF7;border-radius:16px;padding:11px 13px">
+          <button onClick="{{ w.vote }}" style="width:40px;flex:none;padding:7px 0;border-radius:11px;border:1.5px solid {{ w.border }};background:{{ w.bg }};cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px">
+            <div style="width:7px;height:7px;border-left:2px solid {{ w.fg }};border-top:2px solid {{ w.fg }};transform:rotate(45deg)"></div>
+            <div style="font-size:11px;font-weight:800;color:{{ w.fg }}">{{ w.votes }}</div>
+          </button>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:700;color:#1B2136">{{ w.name }}</div>
+            <div style="font-size:11.5px;color:#8B90A5;margin-top:2px">{{ w.note }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:11px">
+      <input value="{{ wish }}" onChange="{{ onWish }}" placeholder="Suggest an item…" style="flex:1;padding:12px 14px;border-radius:13px;border:1px solid #E8E6F0;background:#fff;font-size:13px;color:#1B2136">
+      <button onClick="{{ addWish }}" style="padding:0 16px;border:0;border-radius:13px;background:#1B2136;color:#fff;font-size:13px;font-weight:700;cursor:pointer">Add</button>
+    </div>
+
+    <div style="font-family:Poppins,sans-serif;font-size:16px;font-weight:600;color:#1B2136;letter-spacing:-.01em;margin-top:26px">Live from the block</div>
+    <div style="display:flex;flex-direction:column;gap:0;margin-top:10px;border:1px solid #EEECF7;border-radius:18px;overflow:hidden">
+      <sc-for list="{{ activity }}" as="a" hint-placeholder-count="5">
+        <div style="display:flex;gap:11px;align-items:center;padding:11px 13px;border-bottom:1px solid #F4F2FA">
+          <div style="width:30px;height:30px;border-radius:50%;flex:none;background:{{ a.bg }};color:#fff;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ a.initials }}</div>
+          <div style="flex:1;font-size:12.5px;color:#4A5068;line-height:1.4;text-wrap:pretty">{{ a.text }}</div>
+          <div style="font-size:10.5px;color:#A0A5B8;font-weight:600;flex:none">{{ a.when }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="margin-top:16px;border-radius:18px;padding:15px 16px;background:#FFF7ED;border:1px solid #FDE4C4">
+      <div style="font-size:13px;font-weight:800;color:#7C4A11">Collection buddy</div>
+      <div style="font-size:12.5px;color:#8A5A20;line-height:1.5;margin-top:5px">Heading down at 7pm on Tuesday? Offer to carry for a neighbour on your floor — {{ buddyCount }} have asked this cycle.</div>
+      <button onClick="{{ offerBuddy }}" style="margin-top:11px;padding:11px 16px;border:0;border-radius:12px;background:#7C4A11;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Offer to carry</button>
+    </div>
+  </div>
+  </sc-if>
+
+  </div>
+
+  <sc-if value="{{ showTabs }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;border-top:1px solid #F1EFF7;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);padding:8px 6px {{ tabBottom }}px;position:sticky;bottom:0;z-index:20">
+    <button onClick="{{ goShop }}" style="flex:1;border:0;background:transparent;cursor:pointer;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="width:22px;height:20px;position:relative">
+        <div style="position:absolute;top:0;left:0;width:22px;height:5px;border-radius:2px;background:{{ shopColor }}"></div>
+        <div style="position:absolute;top:7px;left:2px;width:18px;height:13px;border:2px solid {{ shopColor }};border-radius:2px 2px 4px 4px;border-top:0"></div>
+        <div style="position:absolute;top:11px;left:7px;width:8px;height:9px;border:2px solid {{ shopColor }};border-bottom:0;border-radius:2px 2px 0 0"></div>
+      </div>
+      <div style="font-size:10.5px;font-weight:700;color:{{ shopColor }}">Shop</div>
+    </button>
+    <button onClick="{{ goOrders }}" style="flex:1;border:0;background:transparent;cursor:pointer;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="width:22px;height:20px;position:relative;display:flex;justify-content:center">
+        <div style="width:15px;height:20px;border:2px solid {{ ordersColor }};border-radius:3px 3px 5px 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px">
+          <div style="width:8px;height:2px;border-radius:1px;background:{{ ordersColor }}"></div>
+          <div style="width:8px;height:2px;border-radius:1px;background:{{ ordersColor }}"></div>
+          <div style="width:5px;height:2px;border-radius:1px;background:{{ ordersColor }};margin-right:3px"></div>
+        </div>
+      </div>
+      <div style="font-size:10.5px;font-weight:700;color:{{ ordersColor }}">Orders</div>
+    </button>
+    <button onClick="{{ goAlerts }}" style="flex:1;border:0;background:transparent;cursor:pointer;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="width:22px;height:20px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px">
+        <div style="width:15px;height:14px;border:2px solid {{ alertsColor }};border-radius:8px 8px 4px 4px"></div>
+        <div style="width:8px;height:2px;border-radius:1px;background:{{ alertsColor }}"></div>
+        <div style="position:absolute;top:-3px;right:-1px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:#F4485F;color:#fff;font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff">3</div>
+      </div>
+      <div style="font-size:10.5px;font-weight:700;color:{{ alertsColor }}">Updates</div>
+    </button>
+    <button onClick="{{ goCommunity }}" style="flex:1;border:0;background:transparent;cursor:pointer;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="width:22px;height:20px;display:flex;align-items:center;justify-content:center;gap:3px">
+        <div style="display:flex;flex-direction:column;gap:2px"><div style="width:8px;height:8px;border-radius:50%;background:{{ communityColor }}"></div><div style="width:8px;height:7px;border-radius:3px 3px 2px 2px;background:{{ communityColor }}"></div></div>
+        <div style="display:flex;flex-direction:column;gap:2px;opacity:.55"><div style="width:7px;height:7px;border-radius:50%;background:{{ communityColor }}"></div><div style="width:7px;height:6px;border-radius:3px 3px 2px 2px;background:{{ communityColor }}"></div></div>
+      </div>
+      <div style="font-size:10.5px;font-weight:700;color:{{ communityColor }}">Community</div>
+    </button>
+  </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:18px;right:18px;bottom:86px;padding:13px 16px;border-radius:15px;background:#1B2136;color:#fff;font-size:13px;font-weight:600;box-shadow:0 12px 30px -10px rgba(27,33,54,.6);animation:gup .25s ease both;z-index:40">{{ toast }}</div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:430,&quot;height&quot;:932},&quot;catalogLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;deals&quot;,&quot;grid&quot;,&quot;list&quot;],&quot;default&quot;:&quot;deals&quot;,&quot;tsType&quot;:&quot;'deals'|'grid'|'list'&quot;,&quot;section&quot;:&quot;Explorations&quot;},&quot;progressStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bar&quot;,&quot;pips&quot;],&quot;default&quot;:&quot;bar&quot;,&quot;tsType&quot;:&quot;'bar'|'pips'&quot;,&quot;section&quot;:&quot;Explorations&quot;},&quot;brandIntensity&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;loud&quot;,&quot;quiet&quot;],&quot;default&quot;:&quot;loud&quot;,&quot;tsType&quot;:&quot;'loud'|'quiet'&quot;,&quot;section&quot;:&quot;Explorations&quot;},&quot;community&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Explorations&quot;}}">
+const NAMES=[['Nilar Win','#C026D3','#6D28D9'],['Ko Myat','#F4485F','#C026D3'],['Su Su Hlaing','#FB9C3C','#F4485F'],['Zaw Min','#4F46E5','#06B6D4'],['May Thu','#0F9268','#4F46E5'],['Aung Kyaw','#A855B8','#4F46E5'],['Khin Mya','#6D28D9','#4F46E5'],['Thet Naing','#F4485F','#FB9C3C']];
+const AVATARS=[['#C026D3','#6D28D9'],['#F4485F','#C026D3'],['#FB9C3C','#F4485F'],['#4F46E5','#06B6D4'],['#0F9268','#4F46E5'],['#6D28D9','#4F46E5'],['#A855B8','#F4485F'],['#1B2136','#4F46E5']];
+const grad=(a,b)=>'linear-gradient(135deg,'+a+','+b+')';
+const P=[
+ {id:1,name:'Shan Highland Tomatoes',unit:'1kg pack',cat:'Fresh produce',slot:'produce shot',tint:'#FBD5D9',retail:4500,prices:[4200,3900,3600,3300],joined:63},
+ {id:2,name:'Free-range Eggs, 30s tray',unit:'30 eggs',cat:'Fresh produce',slot:'egg tray shot',tint:'#FDE7C7',retail:13000,prices:[12000,11000,10200,9500],joined:96},
+ {id:3,name:'Beef Striploin, chilled',unit:'500g pack',cat:'Meat & seafood',slot:'beef cut shot',tint:'#F8CBD3',retail:32000,prices:[29500,27500,25500,23000],joined:31},
+ {id:4,name:'Salmon Fillet, frozen',unit:'400g, skin-on',cat:'Meat & seafood',slot:'salmon shot',tint:'#FCD9C4',retail:45000,prices:[41000,38000,35000,32000],joined:47},
+ {id:5,name:'Paw San Rice, 10kg sack',unit:'10kg sack',cat:'Pantry',slot:'rice sack shot',tint:'#EFE3C9',retail:48000,prices:[44000,41000,38000,35000],joined:88},
+ {id:6,name:'Sunflower Cooking Oil',unit:'1L bottle',cat:'Pantry',slot:'oil bottle shot',tint:'#E6EDC9',retail:9800,prices:[9000,8300,7700,7200],joined:24},
+ {id:7,name:'Laundry Detergent Refill',unit:'3.6L pouch',cat:'Household',slot:'detergent shot',tint:'#D7E4FB',retail:24000,prices:[22000,20000,18500,17000],joined:52},
+ {id:8,name:'Bamboo Toilet Roll, 30-pack',unit:'30 rolls',cat:'Bulk cases',slot:'paper case shot',tint:'#E4E1F7',retail:28000,prices:[25500,23000,21000,19000],joined:71},
+ {id:9,name:'Mineral Water, 24-bottle case',unit:'24 × 600ml',cat:'Bulk cases',slot:'water case shot',tint:'#D3EAF3',retail:9500,prices:[8800,8000,7200,6500],joined:104},
+ {id:10,name:'Frozen Pork Dumplings',unit:'1kg pack',cat:'Frozen',slot:'dumpling shot',tint:'#DDE8F5',retail:16000,prices:[14500,13200,12000,11000],joined:19},
+ {id:11,name:'Coconut Water, 12-pack',unit:'12 × 330ml',cat:'Snacks & drinks',slot:'drinks shot',tint:'#F6DAEB',retail:18000,prices:[16500,15000,13800,12500],joined:12},
+ {id:12,name:'Baby Wipes, 6 × 80s',unit:'480 wipes',cat:'Baby & care',slot:'wipes shot',tint:'#E9DEF6',retail:26000,prices:[23500,21500,19500,18000],joined:38}
+];
+const CATS=['All','Fresh produce','Meat & seafood','Pantry','Household','Snacks & drinks','Baby & care','Bulk cases','Frozen'];
+const COMMS=[
+ {name:'Gems 1',abbr:'G1',code:'GEM1',address:'Gems Residences · Tower 1 · 480 units',households:143,units:312,value:'$4,186',blocks:['A','B','C'],collect:'Tower 1 guardhouse',cycle:34,f:1},
+ {name:'Gems 2',abbr:'G2',code:'GEM2',address:'Gems Residences · Tower 2 · 320 units',households:96,units:204,value:'$2,740',blocks:['A','B'],collect:'Tower 2 lobby',cycle:31,f:.7},
+ {name:'Gems 3',abbr:'G3',code:'GEM3',address:'Gems Residences · Tower 3 · 268 units',households:61,units:138,value:'$1,905',blocks:['A','B'],collect:'Tower 3 guardhouse',cycle:22,f:.46},
+ {name:'Gems 4',abbr:'G4',code:'GEM4',address:'Gems Residences · Tower 4 · 214 units',households:38,units:84,value:'$1,120',blocks:['A'],collect:'Tower 4 lobby',cycle:9,f:.3}
+];
+const SPLITS=[
+ {id:1,item:'Paw San Rice, 10kg sack',who:'Ko Myat · #07-12',detail:'wants 5kg, splitting the sack',initials:'KM',bg:grad('#F4485F','#C026D3'),need:1},
+ {id:2,item:'Bamboo Toilet Roll, 30-pack',who:'Su Su Hlaing · #09-05',detail:'splitting 15 + 15',initials:'SH',bg:grad('#FB9C3C','#F4485F'),need:1},
+ {id:3,item:'Beef Striploin, chilled',who:'Zaw Min · #03-11',detail:'buying 4 packs, 2 spare',initials:'ZM',bg:grad('#4F46E5','#06B6D4'),need:2},
+ {id:4,item:'Mineral Water, 24-bottle case',who:'Nilar Win · #11-03',detail:'two cases, one trolley trip',initials:'NW',bg:grad('#C026D3','#6D28D9'),need:1}
+];
+const WISHES=[
+ {id:1,name:'Yoghurt, 1kg tub',note:'asked by 6 households',votes:23},
+ {id:2,name:'Village eggs, 30s',note:'free-range, local farm',votes:18},
+ {id:3,name:'Instant coffee mix, 30s',note:'Capital Retail can source',votes:14},
+ {id:4,name:'Dog food, 8kg bag',note:'three households keen',votes:9}
+];
+const money=n=>'K '+Math.round(n).toLocaleString('en-US');
+const tierIdx=j=>j>=100?3:j>=50?2:j>=20?1:0;
+
+class Component extends DCLogic {
+  photoRef=React.createRef();
+  state={phase:'home',community:'Gems 1',query:'',authStep:0,signUser:'',signPw:'',setupDone:false,username:'thida.aung',display:'Thida Aung',avatar:0,photo:null,pw1:'',pw2:'',block:'A',unit:'14-07',screen:'catalog',cat:'All',pid:1,qty:1,cart:{5:1,9:2},pay:'mmqr',qrOpen:false,now:Date.now(),draft:'',splitsIn:[2],votes:{},wish:'',comments:{1:[{who:'Su Su Hlaing',unit:'#09-05',initials:'SH',bg:'linear-gradient(135deg,#FB9C3C,#F4485F)',text:'These were sweet last cycle — I got two packs for cooking.'}],5:[{who:'Nilar Win',unit:'#11-03',initials:'NW',bg:'linear-gradient(135deg,#C026D3,#6D28D9)',text:'Last cycle the rice came in sealed and dry, good stuff.'},{who:'Ko Myat',unit:'#07-12',initials:'KM',bg:'linear-gradient(135deg,#F4485F,#C026D3)',text:'Anyone want to split a sack? I only need 5kg.'}],9:[{who:'Zaw Min',unit:'#03-11',initials:'ZM',bg:'linear-gradient(135deg,#4F46E5,#06B6D4)',text:'Bring a trolley — the cases are heavy from the collection point.'}]},toast:'',placedTotal:'',payBadge:''};
+  deadline=Date.now()+(2*86400+6*3600+41*60)*1000;
+  componentDidMount(){this.t=setInterval(()=>this.setState({now:Date.now()}),1000);}
+  componentWillUnmount(){clearInterval(this.t);if(this.tt)clearTimeout(this.tt);}
+  flash(m){this.setState({toast:m});if(this.tt)clearTimeout(this.tt);this.tt=setTimeout(()=>this.setState({toast:''}),2200);}
+  addTo(id,n){const c={...this.state.cart};c[id]=(c[id]||0)+n;this.setState({cart:c});this.flash('Added to your Tuesday order');}
+  go(s){this.setState({screen:s});}
+  avatarsFor(i,n){const out=[];for(let k=0;k<n;k++){const nm=NAMES[(i*3+k)%NAMES.length];out.push({initials:nm[0].split(' ').map(x=>x[0]).join('').slice(0,2),bg:grad(nm[1],nm[2])});}return out;}
+
+  renderVals(){
+    const s=this.state,props=this.props;
+    const layout=props.catalogLayout||'deals',prog=props.progressStyle||'bar',brand=props.brandIntensity||'loud',community=props.community!==false;
+    const ms=Math.max(0,this.deadline-s.now),d=Math.floor(ms/86400000),h=Math.floor(ms/3600000)%24,mn=Math.floor(ms/60000)%60,sec=Math.floor(ms/1000)%60;
+    const countdown=d+'d '+String(h).padStart(2,'0')+'h '+String(mn).padStart(2,'0')+'m '+String(sec).padStart(2,'0')+'s';
+
+    const comm=COMMS.find(c=>c.name===s.community)||COMMS[0],f=comm.f;
+    const inFrame=(typeof location!=='undefined')&&location.search.indexOf('frame=1')>-1;
+    const mk=(p,i)=>{
+      const joined=Math.max(1,Math.round(p.joined*f))+(s.cart[p.id]||0),ti=tierIdx(joined),price=p.prices[ti];
+      const marks=[20,50,100],next=marks.find(m=>joined<m);
+      const pct=Math.min(100,Math.round(joined/100*100));
+      const pips=[];for(let k=0;k<10;k++)pips.push({bg:k*10<pct?(k<2?'#F4485F':k<5?'#C026D3':'#4F46E5'):'#F1EFF8'});
+      return {...p,joined,price,priceLabel:money(price),retailLabel:money(p.retail),
+        savePct:Math.round((1-price/p.retail)*100),pct,pips,
+        tierLabel:ti===0?'Group price':ti===1?'1 tier unlocked':ti+' tiers unlocked',
+        progressText:next?(next-joined)+' more to '+money(p.prices[marks.indexOf(next)+1]):'Best price unlocked',
+        social:community?(joined+' units from '+Math.round(joined/1.8)+' neighbours'):'',
+        avatars:this.avatarsFor(i,3),
+        open:()=>this.setState({screen:'product',pid:p.id,qty:1}),
+        add:e=>{e.stopPropagation();this.addTo(p.id,1);}};
+    };
+    const all=P.map(mk);
+    const shown=s.cat==='All'?all:all.filter(p=>p.cat===s.cat);
+    const cur=all.find(p=>p.id===s.pid)||all[0];
+    const marks=[20,50,100];
+    const prod={...cur,
+      tiers:[{n:'Any quantity',i:0},{n:'20+ units',i:1},{n:'50+ units',i:2},{n:'100+ units',i:3}].map(t=>{
+        const on=tierIdx(cur.joined)>=t.i;
+        return {label:t.n,price:money(cur.prices[t.i]),mark:on?'✓':t.i===0?'·':'',
+          bg:on?'#F7F3FE':'#FCFCFE',border:on?'#E4D8FB':'#F1EFF7',dot:on?'#6D28D9':'#DCDAE8',
+          priceColor:on?'#4F46E5':'#9AA0B4'};}),
+      nextText:(()=>{const nx=marks.find(m=>cur.joined<m);return nx?(comm.name+' needs '+(nx-cur.joined)+' more units to drop this to '+money(cur.prices[marks.indexOf(nx)+1])+' each.'):'The block already unlocked the deepest tier for this cycle.';})(),
+      lineTotal:money(cur.price*s.qty),avatars:this.avatarsFor(cur.id,5)};
+
+    const lines=Object.keys(s.cart).filter(k=>s.cart[k]>0).map(k=>{
+      const p=all.find(x=>x.id===+k);
+      return {name:p.name,tint:p.tint,qty:s.cart[k],priceLabel:p.priceLabel,total:money(p.price*s.cart[k]),
+        tierNote:p.joined>=100?'top tier':p.joined>=50?'tier 2':p.joined>=20?'tier 1':'group price',
+        remove:()=>{const c={...s.cart};delete c[k];this.setState({cart:c});}};});
+    const sub=Object.keys(s.cart).reduce((a,k)=>{const p=all.find(x=>x.id===+k);return a+p.price*s.cart[k];},0);
+    const ret=Object.keys(s.cart).reduce((a,k)=>{const p=all.find(x=>x.id===+k);return a+p.retail*s.cart[k];},0);
+    const count=Object.keys(s.cart).reduce((a,k)=>a+s.cart[k],0);
+    const unitFull='Blk '+s.block+' #'+(s.unit||'14-07');
+
+    const cmts=s.comments[cur.id]||[{who:'May Thu',unit:'#12-08',initials:'MT',bg:grad('#0F9268','#4F46E5'),text:'First time joining on this one — anyone tried it before?'}];
+    const titles={product:'Product',cart:'Your order',checkout:'Checkout',done:'Order placed',orders:'My orders',alerts:'Updates',community:'Community',account:'My account'};
+    const nameParts=(s.username||'').split(/[.\-_\s]+/).filter(Boolean);
+    const initFromUser=nameParts.length?nameParts.map(x=>x[0]).join('').slice(0,2).toUpperCase():'YOU';
+    const derivedName=nameParts.length?nameParts.map(x=>x[0].toUpperCase()+x.slice(1)).join(' '):(s.display||'You');
+    const hasPhoto=!!s.photo;
+    const myInitials=hasPhoto?'':initFromUser;
+    const myGrad=hasPhoto?('url('+s.photo+') center/cover no-repeat'):grad(AVATARS[s.avatar][0],AVATARS[s.avatar][1]);
+    const pwMatch=s.pw1.length>0&&s.pw1===s.pw2;
+    const tabOn=k=>s.screen===k||(k==='catalog'&&s.screen==='cart')?'#4F46E5':'#A7ACBE';
+
+    return {
+      authTitle:s.authStep===0?'Sign in':'Set up your account',
+      authBlurb:s.authStep===0?('Accounts are created by the '+comm.name+' property office, which verifies your unit before you get access. No SMS codes.'):'Choose an avatar, then set the username and password you want to use from now on.',
+      isHome:s.phase==='home',isOnboarding:s.phase==='auth',inApp:s.phase==='app',
+      signStep:s.authStep===0,setupStep:s.authStep===1,
+      signUser:s.signUser,signPw:s.signPw,
+      onSignUser:e=>this.setState({signUser:e.target.value}),onSignPw:e=>this.setState({signPw:e.target.value}),
+      signIn:()=>this.setState(s.setupDone?{phase:'app',screen:'catalog'}:{authStep:1}),
+      username:s.username,displayName:derivedName,myInitials,myGrad,
+      photoRef:this.photoRef,noPhoto:!hasPhoto,hasPhoto,
+      photoTile:hasPhoto?('url('+s.photo+') center/cover no-repeat'):'#F4F2FA',
+      photoRing:hasPhoto?'0 0 0 3px #fff,0 0 0 5.5px #6D28D9':'none',
+      pickPhoto:()=>{const el=this.photoRef.current;if(el)el.click();},
+      onPhoto:e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>this.setState({photo:r.result});r.readAsDataURL(f);e.target.value='';},
+      removePhoto:()=>this.setState({photo:null}),
+      onUsername:e=>this.setState({username:e.target.value}),
+      pw1:s.pw1,pw2:s.pw2,onPw1:e=>this.setState({pw1:e.target.value}),onPw2:e=>this.setState({pw2:e.target.value}),
+      pwBorder:s.pw2.length===0?'#E8E6F0':pwMatch?'#9BE0C4':'#F6C9D1',
+      pwNote:s.pw2.length===0?'Set your own password — the office copy stops working.':pwMatch?'Passwords match.':'Passwords do not match yet.',
+      pwNoteColor:s.pw2.length===0?'#9AA0B4':pwMatch?'#0F9268':'#D2415A',
+      avatarOptions:AVATARS.map((a,i)=>({grad:grad(a[0],a[1]),initials:initFromUser,
+        ring:(!hasPhoto&&s.avatar===i)?'0 0 0 3px #fff,0 0 0 5.5px #6D28D9':'0 0 0 1px rgba(27,33,54,.06)',
+        pick:()=>this.setState({avatar:i,photo:null})})),
+      saveAccount:()=>{if(!pwMatch){this.flash('Enter the same password twice to continue');return;}this.setState({phase:'app',screen:'catalog',setupDone:true,pw1:'',pw2:''});},
+      skipSetup:()=>this.setState({phase:'app',screen:'catalog',setupDone:true}),
+      isAccount:s.screen==='account',goAccount:()=>this.go('account'),
+      saveProfile:()=>{if(s.pw1.length>0&&!pwMatch){this.flash('Passwords do not match');return;}this.setState({pw1:'',pw2:''});this.flash('Account updated');},
+      signOut:()=>this.setState({phase:'auth',authStep:0,signPw:'',screen:'catalog'}),
+      query:s.query,onQuery:e=>this.setState({query:e.target.value}),
+      toHome:()=>this.setState({phase:'home',authStep:0}),
+      requestProperty:()=>this.flash('Interest logged — we will email you when it opens'),
+      communities:COMMS.filter(c=>!s.query||(c.name+' '+c.address).toLowerCase().includes(s.query.toLowerCase())).map(c=>({
+          name:c.name,abbr:c.abbr,address:c.address,chip:'Open',meta:c.households+' households in · Tue & Fri drops',
+          chipBg:'#E7F7F0',chipFg:'#0F9268',border:'#E0D2FB',bg:'#FCFAFF',tint:'#F1EBFE',mono:'#4F46E5',
+          pick:()=>this.setState({phase:'auth',authStep:0,community:c.name,block:c.blocks[0]})})),
+      communityName:comm.name,communityAbbr:comm.abbr,collectPoint:comm.collect+', '+comm.name,
+      cycleLabel:comm.name+' · cycle '+comm.cycle,unitsCommitted:comm.units,orderValue:comm.value,
+      headTop:inFrame?54:14,padTop:inFrame?62:34,tabBottom:inFrame?32:12,
+      blocks:comm.blocks.map(b=>({label:'Block '+b,pick:()=>this.setState({block:b}),
+        border:s.block===b?'#6D28D9':'#E8E6F0',bg:s.block===b?'#F5F2FE':'#FAF9FD',fg:s.block===b?'#4F46E5':'#6B7189'})),
+      unitFull,
+
+      mainHeader:s.phase==='app'&&s.screen==='catalog',subHeader:s.phase==='app'&&s.screen!=='catalog',
+      subTitle:titles[s.screen]||'Gather',showTabs:s.screen!=='product'&&s.screen!=='checkout',
+      isCatalog:s.screen==='catalog',isProduct:s.screen==='product',isCart:s.screen==='cart',
+      isCheckout:s.screen==='checkout',isDone:s.screen==='done',isOrders:s.screen==='orders',
+      isAlerts:s.screen==='alerts',isCommunity:s.screen==='community',
+      loud:brand==='loud',quiet:brand!=='loud',community,
+      layoutDeals:layout==='deals',layoutGrid:layout==='grid',layoutList:layout==='list',
+      progressBar:prog!=='pips',progressPips:prog==='pips',
+      countdown,countdownShort:d+'d '+String(h).padStart(2,'0')+'h '+String(mn).padStart(2,'0')+'m',households:comm.households,shown,shownCount:shown.length,
+      catTitle:s.cat==='All'?'This week at group price':s.cat,
+      cats:CATS.map(c=>({label:c,pick:()=>this.setState({cat:c}),
+        border:s.cat===c?'#1B2136':'#EDEBF5',bg:s.cat===c?'#1B2136':'#FAF9FD',fg:s.cat===c?'#FFFFFF':'#6B7189'})),
+      prod,qty:s.qty,
+      inc:()=>this.setState({qty:s.qty+1}),dec:()=>this.setState({qty:Math.max(1,s.qty-1)}),
+      addProd:()=>{this.addTo(cur.id,s.qty);this.setState({screen:'cart'});},
+      comments:cmts,draft:s.draft,onDraft:e=>this.setState({draft:e.target.value}),
+      postComment:()=>{if(!s.draft.trim())return;this.setState({comments:{...s.comments,[cur.id]:[...cmts,{who:s.display,unit:'#'+s.unit,initials:myInitials,bg:myGrad,text:s.draft}]},draft:''});},
+      lines,cartCount:count,hasCart:count>0,emptyCart:count===0,
+      subtotal:money(sub),retailTotal:money(ret),savings:money(ret-sub),
+      goCart:()=>this.go('cart'),goShop:()=>this.go('catalog'),goCheckout:()=>this.go('checkout'),
+      goOrders:()=>this.go('orders'),back:()=>this.go(s.screen==='product'?'catalog':s.screen==='checkout'?'cart':'catalog'),
+      payOptions:[{k:'mmqr',label:'MMQR',note:'One QR for every bank and wallet · backed by CTZPay'},{k:'later',label:'Pay on collection',note:'Cash or MMQR at the collection point'}].map(o=>({
+        label:o.label,note:o.note,pick:()=>this.setState({pay:o.k}),
+        border:s.pay===o.k?'#6D28D9':'#EEECF7',bg:s.pay===o.k?'#FAF7FF':'#fff',
+        dotBorder:s.pay===o.k?'#6D28D9':'#DCDAE8',dot:s.pay===o.k?'#6D28D9':'transparent'})),
+      payNowAmount:s.pay==='later'?money(0):money(sub),
+      payCta:s.pay==='later'?'Confirm order':('Pay '+money(sub)+' with MMQR'),
+      qrOpen:!!s.qrOpen,qrAmount:money(sub),qrRef:comm.code+'-2481',
+      closeQr:()=>this.setState({qrOpen:false}),
+      placeOrder:()=>{if(s.pay!=='later'&&!s.qrOpen){this.setState({qrOpen:true});return;}
+        this.setState({screen:'done',qrOpen:false,placedTotal:money(sub),placedCount:count,payBadge:s.pay==='later'?('Pay '+money(sub)+' on collection'):('Paid via MMQR · CTZPay'),cart:{}});},
+      placedCount:s.placedCount||count,
+      orderCode:comm.code+'-2481',placedTotal:s.placedTotal||money(sub),payBadge:s.payBadge||'Paid via MMQR · CTZPay',
+      orders:[{code:comm.code+'-2481',status:'Ready Tue',chipBg:'#F5F2FE',chipFg:'#4F46E5',date:'Tue 25 Aug · 6–9pm',summary:'Paw San rice, mineral water case · '+comm.collect,saved:'K 14,000',total:'K 51,000'},
+        {code:comm.code+'-2390',status:'Collected',chipBg:'#E7F7F0',chipFg:'#0F9268',date:'Fri 15 Aug',summary:'Salmon fillet, eggs, toilet roll · collected 7:12pm',saved:'K 19,500',total:'K 78,000'},
+        {code:comm.code+'-2288',status:'Collected',chipBg:'#E7F7F0',chipFg:'#0F9268',date:'Tue 12 Aug',summary:'Detergent refill, tomatoes ×2',saved:'K 8,400',total:'K 30,200'}],
+      alerts:[{title:'100-unit tier unlocked',body:'Mineral water dropped to K 6,500 a case. Your order was adjusted and K 3,000 refunded.',when:'12 min ago',bg:'#FBFAFE',tint:'#F5F2FE',dot:'#6D28D9'},
+        {title:'8 more units for cheaper rice',body:'Paw San rice is at 88 of 100 units. Share the drop with your neighbours.',when:'2 hours ago',bg:'#FFFFFF',tint:'#FFF3E1',dot:'#FB9C3C'},
+        {title:'Ko Myat asked a question',body:'"Anyone want to split a sack? I only need 5kg." on Paw San Rice.',when:'Yesterday',bg:'#FFFFFF',tint:'#FDECF6',dot:'#C026D3'},
+        {title:'Cutoff Sunday 10pm',body:'Orders after cutoff roll into the Friday drop instead.',when:'Yesterday',bg:'#FFFFFF',tint:'#EEF0FE',dot:'#4F46E5'},
+        {title:'Order '+comm.code+'-2390 collected',body:'Thanks for picking up on time — the collection table clears faster.',when:'15 Aug',bg:'#FFFFFF',tint:'#E7F7F0',dot:'#0F9268'}],
+      togetherSaved:money(comm.households*3200),streak:comm.cycle+' cycles strong',
+      heroAvatars:this.avatarsFor(3,6),buddyCount:Math.max(2,Math.round(comm.households/24)),
+      splitCount:SPLITS.length,
+      splits:SPLITS.map(sp=>{const inIt=s.splitsIn.indexOf(sp.id)>-1,left=Math.max(0,sp.need-(inIt?1:0));
+        return {item:sp.item,who:sp.who,detail:sp.detail,initials:sp.initials,bg:sp.bg,
+          cardBg:inIt?'#FCFAFF':'#fff',
+          needText:left===0?'Split complete — Capital Retail notified':left+(left===1?' neighbour':' neighbours')+' still needed',
+          needColor:left===0?'#0F9268':'#8B90A5',
+          btnLabel:inIt?"You're in":"I'm in",btnBorder:inIt?'#0F9268':'#1B2136',
+          btnBg:inIt?'#E7F7F0':'#1B2136',btnFg:inIt?'#0F9268':'#fff',
+          toggle:()=>{const n=inIt?s.splitsIn.filter(x=>x!==sp.id):[...s.splitsIn,sp.id];this.setState({splitsIn:n});this.flash(inIt?'Left the split':'You joined '+sp.who.split(' · ')[0]+"'s split");}};}),
+      startSplit:()=>this.flash('Pick an item on Shop, then tap Start a split'),
+      wishes:WISHES.map(w=>{const v=s.votes[w.id]||0,voted=v>0;
+        return {name:w.name,note:w.note,votes:w.votes+v,voted,
+          border:voted?'#C4B5FD':'#EDEBF5',bg:voted?'#F5F2FE':'#FAF9FD',fg:voted?'#4F46E5':'#8B90A5',
+          vote:()=>this.setState({votes:{...s.votes,[w.id]:voted?0:1}})};}),
+      wish:s.wish,onWish:e=>this.setState({wish:e.target.value}),
+      addWish:()=>{if(!s.wish.trim())return;this.setState({wish:''});this.flash('Added to the wishlist — neighbours can vote now');},
+      activity:[{initials:'NW',bg:grad('#C026D3','#6D28D9'),text:'#11-03 joined Paw San Rice ×2 — tipped the 100-unit tier',when:'4m'},
+        {initials:'KM',bg:grad('#F4485F','#C026D3'),text:'#07-12 opened a split on the 10kg rice sack',when:'22m'},
+        {initials:'SH',bg:grad('#FB9C3C','#F4485F'),text:'#09-05 asked about the tomatoes on the product page',when:'1h'},
+        {initials:'ZM',bg:grad('#4F46E5','#06B6D4'),text:'#03-11 offered to carry water cases up to level 3',when:'2h'},
+        {initials:'MT',bg:grad('#0F9268','#4F46E5'),text:'#12-08 added “yoghurt 1kg” to the wishlist',when:'3h'}],
+      offerBuddy:()=>this.flash('Neighbours on your floor have been notified'),
+      toast:s.toast,
+      goAlerts:()=>this.go('alerts'),goCommunity:()=>this.go('community'),
+      shopColor:tabOn('catalog'),ordersColor:tabOn('orders'),alertsColor:tabOn('alerts'),communityColor:tabOn('community')
+    };
+  }
+}
+</script>
+</body>
+</html>
