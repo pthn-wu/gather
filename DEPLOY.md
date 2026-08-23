@@ -56,7 +56,7 @@ and refuses a value that looks like a placeholder.
 ## 3. Environment variables — `gather` and `gather-office`
 
 ```bash
-VITE_API_BASE_URL=       # https://gather-api.vercel.app
+VITE_API_URL=       # https://gather-api.vercel.app
 ```
 
 This is baked in at build time, so changing it needs a redeploy, not just a
