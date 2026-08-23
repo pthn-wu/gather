@@ -72,11 +72,26 @@ deny-by-default: unauthenticated and resident requests are scrubbed identically.
 
 `PUBLIC` is revoked from the schema first, and `ALTER DEFAULT PRIVILEGES`
 ensures a table added by a future migration inherits least privilege rather than
-defaulting open. Today the API connects as the database owner; moving it to
-`gather_app` means an injection bug or leaked connection string can no longer
-drop a table.
+defaulting open. The deployed API connects as `gather_app_user`, a login role
+that is a member of `gather_app` only — so an injection bug or a leaked
+connection string cannot drop a table, cannot delete an order, and cannot read
+its way around the grants. Verified on the live database: `DELETE` on `"Order"`
+is refused, `DELETE` on `"Comment"` is allowed, no DDL either way.
 
-**Row Level Security.** `server/prisma/security/02_rls.sql` moves community
+**Supabase exposes `public` to the internet by default — this is closed.**
+Supabase runs PostgREST in front of the database and grants `anon` and
+`authenticated` full DML on every table in `public`, new ones included. After
+`prisma db push` that left all 20 Gather tables readable, writable and
+TRUNCATE-able by anyone holding the project URL and the publishable anon key,
+both of which are public values that ship in client bundles. `Product.cost` and
+every margin §3 protects were one GET away, and per-community scoping meant
+nothing to a caller who never touched the API. `server/prisma/security/03_public_schema_lockdown.sql`
+revokes those grants, revokes the default privileges that would restore them,
+and enables RLS on all 20 tables with a single permissive policy for
+`gather_app` as the backstop. **Applied**, and Supabase's security advisor now
+returns zero lints (it previously returned 20 `rls_disabled_in_public` errors).
+
+**Row Level Security, per community.** `server/prisma/security/02_rls.sql` moves community
 scoping and the draft-announcement filter into the database, so they survive a
 bug in a route handler. **Read the header before running it** — Gather uses its
 own JWTs rather than Supabase Auth, so the policies key on session GUCs that the
@@ -192,20 +207,27 @@ Honest list. None of these are done:
    completed first-run setup. Options: store a hash and show the plaintext only
    once at generation time, or set a short expiry after which the slip is void.
    **This is the highest-value remaining fix.**
-2. **RLS is written but not enabled** — needs the per-transaction session
-   context wrapper first (see §3).
-3. **The API still connects as the database owner.** Applying `01_roles.sql` and
-   repointing `DATABASE_URL` at `gather_app` is a config change, not a code one.
-4. **No audit log.** Who approved a verification, changed a tier price, or marked
+2. **Per-community RLS is written but not enabled** — needs the per-transaction
+   session context wrapper first (see §3). RLS *is* enabled on all 20 tables, but
+   only with the coarse application-vs-internet policy from
+   `03_public_schema_lockdown.sql`. The database does not yet enforce that Gems 1
+   cannot read Gems 2; only the API does.
+3. **No audit log.** Who approved a verification, changed a tier price, or marked
    an order paid is not recorded anywhere queryable.
-5. **No CSRF defence**, because auth is a `Authorization: Bearer` header rather
+4. **No CSRF defence**, because auth is a `Authorization: Bearer` header rather
    than a cookie. If sessions ever move to cookies, this becomes required.
-6. **Refresh tokens / revocation.** JWTs live 30 days with no way to revoke one
+5. **Refresh tokens / revocation.** JWTs live 30 days with no way to revoke one
    early; a stolen token is valid until it expires.
-7. **Dependency pinning.** `npm ci` uses the lockfile, but there is no
+6. **Dependency pinning.** `npm ci` uses the lockfile, but there is no
    provenance/signature verification.
-8. **The mobile app has never run on a device** — the security posture of
+7. **The mobile app has never run on a device** — the security posture of
    SecureStore usage is verified by reading, not by exercising it on hardware.
+8. **The API has never executed against Postgres.** Every run so far was against
+   SQLite, and this sandbox cannot reach the database (5432 and 6543 both time
+   out), so the first Postgres query will be served in production. The schema and
+   the grants are verified; the query behaviour is not. Case-sensitivity in
+   `contains:` filters was one difference already found and fixed by reading —
+   assume there are others, and exercise the deployment before trusting it.
 
 ## 8. Environment variables
 
