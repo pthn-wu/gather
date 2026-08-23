@@ -1,7 +1,7 @@
 {
   "name": "gather-server",
   "version": "1.0.0",
-  "description": "Gather backend API (Express + Prisma + SQLite)",
+  "description": "Gather backend API (Express + Prisma + PostgreSQL)",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
