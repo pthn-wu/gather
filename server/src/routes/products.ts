@@ -39,7 +39,9 @@ router.get('/', requireUser, validate({ query: shopSchemas.productQuery }), asyn
   // Listing scope: a delisted-here product simply does not exist for this resident.
   const where: any = { active: true, listedAt: { some: { communityId } } };
   if (category && category !== 'All') where.category = category;
-  if (q) where.name = { contains: q };
+  // Postgres LIKE is case-sensitive (SQLite's is not) — be explicit so search
+  // behaves the same in production as it did in local development.
+  if (q) where.name = { contains: q, mode: 'insensitive' };
 
   const products = await prisma.product.findMany({ where, orderBy: { name: 'asc' } });
   const joinedMap = await joinedMapForCommunity(communityId);

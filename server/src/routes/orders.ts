@@ -102,7 +102,7 @@ router.get('/', requireUser, validate({ query: shopSchemas.orderQuery }), async 
   const { query, filter, sort } = req.query as { query?: string; filter?: string; sort?: string };
 
   const where: any = { userId: req.user!.id };
-  if (query) where.code = { contains: query };
+  if (query) where.code = { contains: query, mode: 'insensitive' };
   if (filter === 'awaiting') where.status = { in: ['placed', 'packing'] };
   else if (filter === 'ready') where.status = 'ready';
   else if (filter === 'collected') where.status = 'collected';

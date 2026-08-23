@@ -218,7 +218,9 @@ router.get('/overview', validate({ query: retailSchemas.overviewQuery }), async 
   }
   const delisted = await prisma.product.findMany({ where: { active: false } });
   for (const d of delisted.slice(0, 2)) {
-    const asks = await prisma.wishlist.count({ where: { name: { contains: d.name.split(',')[0] } } });
+    const asks = await prisma.wishlist.count({
+      where: { name: { contains: d.name.split(',')[0], mode: 'insensitive' } },
+    });
     todos.push({
       key: `delisted-${d.id}`,
       title: `${d.name} is delisted${asks ? ' but still wished for' : ''}`,
