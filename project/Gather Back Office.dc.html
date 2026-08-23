@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="24653489-0b7d-4c83-b1f3-f58eb86469e8"></script>
+
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style></style>
+<script src="43a1cf08-61dc-4235-b94d-cb4a423a62fc"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F8F5F1;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#1E1926}
+a{color:#5B34D9;text-decoration:none}a:hover{color:#3F1FB0}
+input,button,textarea,select{font-family:inherit}
+.row:hover{background:#FDFBF7}
+.card:hover{border-color:#D8CFC5}
+input:focus,textarea:focus,select:focus{outline:none;border-color:#5B34D9}
+</style>
+</helmet>
+
+<div style="min-width:1480px;min-height:100vh;background:#F8F5F1">
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:minmax(520px,1fr) minmax(620px,760px);gap:64px;padding:72px 80px;align-items:start;min-height:100vh">
+  <div style="position:sticky;top:72px">
+    <img src="91d96028-ca16-4c7a-97d2-3e61d608070d" alt="Gather" width="262" height="80" style="width:132px;height:auto;display:block">
+    <div style="font-family:Poppins,sans-serif;font-size:38px;font-weight:600;letter-spacing:-.025em;line-height:1.15;margin-top:32px">The back office<br>behind every drop</div>
+    <div style="font-size:14px;color:#5B5364;line-height:1.7;margin-top:18px;max-width:460px;text-wrap:pretty">Two consoles, one sheet. The property office verifies households and runs the collection table; Capital Retail lists the items, sets the volume tiers and dispatches the drop. Everything either side touches imports and exports as a spreadsheet.</div>
+    <div style="display:flex;gap:36px;margin-top:32px;padding-top:24px;border-top:1.5px solid #1E1926">
+      <sc-for list="{{ homeStats }}" as="h" hint-placeholder-count="3">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:22px">{{ h.value }}</div>
+          <div style="font-size:12px;color:#6F6678;margin-top:4px">{{ h.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="font-size:12px;color:#9A9199;line-height:1.6;margin-top:32px;max-width:420px">Residents don't sign in here — they use the Gather app. Lost your console password? The Capital Retail account team resets both sides.</div>
+  </div>
+
+  <div>
+    <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#928892">Choose your console</div>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-top:16px">
+      <sc-for list="{{ portals }}" as="p" hint-placeholder-count="2">
+        <div class="card" sc-camel-on-click="{{ p.pick }}" style="background:#fff;border:1px solid #EBE3DA;border-radius:11px;padding:26px;cursor:pointer;box-shadow:inset 3px 0 0 {{ p.rule }}">
+          <div style="display:flex;align-items:baseline;gap:12px">
+            <div style="font-family:Poppins,sans-serif;font-size:22px;font-weight:600;letter-spacing:-.02em">{{ p.title }}</div>
+            <div style="flex:1"></div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#928892">{{ p.who }}</div>
+          </div>
+          <div style="font-size:13.5px;color:#3F3947;line-height:1.6;margin-top:8px;max-width:600px;text-wrap:pretty">{{ p.blurb }}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+            <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="4">
+              <div style="padding:7px 11px;border:1px solid #EFE8E0;border-radius:20px;background:#FBF8F4;font-size:11.5px;font-weight:600;color:#6F6678;white-space:nowrap">{{ t.label }}</div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;margin-top:20px">
+            <button sc-camel-on-click="{{ p.pick }}" style="padding:12px 18px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:13px;font-weight:700;cursor:pointer">{{ p.cta }}</button>
+            <div style="font-size:12px;color:#9A9199">{{ p.note }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:26px;padding-top:20px;border-top:1px solid #E7DFD5">
+      <div style="font-size:13.5px;font-weight:800">New community joining Gather?</div>
+      <div style="font-size:12.5px;color:#6F6678;line-height:1.6;margin-top:5px;max-width:560px">Capital Retail opens a tower once 40 households register interest, then issues one office console login to the property manager.</div>
+      <button sc-camel-on-click="{{ requestConsole }}" style="margin-top:14px;padding:11px 16px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12.5px;font-weight:700;cursor:pointer">Request an office console</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isAuth }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;justify-content:center;padding:76px 36px;min-height:100vh">
+  <div style="width:520px">
+    <img src="91d96028-ca16-4c7a-97d2-3e61d608070d" alt="Gather" width="262" height="80" style="width:104px;height:auto;display:block">
+    <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#5B34D9;margin-top:26px">{{ authKicker }}</div>
+    <div style="font-family:Poppins,sans-serif;font-size:30px;font-weight:600;letter-spacing:-.02em;margin-top:10px">{{ authTitle }}</div>
+    <div style="font-size:13.5px;color:#5B5364;line-height:1.65;margin-top:8px;text-wrap:pretty">{{ authBlurb }}</div>
+
+    <div style="background:#fff;border:1px solid #EBE3DA;border-radius:11px;padding:26px;margin-top:24px">
+      <sc-if value="{{ authIsOffice }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:12px;font-weight:700;color:#928892">Community</div>
+        <sc-raw-select value="{{ authComm }}" sc-camel-on-change="{{ onAuthComm }}" style="width:100%;margin-top:7px;padding:12px 12px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:#1E1926">
+          <sc-for list="{{ authCommOpts }}" as="o" hint-placeholder-count="4">
+            <option value="{{ o.v }}">{{ o.label }}</option>
+          </sc-for>
+        </sc-raw-select>
+      </sc-if>
+      <div style="font-size:12px;font-weight:700;color:#928892;margin-top:18px">{{ authUserLabel }}</div>
+      <input value="{{ authUser }}" sc-camel-on-change="{{ onAuthUser }}" placeholder="{{ authUserHint }}" style="width:100%;margin-top:7px;padding:12px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:14px;font-weight:600;color:#1E1926">
+      <div style="font-size:12px;font-weight:700;color:#928892;margin-top:18px">Password</div>
+      <input type="password" value="{{ authPw }}" sc-camel-on-change="{{ onAuthPw }}" placeholder="••••••••" style="width:100%;margin-top:7px;padding:12px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:14px;font-weight:600;color:#1E1926">
+      <div style="display:flex;align-items:center;gap:10px;margin-top:18px">
+        <button sc-camel-on-click="{{ toggleRemember }}" style="width:17px;height:17px;flex:none;border-radius:5px;border:1.5px solid {{ rememberBorder }};background:{{ rememberBg }};cursor:pointer;padding:0;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ rememberTick }}</button>
+        <div style="font-size:12.5px;color:#6F6678">{{ rememberLabel }}</div>
+      </div>
+      <div style="font-size:12.5px;font-weight:700;color:#B3253A;margin-top:14px">{{ authError }}</div>
+      <button sc-camel-on-click="{{ signIn }}" style="margin-top:16px;width:100%;padding:14px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:14px;font-weight:700;cursor:pointer">{{ authCta }}</button>
+      <button sc-camel-on-click="{{ demoFill }}" style="margin-top:10px;width:100%;padding:12px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12.5px;font-weight:700;cursor:pointer">Fill the demo credentials</button>
+      <button sc-camel-on-click="{{ backHome }}" style="margin-top:10px;width:100%;padding:12px;border:0;background:transparent;color:#6F6678;font-size:12.5px;font-weight:700;cursor:pointer">← Back to console picker</button>
+    </div>
+    <div style="font-size:12px;color:#9A9199;line-height:1.6;margin-top:18px;text-wrap:pretty">{{ authFoot }}</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ inApp }}" hint-placeholder-val="{{ true }}">
+<div>
+<div style="position:sticky;top:0;z-index:12;display:flex;align-items:center;gap:24px;padding:14px 28px;background:rgba(248,245,241,.97);backdrop-filter:blur(10px);border-bottom:1px solid #E7DFD5">
+  <img src="91d96028-ca16-4c7a-97d2-3e61d608070d" alt="Gather" width="262" height="80" style="width:88px;height:auto;display:block">
+  <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#928892">Back office</div>
+  <div style="flex:none;display:flex;gap:0;border:1px solid #E5DCD3;border-radius:9px;overflow:hidden;background:#fff">
+    <sc-for list="{{ roles }}" as="r" hint-placeholder-count="2">
+      <button sc-camel-on-click="{{ r.pick }}" style="padding:9px 16px;border:0;background:{{ r.bg }};color:{{ r.fg }};font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap">{{ r.label }}</button>
+    </sc-for>
+  </div>
+  <div style="flex:1;min-width:0;font-size:12.5px;color:#6F6678;line-height:1.4;max-width:420px">{{ roleBlurb }}</div>
+  <sc-raw-select value="{{ scope }}" sc-camel-on-change="{{ onScope }}" style="flex:none;padding:9px 12px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:12.5px;font-weight:700;color:#1E1926">
+    <sc-for list="{{ scopeOpts }}" as="o" hint-placeholder-count="4">
+      <option value="{{ o.v }}">{{ o.label }}</option>
+    </sc-for>
+  </sc-raw-select>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6F6678;white-space:nowrap">Cycle {{ cycleNo }} · cutoff {{ cutoffIn }}</div>
+  <div style="flex:none;display:flex;align-items:center;gap:9px">
+    <div style="width:30px;height:30px;border-radius:50%;background:{{ meGrad }};color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ meInitials }}</div>
+    <div style="font-size:12.5px;font-weight:700;white-space:nowrap">{{ meName }}</div>
+    <button sc-camel-on-click="{{ signOut }}" style="border:0;background:transparent;padding:0 0 0 4px;cursor:pointer;font-size:11.5px;font-weight:700;color:#6F6678;white-space:nowrap">Sign out</button>
+  </div>
+</div>
+
+<div style="display:flex;min-height:calc(100vh - 60px)">
+
+  <div style="width:212px;flex:none;background:#FDFBF8;border-right:1px solid #EDE5DC;padding:24px 20px;display:flex;flex-direction:column;position:sticky;top:60px;height:calc(100vh - 60px)">
+    <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#928892">{{ navTitle }}</div>
+    <div style="display:flex;flex-direction:column;margin-top:14px">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="7">
+        <button sc-camel-on-click="{{ n.pick }}" style="display:flex;align-items:baseline;gap:10px;width:100%;text-align:left;padding:10px 0 10px 13px;border:0;border-left:2px solid {{ n.rule }};background:transparent;color:{{ n.fg }};font-size:13px;font-weight:{{ n.weight }};cursor:pointer">
+          <span style="flex:1">{{ n.label }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ n.badgeFg }}">{{ n.badge }}</span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="flex:1"></div>
+    <div style="padding-top:16px;border-top:1px solid #EDE5DC">
+      <div style="font-size:11.5px;color:#7B7280;line-height:1.5">Every table here imports and exports as .xlsx or .csv.</div>
+      <button sc-camel-on-click="{{ openImport }}" style="margin-top:11px;width:100%;padding:10px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12px;font-weight:700;cursor:pointer">Import a spreadsheet</button>
+    </div>
+  </div>
+
+  <div style="flex:1;min-width:0;padding:26px 30px 56px">
+
+    <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Cycle {{ cycleNo }} at a glance</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ overviewSub }}</div>
+        <div style="flex:1"></div>
+        <button sc-camel-on-click="{{ exportOverview }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Export .xlsx</button>
+        <button sc-camel-on-click="{{ exportOverviewCsv }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#6F6678;font-size:12px;font-weight:700;cursor:pointer">.csv</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:22px;border-top:1.5px solid #1E1926;border-bottom:1px solid #EFE8E0">
+        <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="5">
+          <div style="padding:18px 22px 18px 0">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:21px;font-weight:500;color:{{ k.fg }}">{{ k.value }}</div>
+            <div style="font-size:12px;color:#6F6678;margin-top:4px;line-height:1.45">{{ k.label }}</div>
+            <div style="font-size:11.5px;color:#9A9199;margin-top:3px">{{ k.note }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(700px,1fr) 372px;gap:26px;align-items:start;margin-top:30px">
+        <div style="min-width:0">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding-bottom:11px;border-bottom:1.5px solid #1E1926">{{ boardTitle }}</div>
+          <div style="display:grid;grid-template-columns:minmax(190px,1fr) 92px 78px 118px 96px 104px 112px;gap:12px;padding:11px 12px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#928892;border-bottom:1px solid #EFE8E0">
+            <div>{{ boardCol1 }}</div><div style="text-align:right">Orders</div><div style="text-align:right">Units</div><div style="text-align:right">Value</div><div style="text-align:right">Margin</div><div>Stage</div><div></div>
+          </div>
+          <sc-for list="{{ board }}" as="b" hint-placeholder-count="4">
+            <div class="row" style="display:grid;grid-template-columns:minmax(190px,1fr) 92px 78px 118px 96px 104px 112px;gap:12px;align-items:center;padding:15px 12px;border-bottom:1px solid #EFE8E0;background:#fff">
+              <div style="min-width:0">
+                <div style="font-size:13.5px;font-weight:700">{{ b.name }}</div>
+                <div style="font-size:11.5px;color:#928892;margin-top:3px">{{ b.sub }}</div>
+              </div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ b.orders }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ b.units }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ b.value }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:{{ b.marginFg }}">{{ b.margin }}</div>
+              <div style="font-size:12px;font-weight:700;color:{{ b.stageFg }}">{{ b.stage }}</div>
+              <button sc-camel-on-click="{{ b.act }}" style="padding:8px 6px;border:1px solid #E5DCD3;border-radius:8px;background:#fff;color:#1E1926;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap">{{ b.actLabel }}</button>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Needs a decision</div>
+            <div style="display:flex;flex-direction:column;margin-top:12px">
+              <sc-for list="{{ todos }}" as="t" hint-placeholder-count="4">
+                <div style="padding:12px 0;border-bottom:1px solid #F3ECE4">
+                  <div style="font-size:13px;font-weight:700;line-height:1.4">{{ t.title }}</div>
+                  <div style="font-size:12px;color:#6F6678;line-height:1.5;margin-top:4px">{{ t.body }}</div>
+                  <button sc-camel-on-click="{{ t.act }}" style="margin-top:7px;border:0;background:transparent;padding:0;cursor:pointer;font-size:12px;font-weight:700;color:#5B34D9">{{ t.cta }}</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Top movers this cycle</div>
+            <div style="display:flex;flex-direction:column;margin-top:12px">
+              <sc-for list="{{ movers }}" as="m" hint-placeholder-count="5">
+                <div style="display:flex;align-items:baseline;gap:12px;padding:10px 0;border-bottom:1px solid #F3ECE4">
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:12.5px;font-weight:600">{{ m.name }}</div>
+                    <div style="font-size:11.5px;color:#9A9199;margin-top:2px">{{ m.note }}</div>
+                  </div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:12px">{{ m.units }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isCatalog }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Catalog &amp; tier pricing</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ catalogSub }}</div>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:8px;width:240px;padding:7px 0;border-bottom:1.5px solid {{ cqBorder }}">
+          <input value="{{ cq }}" sc-camel-on-change="{{ onCq }}" placeholder="Search item or SKU" style="flex:1;min-width:0;border:0;background:transparent;font-size:13px;font-weight:600;color:#1E1926;padding:0">
+        </div>
+        <button sc-camel-on-click="{{ importCatalog }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12px;font-weight:700;cursor:pointer">Import .xlsx</button>
+        <button sc-camel-on-click="{{ exportCatalog }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Export .xlsx</button>
+        <button sc-camel-on-click="{{ newItem }}" style="padding:9px 14px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12px;font-weight:700;cursor:pointer">New item</button>
+      </div>
+
+      <div style="display:flex;align-items:flex-end;gap:18px;margin-top:18px;border-bottom:1px solid #E7DFD5;overflow-x:auto;scrollbar-width:none">
+        <sc-for list="{{ catTabs }}" as="c" hint-placeholder-count="6">
+          <button sc-camel-on-click="{{ c.pick }}" style="flex:none;display:flex;align-items:baseline;gap:6px;padding:0 0 11px;border:0;background:transparent;cursor:pointer;font-size:12.5px;font-weight:{{ c.weight }};color:{{ c.fg }};border-bottom:2px solid {{ c.line }};margin-bottom:-1px;white-space:nowrap">
+            {{ c.label }}
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:#A79E9E">{{ c.count }}</span>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(760px,1fr) 388px;gap:24px;align-items:start;margin-top:20px">
+        <div style="min-width:0">
+          <div style="display:grid;grid-template-columns:34px 72px minmax(140px,1fr) 72px 72px 72px 72px 72px 68px;gap:8px;padding:0 12px 11px;border-bottom:1.5px solid #1E1926;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#928892">
+            <div></div><div>SKU</div><div>Item</div><div style="text-align:right">Cost</div><div style="text-align:right">Base</div><div style="text-align:right">20+</div><div style="text-align:right">50+</div><div style="text-align:right">100+</div><div style="text-align:right">Margin</div>
+          </div>
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="9">
+            <div class="row" sc-camel-on-click="{{ r.pick }}" style="display:grid;grid-template-columns:34px 72px minmax(140px,1fr) 72px 72px 72px 72px 72px 68px;gap:8px;align-items:center;padding:13px 12px;border-bottom:1px solid #EFE8E0;cursor:pointer;background:{{ r.bg }};box-shadow:inset 2px 0 0 {{ r.rule }}">
+              <div style="width:34px;height:34px;border-radius:7px;border:1px solid #EFE8E0;background:{{ r.thumb }}"></div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6F6678">{{ r.sku }}</div>
+              <div style="min-width:0">
+                <div style="font-size:13px;font-weight:700;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</div>
+                <div style="font-size:11px;color:#928892;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.meta }} · {{ r.status }} · {{ r.units }} u</div>
+              </div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ r.costFg }}">{{ r.cost }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px">{{ r.p0 }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px">{{ r.p1 }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px">{{ r.p2 }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px">{{ r.p3 }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ r.mFg }}">{{ r.margin }}</div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:56px 12px">
+              <div style="font-size:15px;font-weight:800">Nothing matches</div>
+              <button sc-camel-on-click="{{ resetCatalog }}" style="margin-top:10px;border:0;background:transparent;padding:0;cursor:pointer;font-size:13px;font-weight:700;color:#5B34D9">Clear search and category</button>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="position:sticky;top:88px;background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <input value="{{ ed.sku }}" sc-camel-on-change="{{ onEdSku }}" style="width:110px;padding:6px 8px;border:1px solid #EFE8E0;border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6F6678">
+            <div style="flex:1"></div>
+            <div style="font-size:11.5px;font-weight:700;color:{{ ed.statusFg }}">{{ ed.status }}</div>
+          </div>
+          <div sc-camel-on-drag-over="{{ overImg }}" sc-camel-on-drop="{{ dropImg }}" style="display:flex;gap:14px;align-items:center;margin-top:14px;padding:12px;border:1.5px dashed #E0D7CD;border-radius:10px">
+            <div style="width:78px;height:78px;flex:none;border-radius:8px;border:1px solid #EFE8E0;background:{{ ed.thumb }}"></div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11.5px;color:#6F6678;line-height:1.45">{{ ed.imgHint }}</div>
+              <div style="display:flex;gap:8px;margin-top:9px">
+                <button sc-camel-on-click="{{ pickImg }}" style="padding:8px 12px;border:1px solid #E5DCD3;border-radius:8px;background:#fff;color:#5B34D9;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap">{{ ed.imgLabel }}</button>
+                <sc-if value="{{ ed.hasImg }}" hint-placeholder-val="{{ false }}">
+                  <button sc-camel-on-click="{{ removeImg }}" style="padding:8px 12px;border:1px solid #E5DCD3;border-radius:8px;background:#fff;color:#B3253A;font-size:11.5px;font-weight:700;cursor:pointer">Remove</button>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+          <input type="file" accept="image/*" ref="{{ imgRef }}" sc-camel-on-change="{{ onImg }}" style="display:none">
+          <input value="{{ ed.name }}" sc-camel-on-change="{{ onEdName }}" style="width:100%;margin-top:12px;padding:11px 12px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;font-size:14px;font-weight:700;color:#1E1926">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Brand / supplier</div>
+              <input value="{{ ed.brand }}" sc-camel-on-change="{{ onEdBrand }}" style="width:100%;margin-top:5px;padding:10px 12px;border:1px solid #E5DCD3;border-radius:9px;font-size:12.5px;font-weight:600;color:#1E1926">
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Barcode</div>
+              <input value="{{ ed.barcode }}" sc-camel-on-change="{{ onEdBarcode }}" style="width:100%;margin-top:5px;padding:10px 12px;border:1px solid #E5DCD3;border-radius:9px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1E1926">
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Size / net content</div>
+              <input value="{{ ed.size }}" sc-camel-on-change="{{ onEdSize }}" placeholder="10 kg" style="width:100%;margin-top:5px;padding:10px 12px;border:1px solid #E5DCD3;border-radius:9px;font-size:12.5px;font-weight:600;color:#1E1926">
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Gross weight</div>
+              <input value="{{ ed.weight }}" sc-camel-on-change="{{ onEdWeight }}" placeholder="10.2 kg" style="width:100%;margin-top:5px;padding:10px 12px;border:1px solid #E5DCD3;border-radius:9px;font-size:12.5px;font-weight:600;color:#1E1926">
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Pack / unit</div>
+              <input value="{{ ed.unit }}" sc-camel-on-change="{{ onEdUnit }}" style="width:100%;margin-top:5px;padding:10px 12px;border:1px solid #E5DCD3;border-radius:9px;font-size:12.5px;font-weight:600;color:#1E1926">
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Category</div>
+              <sc-raw-select value="{{ ed.cat }}" sc-camel-on-change="{{ onEdCat }}" style="width:100%;margin-top:5px;padding:10px 10px;border:1px solid #E5DCD3;border-radius:9px;font-size:12.5px;font-weight:600;color:#1E1926;background:#fff">
+                <sc-for list="{{ catOpts }}" as="c" hint-placeholder-count="8">
+                  <option value="{{ c.v }}">{{ c.label }}</option>
+                </sc-for>
+              </sc-raw-select>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Landed cost</div>
+              <input value="{{ ed.cost }}" sc-camel-on-change="{{ onEdCost }}" style="width:100%;margin-top:5px;padding:10px 12px;border:1px solid #E5DCD3;border-radius:9px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1E1926">
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Shelf retail</div>
+              <input value="{{ ed.retail }}" sc-camel-on-change="{{ onEdRetail }}" style="width:100%;margin-top:5px;padding:10px 12px;border:1px solid #E5DCD3;border-radius:9px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1E1926">
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <div style="font-size:11px;font-weight:700;color:#928892">Item details shown to residents</div>
+            <textarea value="{{ ed.details }}" sc-camel-on-change="{{ onEdDetails }}" rows="3" placeholder="Storage, origin, warranty, anything the household should know before ordering." style="width:100%;margin-top:5px;padding:10px 12px;border:1px solid #E5DCD3;border-radius:9px;font-size:12.5px;color:#1E1926;line-height:1.5;resize:vertical"></textarea>
+          </div>
+
+          <div style="margin-top:16px;padding-top:16px;border-top:1px solid #EFE8E0">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#928892">Volume tiers</div>
+            <div style="font-size:11.5px;color:#6F6678;line-height:1.5;margin-top:6px">Price applies to every household once the block passes the unit count. Residents see the drop live.</div>
+            <div style="display:flex;flex-direction:column;margin-top:12px">
+              <sc-for list="{{ ed.tiers }}" as="t" hint-placeholder-count="4">
+                <div style="display:grid;grid-template-columns:96px 1fr 62px 60px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #F3ECE4">
+                  <div style="font-size:12px;font-weight:700;color:{{ t.fg }}">{{ t.label }}</div>
+                  <input value="{{ t.price }}" sc-camel-on-change="{{ t.onPrice }}" style="width:100%;padding:9px 11px;border:1px solid {{ t.border }};border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1E1926;text-align:right">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:{{ t.marginFg }};text-align:right">{{ t.margin }}</div>
+                  <div style="font-size:11px;color:#9A9199;text-align:right">{{ t.state }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font-size:11.5px;font-weight:700;color:{{ ed.warnFg }};margin-top:11px;line-height:1.45">{{ ed.warn }}</div>
+          </div>
+
+          <div style="margin-top:18px;padding-top:16px;border-top:1px solid #EFE8E0">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#928892">Listed at</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:11px">
+              <sc-for list="{{ ed.where }}" as="w" hint-placeholder-count="4">
+                <button sc-camel-on-click="{{ w.toggle }}" style="padding:8px 12px;border:1px solid {{ w.border }};border-radius:20px;background:{{ w.bg }};color:{{ w.fg }};font-size:11.5px;font-weight:700;cursor:pointer">{{ w.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:9px;margin-top:20px">
+            <button sc-camel-on-click="{{ saveItem }}" style="flex:1;padding:12px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Publish to sheet</button>
+            <button sc-camel-on-click="{{ toggleItem }}" style="padding:12px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:{{ ed.toggleFg }};font-size:12.5px;font-weight:700;cursor:pointer">{{ ed.toggleLabel }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isPromos }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Deals &amp; promotions</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ promoSub }}</div>
+        <div style="flex:1"></div>
+        <button sc-camel-on-click="{{ exportPromos }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Export .xlsx</button>
+        <button sc-camel-on-click="{{ importPromos }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12px;font-weight:700;cursor:pointer">Import</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(700px,1fr) 388px;gap:24px;align-items:start;margin-top:22px">
+        <div style="min-width:0">
+          <div style="display:grid;grid-template-columns:minmax(200px,1fr) 128px 108px 150px 96px 84px;gap:12px;padding:0 12px 11px;border-bottom:1.5px solid #1E1926;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#928892">
+            <div>Promotion</div><div>Mechanic</div><div style="text-align:right">Value</div><div>Runs</div><div>Uptake</div><div></div>
+          </div>
+          <sc-for list="{{ promoRows }}" as="p" hint-placeholder-count="5">
+            <div class="row" style="display:grid;grid-template-columns:minmax(200px,1fr) 128px 108px 150px 96px 84px;gap:12px;align-items:center;padding:15px 12px;border-bottom:1px solid #EFE8E0;background:#fff;box-shadow:inset 2px 0 0 {{ p.rule }}">
+              <div style="min-width:0">
+                <div style="font-size:13px;font-weight:700;line-height:1.35">{{ p.name }}</div>
+                <div style="font-size:11.5px;color:#928892;margin-top:3px">{{ p.scope }}</div>
+              </div>
+              <div style="font-size:12px;color:#3F3947">{{ p.kind }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ p.value }}</div>
+              <div style="font-size:11.5px;color:#6F6678">{{ p.window }}</div>
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12px">{{ p.uptake }}</div>
+                <div style="font-size:11px;color:{{ p.stateFg }};font-weight:700;margin-top:3px">{{ p.state }}</div>
+              </div>
+              <button sc-camel-on-click="{{ p.toggle }}" style="padding:8px 6px;border:1px solid {{ p.btnBorder }};border-radius:8px;background:{{ p.btnBg }};color:{{ p.btnFg }};font-size:11.5px;font-weight:700;cursor:pointer">{{ p.btnLabel }}</button>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Build a promotion</div>
+          <div style="font-size:11.5px;color:#6F6678;line-height:1.5;margin-top:6px">Goes live on the resident sheet the moment you publish. Anything already ordered is repriced down, never up.</div>
+          <div style="font-size:11px;font-weight:700;color:#928892;margin-top:16px">Name</div>
+          <input value="{{ np.name }}" sc-camel-on-change="{{ onNpName }}" placeholder="e.g. Rice week" style="width:100%;margin-top:5px;padding:11px 12px;border:1px solid #E5DCD3;border-radius:9px;font-size:13px;font-weight:600;color:#1E1926">
+          <div style="font-size:11px;font-weight:700;color:#928892;margin-top:14px">Mechanic</div>
+          <div style="display:flex;flex-direction:column;margin-top:7px">
+            <sc-for list="{{ np.kinds }}" as="k" hint-placeholder-count="4">
+              <button sc-camel-on-click="{{ k.pick }}" style="display:flex;align-items:flex-start;gap:10px;text-align:left;width:100%;padding:11px 0;border:0;border-bottom:1px solid #F3ECE4;background:transparent;cursor:pointer">
+                <div style="width:13px;height:13px;border-radius:50%;border:1.5px solid {{ k.ring }};background:{{ k.fill }};flex:none;margin-top:2px"></div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:12.5px;font-weight:700;color:{{ k.fg }}">{{ k.label }}</div>
+                  <div style="font-size:11.5px;color:#6F6678;margin-top:2px;line-height:1.45">{{ k.note }}</div>
+                </div>
+              </button>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">{{ np.valueLabel }}</div>
+              <input value="{{ np.value }}" sc-camel-on-change="{{ onNpValue }}" style="width:100%;margin-top:5px;padding:10px 12px;border:1px solid #E5DCD3;border-radius:9px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1E1926">
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Item</div>
+              <sc-raw-select value="{{ np.item }}" sc-camel-on-change="{{ onNpItem }}" style="width:100%;margin-top:5px;padding:10px 10px;border:1px solid #E5DCD3;border-radius:9px;font-size:12px;font-weight:600;color:#1E1926;background:#fff">
+                <sc-for list="{{ np.itemOpts }}" as="i" hint-placeholder-count="6">
+                  <option value="{{ i.v }}">{{ i.label }}</option>
+                </sc-for>
+              </sc-raw-select>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Starts</div>
+              <input type="date" value="{{ np.from }}" sc-camel-on-change="{{ onNpFrom }}" style="width:100%;margin-top:5px;padding:10px 11px;border:1px solid #E5DCD3;border-radius:9px;font-size:12px;font-weight:600;color:#1E1926">
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#928892">Ends</div>
+              <input type="date" value="{{ np.to }}" sc-camel-on-change="{{ onNpTo }}" style="width:100%;margin-top:5px;padding:10px 11px;border:1px solid #E5DCD3;border-radius:9px;font-size:12px;font-weight:600;color:#1E1926">
+            </div>
+          </div>
+          <div style="font-size:11px;font-weight:700;color:#928892;margin-top:14px">Communities</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+            <sc-for list="{{ np.where }}" as="w" hint-placeholder-count="4">
+              <button sc-camel-on-click="{{ w.toggle }}" style="padding:8px 12px;border:1px solid {{ w.border }};border-radius:20px;background:{{ w.bg }};color:{{ w.fg }};font-size:11.5px;font-weight:700;cursor:pointer">{{ w.label }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:11.5px;color:#6F6678;line-height:1.5;margin-top:14px;padding-top:14px;border-top:1px solid #EFE8E0">{{ np.preview }}</div>
+          <button sc-camel-on-click="{{ createPromo }}" style="margin-top:14px;width:100%;padding:12px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Publish promotion</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isFulfil }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Fulfilment · {{ fulComm }}</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ fulSub }}</div>
+        <div style="flex:1"></div>
+        <button sc-camel-on-click="{{ exportPick }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Pick sheet .xlsx</button>
+        <button sc-camel-on-click="{{ exportDispatch }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Dispatch note .csv</button>
+        <button sc-camel-on-click="{{ importPicked }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12px;font-weight:700;cursor:pointer">Import counts</button>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:0;margin-top:20px;background:#fff;border:1px solid #EBE3DA;border-radius:10px;overflow:hidden">
+        <sc-for list="{{ stages }}" as="st" hint-placeholder-count="5">
+          <button sc-camel-on-click="{{ st.pick }}" style="flex:1;padding:15px 12px;border:0;border-right:1px solid #EFE8E0;background:{{ st.bg }};cursor:pointer;text-align:left">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ st.numFg }}">{{ st.num }}</div>
+            <div style="font-size:12.5px;font-weight:{{ st.weight }};color:{{ st.fg }};margin-top:5px">{{ st.label }}</div>
+            <div style="font-size:11px;color:#9A9199;margin-top:3px">{{ st.when }}</div>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(720px,1fr) 372px;gap:24px;align-items:start;margin-top:24px">
+        <div style="min-width:0">
+          <div style="display:grid;grid-template-columns:minmax(190px,1fr) 84px 92px 78px 92px 108px 96px;gap:11px;padding:0 12px 11px;border-bottom:1.5px solid #1E1926;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#928892">
+            <div>Line</div><div style="text-align:right">Ordered</div><div style="text-align:right">Tier hit</div><div style="text-align:right">Cases</div><div style="text-align:right">Value</div><div style="text-align:center">Picked</div><div style="text-align:right">Variance</div>
+          </div>
+          <sc-for list="{{ picks }}" as="p" hint-placeholder-count="8">
+            <div class="row" style="display:grid;grid-template-columns:minmax(190px,1fr) 84px 92px 78px 92px 108px 96px;gap:11px;align-items:center;padding:13px 12px;border-bottom:1px solid #EFE8E0;background:#fff">
+              <div style="min-width:0">
+                <div style="font-size:13px;font-weight:700;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</div>
+                <div style="font-size:11px;color:#928892;margin-top:3px">{{ p.sku }} · {{ p.unit }}</div>
+              </div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ p.ordered }}</div>
+              <div style="text-align:right;font-size:11.5px;font-weight:700;color:{{ p.tierFg }}">{{ p.tier }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6F6678">{{ p.cases }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ p.value }}</div>
+              <input value="{{ p.picked }}" sc-camel-on-change="{{ p.onPicked }}" style="width:100%;padding:8px 10px;border:1px solid #E5DCD3;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1E1926;text-align:center">
+              <div style="text-align:right;font-size:11.5px;font-weight:700;color:{{ p.varFg }}">{{ p.variance }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Drop summary</div>
+            <div style="display:flex;flex-direction:column;margin-top:12px">
+              <sc-for list="{{ dropStats }}" as="d" hint-placeholder-count="5">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F3ECE4">
+                  <div style="font-size:12.5px;color:#6F6678">{{ d.label }}</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:{{ d.fg }}">{{ d.value }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <button sc-camel-on-click="{{ advance }}" style="margin-top:18px;width:100%;padding:12px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">{{ advanceLabel }}</button>
+            <button sc-camel-on-click="{{ notifyOffice }}" style="margin-top:9px;width:100%;padding:11px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12px;font-weight:700;cursor:pointer">Notify the property office</button>
+          </div>
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Other communities</div>
+            <div style="display:flex;flex-direction:column;margin-top:12px">
+              <sc-for list="{{ otherComms }}" as="o" hint-placeholder-count="3">
+                <button sc-camel-on-click="{{ o.pick }}" style="display:flex;align-items:baseline;gap:10px;text-align:left;width:100%;padding:11px 0;border:0;border-bottom:1px solid #F3ECE4;background:transparent;cursor:pointer">
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:12.5px;font-weight:700">{{ o.name }}</div>
+                    <div style="font-size:11.5px;color:#928892;margin-top:2px">{{ o.note }}</div>
+                  </div>
+                  <div style="font-size:11.5px;font-weight:700;color:{{ o.fg }}">{{ o.stage }}</div>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isCycles }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Cycles, cutoffs &amp; accounts</div>
+        <div style="font-size:12.5px;color:#7B7280">Delivery days and cutoffs per community. Publishing pushes the sheet to residents.</div>
+        <div style="flex:1"></div>
+        <button sc-camel-on-click="{{ exportCycles }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Export .xlsx</button>
+        <button sc-camel-on-click="{{ importCycles }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12px;font-weight:700;cursor:pointer">Import calendar</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:0;margin-top:22px">
+        <div style="display:grid;grid-template-columns:minmax(180px,1fr) 96px 140px 140px 168px 110px 108px;gap:12px;padding:0 12px 11px;border-bottom:1.5px solid #1E1926;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#928892">
+          <div>Community</div><div style="text-align:right">Cycle</div><div>Cutoff</div><div>Delivery</div><div>Collection point</div><div>Contract</div><div></div>
+        </div>
+        <sc-for list="{{ cycleRows }}" as="c" hint-placeholder-count="4">
+          <div class="row" style="display:grid;grid-template-columns:minmax(180px,1fr) 96px 140px 140px 168px 110px 108px;gap:12px;align-items:center;padding:14px 12px;border-bottom:1px solid #EFE8E0;background:#fff">
+            <div style="min-width:0">
+              <div style="font-size:13px;font-weight:700">{{ c.name }}</div>
+              <div style="font-size:11.5px;color:#928892;margin-top:3px">{{ c.sub }}</div>
+            </div>
+            <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ c.cycle }}</div>
+            <input type="date" value="{{ c.cutoff }}" sc-camel-on-change="{{ c.onCutoff }}" style="width:100%;padding:9px 10px;border:1px solid #E5DCD3;border-radius:8px;font-size:11.5px;font-weight:600;color:#1E1926">
+            <input type="date" value="{{ c.delivery }}" sc-camel-on-change="{{ c.onDelivery }}" style="width:100%;padding:9px 10px;border:1px solid #E5DCD3;border-radius:8px;font-size:11.5px;font-weight:600;color:#1E1926">
+            <input value="{{ c.point }}" sc-camel-on-change="{{ c.onPoint }}" style="width:100%;padding:9px 10px;border:1px solid #E5DCD3;border-radius:8px;font-size:11.5px;font-weight:600;color:#1E1926">
+            <div style="font-size:11.5px;font-weight:700;color:{{ c.contractFg }}">{{ c.contract }}</div>
+            <button sc-camel-on-click="{{ c.publish }}" style="padding:8px 6px;border:1px solid {{ c.btnBorder }};border-radius:8px;background:{{ c.btnBg }};color:{{ c.btnFg }};font-size:11.5px;font-weight:700;cursor:pointer">{{ c.btnLabel }}</button>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:30px">
+        <sc-for list="{{ cycleNotes }}" as="n" hint-placeholder-count="3">
+          <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+            <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">{{ n.title }}</div>
+            <div style="font-size:12.5px;color:#3F3947;line-height:1.6;margin-top:9px;text-wrap:pretty">{{ n.body }}</div>
+            <button sc-camel-on-click="{{ n.act }}" style="margin-top:11px;border:0;background:transparent;padding:0;cursor:pointer;font-size:12px;font-weight:700;color:#5B34D9">{{ n.cta }}</button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isDemand }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Resident demand</div>
+        <div style="font-size:12.5px;color:#7B7280">Wishlist votes and unmet searches, straight from the blocks.</div>
+        <div style="flex:1"></div>
+        <button sc-camel-on-click="{{ exportDemand }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Export .xlsx</button>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(620px,1fr) 372px;gap:24px;align-items:start;margin-top:22px">
+        <div style="min-width:0">
+          <div style="display:grid;grid-template-columns:minmax(200px,1fr) 88px 118px 160px 108px;gap:12px;padding:0 12px 11px;border-bottom:1.5px solid #1E1926;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#928892">
+            <div>Requested item</div><div style="text-align:right">Votes</div><div style="text-align:right">Households</div><div>Communities</div><div></div>
+          </div>
+          <sc-for list="{{ demandRows }}" as="d" hint-placeholder-count="6">
+            <div class="row" style="display:grid;grid-template-columns:minmax(200px,1fr) 88px 118px 160px 108px;gap:12px;align-items:center;padding:14px 12px;border-bottom:1px solid #EFE8E0;background:#fff">
+              <div style="min-width:0">
+                <div style="font-size:13px;font-weight:700">{{ d.name }}</div>
+                <div style="font-size:11.5px;color:#928892;margin-top:3px">{{ d.note }}</div>
+              </div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ d.votes }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#6F6678">{{ d.households }}</div>
+              <div style="font-size:11.5px;color:#6F6678">{{ d.comms }}</div>
+              <button sc-camel-on-click="{{ d.act }}" style="padding:8px 6px;border:1px solid {{ d.btnBorder }};border-radius:8px;background:{{ d.btnBg }};color:{{ d.btnFg }};font-size:11.5px;font-weight:700;cursor:pointer">{{ d.btnLabel }}</button>
+            </div>
+          </sc-for>
+        </div>
+        <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Sourcing notes</div>
+          <div style="font-size:12.5px;color:#3F3947;line-height:1.6;margin-top:10px">Anything above 15 votes across two towers usually clears a 20-unit tier in its first cycle. Add it as a trial line before committing to a case buy.</div>
+          <div style="display:flex;flex-direction:column;margin-top:16px">
+            <sc-for list="{{ demandStats }}" as="s" hint-placeholder-count="3">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F3ECE4">
+                <div style="font-size:12.5px;color:#6F6678">{{ s.label }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:13px">{{ s.value }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isRoster }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Households &amp; accounts</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ rosterSub }}</div>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:8px;width:220px;padding:7px 0;border-bottom:1.5px solid {{ rqBorder }}">
+          <input value="{{ rq }}" sc-camel-on-change="{{ onRq }}" placeholder="Search unit or name" style="flex:1;min-width:0;border:0;background:transparent;font-size:13px;font-weight:600;color:#1E1926;padding:0">
+        </div>
+        <button sc-camel-on-click="{{ importRoster }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12px;font-weight:700;cursor:pointer">Import roster</button>
+        <button sc-camel-on-click="{{ exportRoster }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Export .xlsx</button>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:16px;margin-top:18px;padding:14px 16px;background:#fff;border:1px solid #EBE3DA;border-radius:10px">
+        <div style="font-size:12.5px;font-weight:700">{{ pickedNote }}</div>
+        <div style="flex:1"></div>
+        <button sc-camel-on-click="{{ selectNoAccount }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:12px;font-weight:700;color:#5B34D9">Select all without an account</button>
+        <button sc-camel-on-click="{{ issueAccounts }}" style="padding:9px 14px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12px;font-weight:700;cursor:pointer">Issue accounts &amp; temp passwords</button>
+        <button sc-camel-on-click="{{ exportCreds }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Export credential slips .csv</button>
+      </div>
+
+      <div style="margin-top:20px">
+        <div style="display:grid;grid-template-columns:34px 78px minmax(170px,1fr) 128px 140px 118px 96px 104px;gap:11px;padding:0 12px 11px;border-bottom:1.5px solid #1E1926;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#928892">
+          <div></div><div>Unit</div><div>Household</div><div>Phone</div><div>Account</div><div>Temp password</div><div style="text-align:right">Orders</div><div></div>
+        </div>
+        <sc-for list="{{ rosterRows }}" as="r" hint-placeholder-count="9">
+          <div class="row" style="display:grid;grid-template-columns:34px 78px minmax(170px,1fr) 128px 140px 118px 96px 104px;gap:11px;align-items:center;padding:13px 12px;border-bottom:1px solid #EFE8E0;background:#fff">
+            <button sc-camel-on-click="{{ r.toggle }}" style="width:17px;height:17px;border-radius:5px;border:1.5px solid {{ r.boxBorder }};background:{{ r.boxBg }};cursor:pointer;padding:0;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ r.tick }}</button>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px">{{ r.unit }}</div>
+            <div style="min-width:0">
+              <div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</div>
+              <div style="font-size:11px;color:#928892;margin-top:3px">{{ r.since }}</div>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6F6678">{{ r.phone }}</div>
+            <div style="font-size:11.5px;font-weight:700;color:{{ r.stateFg }}">{{ r.state }}</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#928892">{{ r.temp }}</div>
+            <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6F6678">{{ r.orders }}</div>
+            <button sc-camel-on-click="{{ r.act }}" style="padding:8px 6px;border:1px solid #E5DCD3;border-radius:8px;background:#fff;color:{{ r.actFg }};font-size:11.5px;font-weight:700;cursor:pointer">{{ r.actLabel }}</button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isVerify }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Verification queue</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ verifySub }}</div>
+        <div style="flex:1"></div>
+        <button sc-camel-on-click="{{ exportVerify }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Export queue .xlsx</button>
+      </div>
+      <div style="font-size:12.5px;color:#6F6678;line-height:1.6;margin-top:12px;max-width:760px;text-wrap:pretty">Accounts are created from the unit roster, so these are the exceptions: a claim on a unit you have not listed, a tenant change, or a household asking for a second login. Approving one issues the account and a temp password.</div>
+
+      <div style="display:grid;grid-template-columns:minmax(660px,1fr) 372px;gap:24px;align-items:start;margin-top:22px">
+        <div style="min-width:0">
+          <sc-for list="{{ verifyRows }}" as="v" hint-placeholder-count="4">
+            <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:20px;margin-bottom:14px;box-shadow:inset 3px 0 0 {{ v.rule }}">
+              <div style="display:flex;align-items:baseline;gap:12px">
+                <div style="font-size:14px;font-weight:800">{{ v.name }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6F6678">{{ v.unit }}</div>
+                <div style="flex:1"></div>
+                <div style="font-size:11.5px;font-weight:700;color:{{ v.kindFg }}">{{ v.kind }}</div>
+                <div style="font-size:11.5px;color:#928892">{{ v.when }}</div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:14px">
+                <div>
+                  <div style="font-size:11px;color:#928892">Phone</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;margin-top:3px">{{ v.phone }}</div>
+                </div>
+                <div>
+                  <div style="font-size:11px;color:#928892">On roster</div>
+                  <div style="font-size:12.5px;font-weight:700;margin-top:3px;color:{{ v.matchFg }}">{{ v.match }}</div>
+                </div>
+                <div>
+                  <div style="font-size:11px;color:#928892">Proof supplied</div>
+                  <div style="font-size:12.5px;font-weight:700;margin-top:3px">{{ v.proof }}</div>
+                </div>
+                <div>
+                  <div style="font-size:11px;color:#928892">Requested by</div>
+                  <div style="font-size:12.5px;margin-top:3px">{{ v.via }}</div>
+                </div>
+              </div>
+              <div style="font-size:12.5px;color:#3F3947;line-height:1.55;margin-top:12px;text-wrap:pretty">{{ v.note }}</div>
+              <div style="display:flex;gap:9px;margin-top:16px">
+                <button sc-camel-on-click="{{ v.approve }}" style="padding:10px 16px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Approve &amp; issue account</button>
+                <button sc-camel-on-click="{{ v.hold }}" style="padding:10px 16px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap">Ask for proof</button>
+                <button sc-camel-on-click="{{ v.reject }}" style="padding:10px 16px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#B3253A;font-size:12.5px;font-weight:700;cursor:pointer">Reject</button>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ verifyEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:56px 0;border-top:1.5px solid #1E1926">
+              <div style="font-size:15px;font-weight:800">Queue is clear</div>
+              <div style="font-size:13px;color:#6F6678;margin-top:7px;max-width:420px;line-height:1.55">Every claim has been handled. New ones appear here as residents ask the office for access.</div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Handled today</div>
+          <div style="display:flex;flex-direction:column;margin-top:12px">
+            <sc-for list="{{ verifyLog }}" as="l" hint-placeholder-count="4">
+              <div style="padding:11px 0;border-bottom:1px solid #F3ECE4">
+                <div style="font-size:12.5px;font-weight:700;color:{{ l.fg }}">{{ l.text }}</div>
+                <div style="font-size:11px;color:#9A9199;margin-top:2px">{{ l.when }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isCollect }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Collection sheet</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ collectSub }}</div>
+        <div style="flex:1"></div>
+        <button sc-camel-on-click="{{ exportCollect }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Print sheet .xlsx</button>
+        <button sc-camel-on-click="{{ importCollect }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12px;font-weight:700;cursor:pointer">Import ticked sheet</button>
+        <button sc-camel-on-click="{{ closeCollect }}" style="padding:9px 14px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12px;font-weight:700;cursor:pointer">Close collection</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:20px;border-top:1.5px solid #1E1926;border-bottom:1px solid #EFE8E0">
+        <sc-for list="{{ collectStats }}" as="s" hint-placeholder-count="4">
+          <div style="padding:16px 20px 16px 0">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:20px;color:{{ s.fg }}">{{ s.value }}</div>
+            <div style="font-size:12px;color:#6F6678;margin-top:4px">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:22px">
+        <div style="display:grid;grid-template-columns:40px 96px 78px minmax(180px,1fr) 92px 118px 132px 116px;gap:11px;padding:0 12px 11px;border-bottom:1.5px solid #1E1926;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#928892">
+          <div></div><div>Order</div><div>Unit</div><div>Household</div><div style="text-align:right">Items</div><div style="text-align:right">Total</div><div>Payment</div><div>Collected by</div>
+        </div>
+        <sc-for list="{{ collectRows }}" as="c" hint-placeholder-count="8">
+          <div class="row" style="display:grid;grid-template-columns:40px 96px 78px minmax(180px,1fr) 92px 118px 132px 116px;gap:11px;align-items:center;padding:13px 12px;border-bottom:1px solid #EFE8E0;background:{{ c.bg }}">
+            <button sc-camel-on-click="{{ c.toggle }}" style="width:19px;height:19px;border-radius:5px;border:1.5px solid {{ c.boxBorder }};background:{{ c.boxBg }};cursor:pointer;padding:0;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ c.tick }}</button>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px">{{ c.code }}</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6F6678">{{ c.unit }}</div>
+            <div style="min-width:0;font-size:13px;font-weight:{{ c.weight }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</div>
+            <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6F6678">{{ c.items }}</div>
+            <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ c.total }}</div>
+            <div style="font-size:11.5px;font-weight:700;color:{{ c.payFg }}">{{ c.pay }}</div>
+            <div style="font-size:11.5px;color:#6F6678">{{ c.by }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isPayments }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Payments &amp; cash-up</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ paySub }}</div>
+        <div style="flex:1"></div>
+        <button sc-camel-on-click="{{ exportPayments }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Export ledger .xlsx</button>
+        <button sc-camel-on-click="{{ importPayments }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12px;font-weight:700;cursor:pointer">Import bank file</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(700px,1fr) 372px;gap:24px;align-items:start;margin-top:22px">
+        <div style="min-width:0">
+          <div style="display:grid;grid-template-columns:96px 78px minmax(160px,1fr) 116px 128px 118px 108px;gap:11px;padding:0 12px 11px;border-bottom:1.5px solid #1E1926;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#928892">
+            <div>Order</div><div>Unit</div><div>Household</div><div style="text-align:right">Amount</div><div>Method</div><div>State</div><div></div>
+          </div>
+          <sc-for list="{{ payRows }}" as="p" hint-placeholder-count="8">
+            <div class="row" style="display:grid;grid-template-columns:96px 78px minmax(160px,1fr) 116px 128px 118px 108px;gap:11px;align-items:center;padding:13px 12px;border-bottom:1px solid #EFE8E0;background:#fff">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:12px">{{ p.code }}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6F6678">{{ p.unit }}</div>
+              <div style="min-width:0;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</div>
+              <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ p.amount }}</div>
+              <div style="font-size:11.5px;color:#6F6678">{{ p.method }}</div>
+              <div style="font-size:11.5px;font-weight:700;color:{{ p.stateFg }}">{{ p.state }}</div>
+              <button sc-camel-on-click="{{ p.act }}" style="padding:8px 6px;border:1px solid {{ p.btnBorder }};border-radius:8px;background:{{ p.btnBg }};color:{{ p.btnFg }};font-size:11.5px;font-weight:700;cursor:pointer">{{ p.btnLabel }}</button>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Cash-up for this drop</div>
+          <div style="display:flex;flex-direction:column;margin-top:14px">
+            <sc-for list="{{ cashLines }}" as="c" hint-placeholder-count="3">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F3ECE4">
+                <div style="font-size:12.5px;color:#6F6678">{{ c.label }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:{{ c.fg }}">{{ c.value }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font-size:11px;font-weight:700;color:#928892;margin-top:16px">Cash counted at the table</div>
+          <input value="{{ cashCount }}" sc-camel-on-change="{{ onCashCount }}" placeholder="0" style="width:100%;margin-top:6px;padding:12px 13px;border:1px solid #E5DCD3;border-radius:9px;font-family:'JetBrains Mono',monospace;font-size:14px;color:#1E1926">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid #EFE8E0">
+            <div style="font-size:12.5px;font-weight:800">Variance</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:15px;color:{{ varianceFg }}">{{ variance }}</div>
+          </div>
+          <div style="font-size:11.5px;color:#6F6678;line-height:1.5;margin-top:10px">{{ varianceNote }}</div>
+          <button sc-camel-on-click="{{ submitCash }}" style="margin-top:16px;width:100%;padding:12px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Submit cash-up to Capital Retail</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isOrdersView }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="display:flex;align-items:baseline;gap:20px">
+        <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Orders on the block</div>
+        <div style="font-size:12.5px;color:#7B7280">{{ ordersSub }}</div>
+        <div style="flex:1"></div>
+        <button sc-camel-on-click="{{ exportOrders }}" style="padding:9px 14px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12px;font-weight:700;cursor:pointer">Export .xlsx</button>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:20px;margin-top:18px;border-bottom:1px solid #E7DFD5">
+        <sc-for list="{{ orderFilters }}" as="f" hint-placeholder-count="4">
+          <button sc-camel-on-click="{{ f.pick }}" style="display:flex;align-items:baseline;gap:6px;padding:0 0 11px;border:0;background:transparent;cursor:pointer;font-size:12.5px;font-weight:{{ f.weight }};color:{{ f.fg }};border-bottom:2px solid {{ f.line }};margin-bottom:-1px">
+            {{ f.label }}
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:#A79E9E">{{ f.count }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="margin-top:20px">
+        <div style="display:grid;grid-template-columns:96px 78px minmax(170px,1fr) minmax(200px,1fr) 92px 118px 118px;gap:11px;padding:0 12px 11px;border-bottom:1.5px solid #1E1926;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#928892">
+          <div>Order</div><div>Unit</div><div>Household</div><div>Items</div><div style="text-align:right">Value</div><div>Stage</div><div>Payment</div>
+        </div>
+        <sc-for list="{{ orderRows }}" as="o" hint-placeholder-count="8">
+          <div class="row" style="display:grid;grid-template-columns:96px 78px minmax(170px,1fr) minmax(200px,1fr) 92px 118px 118px;gap:11px;align-items:center;padding:13px 12px;border-bottom:1px solid #EFE8E0;background:#fff">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px">{{ o.code }}</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6F6678">{{ o.unit }}</div>
+            <div style="min-width:0;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.name }}</div>
+            <div style="min-width:0;font-size:12px;color:#6F6678;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.items }}</div>
+            <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ o.total }}</div>
+            <div style="font-size:11.5px;font-weight:700;color:{{ o.stageFg }}">{{ o.stage }}</div>
+            <div style="font-size:11.5px;font-weight:700;color:{{ o.payFg }}">{{ o.pay }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isSetup }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Cycle &amp; collection setup</div>
+      <div style="font-size:12.5px;color:#7B7280;margin-top:6px">What residents at {{ scopeName }} see for cutoffs, collection point and window.</div>
+      <div style="display:grid;grid-template-columns:minmax(520px,1fr) 372px;gap:24px;align-items:start;margin-top:22px">
+        <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">This community</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+            <sc-for list="{{ setupFields }}" as="f" hint-placeholder-count="6">
+              <div>
+                <div style="font-size:11.5px;font-weight:700;color:#928892">{{ f.label }}</div>
+                <input value="{{ f.value }}" sc-camel-on-change="{{ f.onChange }}" style="width:100%;margin-top:6px;padding:11px 13px;border:1px solid #E5DCD3;border-radius:9px;font-size:13px;font-weight:600;color:#1E1926">
+                <div style="font-size:11px;color:#9A9199;margin-top:4px">{{ f.hint }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <button sc-camel-on-click="{{ saveSetup }}" style="margin-top:20px;padding:12px 18px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Save and notify residents</button>
+        </div>
+        <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:22px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Contract with Capital Retail</div>
+          <div style="display:flex;flex-direction:column;margin-top:12px">
+            <sc-for list="{{ contractLines }}" as="c" hint-placeholder-count="4">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #F3ECE4">
+                <div style="font-size:12.5px;color:#6F6678">{{ c.label }}</div>
+                <div style="font-size:12.5px;font-weight:700;text-align:right">{{ c.value }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <button sc-camel-on-click="{{ requestChange }}" style="margin-top:16px;width:100%;padding:11px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#5B34D9;font-size:12px;font-weight:700;cursor:pointer">Request a change</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isAnnounce }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div style="font-family:Poppins,sans-serif;font-size:27px;font-weight:600;letter-spacing:-.02em">Announcements</div>
+      <div style="font-size:12.5px;color:#7B7280;margin-top:6px">Lands in Updates for every verified household at {{ scopeName }}.</div>
+      <div style="display:grid;grid-template-columns:minmax(480px,1fr) minmax(420px,1fr);gap:24px;align-items:start;margin-top:22px">
+        <div style="background:#fff;border:1px solid #EBE3DA;border-radius:10px;padding:24px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Write one</div>
+          <input value="{{ annTitle }}" sc-camel-on-change="{{ onAnnTitle }}" placeholder="Headline" style="width:100%;margin-top:14px;padding:12px 13px;border:1px solid #E5DCD3;border-radius:9px;font-size:14px;font-weight:700;color:#1E1926">
+          <textarea value="{{ annBody }}" sc-camel-on-change="{{ onAnnBody }}" rows="5" placeholder="Keep it to two sentences — collection time, what changed, what to bring." style="width:100%;margin-top:11px;padding:12px 13px;border:1px solid #E5DCD3;border-radius:9px;font-size:13px;color:#1E1926;line-height:1.55;resize:vertical"></textarea>
+          <div style="display:flex;gap:9px;margin-top:14px">
+            <button sc-camel-on-click="{{ postAnn }}" style="padding:12px 18px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">Publish to residents</button>
+            <button sc-camel-on-click="{{ pinAnn }}" style="padding:12px 16px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#1E1926;font-size:12.5px;font-weight:700;cursor:pointer">Save as draft</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding-bottom:11px;border-bottom:1.5px solid #1E1926">Sent</div>
+          <sc-for list="{{ annList }}" as="a" hint-placeholder-count="4">
+            <div style="padding:16px 12px;border-bottom:1px solid #EFE8E0;background:{{ a.bg }}">
+              <div style="display:flex;align-items:baseline;gap:10px">
+                <div style="font-size:13.5px;font-weight:800;flex:1">{{ a.title }}</div>
+                <div style="font-size:11px;color:#9A9199">{{ a.when }}</div>
+              </div>
+              <div style="font-size:12.5px;color:#3F3947;line-height:1.55;margin-top:5px;text-wrap:pretty">{{ a.body }}</div>
+              <div style="font-size:11px;color:#928892;margin-top:6px">{{ a.reach }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ impOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:30;background:rgba(30,25,38,.42);display:flex;align-items:center;justify-content:center;padding:40px">
+  <div style="width:820px;max-height:88vh;overflow:auto;background:#F8F5F1;border:1px solid #DED5CC;border-radius:12px;padding:28px">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <div style="font-family:Poppins,sans-serif;font-size:21px;font-weight:600;letter-spacing:-.02em">{{ impTitle }}</div>
+      <div style="flex:1"></div>
+      <button sc-camel-on-click="{{ downloadTemplate }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:12px;font-weight:700;color:#5B34D9">Download blank template</button>
+      <button sc-camel-on-click="{{ closeImport }}" style="border:0;background:transparent;padding:0;cursor:pointer;font-size:12px;font-weight:700;color:#6F6678">Close</button>
+    </div>
+    <div style="font-size:12.5px;color:#6F6678;line-height:1.6;margin-top:8px">{{ impBlurb }}</div>
+
+    <div sc-camel-on-drag-over="{{ onDragOver }}" sc-camel-on-drop="{{ onDrop }}" sc-camel-on-click="{{ browse }}" style="margin-top:18px;padding:34px;border:1.5px dashed {{ dropBorder }};border-radius:11px;background:{{ dropBg }};text-align:center;cursor:pointer">
+      <div style="font-size:14px;font-weight:700">{{ dropTitle }}</div>
+      <div style="font-size:12.5px;color:#6F6678;margin-top:6px">.xlsx, .xls or .csv — the first sheet is read, header row included</div>
+    </div>
+    <input type="file" accept=".xlsx,.xls,.csv" ref="{{ fileRef }}" sc-camel-on-change="{{ onFile }}" style="display:none">
+
+    <sc-if value="{{ impHasRows }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top:20px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase">Preview</div>
+        <div style="font-size:12px;color:#6F6678">{{ impSummary }}</div>
+      </div>
+      <div style="margin-top:12px;overflow-x:auto;background:#fff;border:1px solid #EBE3DA;border-radius:10px">
+        <div style="display:flex;gap:0;padding:10px 14px;border-bottom:1px solid #EFE8E0">
+          <sc-for list="{{ impCols }}" as="c" hint-placeholder-count="5">
+            <div style="min-width:120px;flex:1;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#928892">{{ c.label }}</div>
+          </sc-for>
+        </div>
+        <sc-for list="{{ impRows }}" as="r" hint-placeholder-count="5">
+          <div style="display:flex;gap:0;padding:10px 14px;border-bottom:1px solid #F3ECE4">
+            <sc-for list="{{ r.cells }}" as="cell" hint-placeholder-count="5">
+              <div style="min-width:120px;flex:1;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#3F3947;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cell.v }}</div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:12.5px;color:{{ impNoteFg }};font-weight:700;margin-top:12px;line-height:1.5">{{ impNote }}</div>
+      <div style="display:flex;gap:9px;margin-top:16px">
+        <button sc-camel-on-click="{{ applyImport }}" style="padding:12px 18px;border:0;border-radius:9px;background:#1E1926;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">{{ impApplyLabel }}</button>
+        <button sc-camel-on-click="{{ clearImport }}" style="padding:12px 16px;border:1px solid #E5DCD3;border-radius:9px;background:#fff;color:#6F6678;font-size:12.5px;font-weight:700;cursor:pointer">Pick another file</button>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1E1926;color:#fff;font-size:12.5px;font-weight:600;padding:11px 17px;border-radius:9px;z-index:40">{{ toast }}</div>
+</sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1480,&quot;height&quot;:960},&quot;startRole&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;retail&quot;,&quot;office&quot;],&quot;default&quot;:&quot;retail&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Demo&quot;},&quot;showMargins&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demo&quot;}}">
+const money=n=>'K '+Math.round(n).toLocaleString('en-US');
+const grad=(a,b)=>'linear-gradient(135deg,'+a+','+b+')';
+const num=v=>{const n=parseFloat(String(v).replace(/[^0-9.\-]/g,''));return isFinite(n)?n:0;};
+const CATS=['Grocery','Grocery Non-Food','Hardline','Softline','Homeline','Pharmacy','Fresh & Frozen'];
+const SLOT='repeating-linear-gradient(135deg,#F2EBE3 0 6px,#F8F3ED 6px 12px)';
+const COMMS=[
+ {k:'G1',name:'Gems 1 Condo',short:'Gems 1',households:143,units:312,cycle:34,point:'Tower 1 guardhouse',cutoff:'2026-08-23',delivery:'2026-08-25',contract:'Signed',f:1},
+ {k:'G2',name:'Gems 2 Condo',short:'Gems 2',households:96,units:204,cycle:31,point:'Tower 2 lobby',cutoff:'2026-08-23',delivery:'2026-08-25',contract:'Signed',f:.67},
+ {k:'G3',name:'Gems 3 Condo',short:'Gems 3',households:61,units:138,cycle:22,point:'Tower 3 guardhouse',cutoff:'2026-08-26',delivery:'2026-08-28',contract:'Signed',f:.43},
+ {k:'G4',name:'Gems 4 Condo',short:'Gems 4',households:38,units:84,cycle:9,point:'Tower 4 lobby',cutoff:'2026-08-26',delivery:'2026-08-28',contract:'Pilot',f:.27}
+];
+const ITEMS=[
+ {id:1,sku:'FF-1042',name:'Shan Highland Tomatoes',brand:'Shan Farm Co-op',barcode:'8851001042',unit:'1kg pack',size:'1 kg',weight:'1.05 kg',cat:'Fresh & Frozen',details:'Grade A, hand-picked, packed same morning in Aungban. Chilled 4°C in transit.',img:'',cost:3050,retail:4500,prices:[4200,3900,3600,3300],units:63,active:true,where:['G1','G2','G3','G4']},
+ {id:2,sku:'FF-1088',name:'Free-range Eggs, 30s tray',brand:'Golden Yolk',barcode:'8851001088',unit:'30 eggs',size:'30 x 55g',weight:'1.8 kg',cat:'Fresh & Frozen',details:'Barn-free, dated on shell. Tray is returnable at the collection table.',img:'',cost:8400,retail:13000,prices:[12000,11000,10200,9500],units:96,active:true,where:['G1','G2','G3','G4']},
+ {id:3,sku:'FF-2201',name:'Beef Striploin, chilled',brand:'Capital Butchery',barcode:'8851002201',unit:'500g pack',size:'500 g',weight:'0.52 kg',cat:'Fresh & Frozen',details:'Vacuum-packed, 21-day aged. Keep at 0–4°C, use within 3 days of collection.',img:'',cost:19800,retail:32000,prices:[29500,27500,25500,23000],units:31,active:true,where:['G1','G2']},
+ {id:4,sku:'FF-2240',name:'Salmon Fillet, frozen',brand:'Nordic Blue',barcode:'8851002240',unit:'400g, skin-on',size:'400 g',weight:'0.44 kg',cat:'Fresh & Frozen',details:'Norwegian, skin-on, individually wrapped. Delivered frozen in an insulated tote.',img:'',cost:27500,retail:45000,prices:[41000,38000,35000,32000],units:47,active:true,where:['G1','G2','G3']},
+ {id:5,sku:'GR-3010',name:'Paw San Rice, 10kg sack',brand:'Shwe Bo Paw San',barcode:'8851003010',unit:'10kg sack',size:'10 kg',weight:'10.2 kg',cat:'Grocery',details:'New crop, double-polished, woven sack with handle. Heaviest line in the drop — bring a trolley.',img:'',cost:31000,retail:48000,prices:[44000,41000,38000,35000],units:88,active:true,where:['G1','G2','G3','G4']},
+ {id:6,sku:'GR-3055',name:'Sunflower Cooking Oil',brand:'Sun Valley',barcode:'8851003055',unit:'1L bottle',size:'1 L',weight:'0.95 kg',cat:'Grocery',details:'Refined, PET bottle, 18-month shelf life. Case of 12 for splits.',img:'',cost:6300,retail:9800,prices:[9000,8300,7700,7200],units:24,active:true,where:['G1','G2','G3','G4']},
+ {id:7,sku:'GN-4102',name:'Laundry Detergent Refill',brand:'Clearwash',barcode:'8851004102',unit:'3.6L pouch',size:'3.6 L',weight:'3.75 kg',cat:'Grocery Non-Food',details:'Concentrated refill pouch, low-suds, safe for front loaders.',img:'',cost:15200,retail:24000,prices:[22000,20000,18500,17000],units:52,active:true,where:['G1','G2','G3']},
+ {id:8,sku:'GN-5001',name:'Bamboo Toilet Roll, 30-pack',brand:'Leaf & Co',barcode:'8851005001',unit:'30 rolls',size:'30 x 3-ply',weight:'4.2 kg',cat:'Grocery Non-Food',details:'Unbleached bamboo, plastic-free wrap. Bulky — one case per trolley.',img:'',cost:16800,retail:28000,prices:[25500,23000,21000,19000],units:71,active:true,where:['G1','G2','G3','G4']},
+ {id:9,sku:'GR-5044',name:'Mineral Water, 24-bottle case',brand:'Alpine Springs',barcode:'8851005044',unit:'24 x 600ml',size:'14.4 L',weight:'14.8 kg',cat:'Grocery',details:'Shrink-wrapped case. Highest-volume line — usually clears the 100-unit tier.',img:'',cost:5600,retail:9500,prices:[8800,8000,7200,6500],units:104,active:true,where:['G1','G2','G3','G4']},
+ {id:10,sku:'FF-6011',name:'Frozen Pork Dumplings',brand:'Yangon Kitchen',barcode:'8851006011',unit:'1kg pack',size:'1 kg (40 pcs)',weight:'1.05 kg',cat:'Fresh & Frozen',details:'Flash-frozen, cook from frozen. Keep at −18°C.',img:'',cost:9700,retail:16000,prices:[14500,13200,12000,11000],units:19,active:true,where:['G1','G2']},
+ {id:11,sku:'GR-7020',name:'Coconut Water, 12-pack',brand:'Pure Coco',barcode:'8851007020',unit:'12 x 330ml',size:'3.96 L',weight:'4.3 kg',cat:'Grocery',details:'No added sugar. Delisted this cycle on thin margin — 8 households still asking.',img:'',cost:11200,retail:18000,prices:[16500,15000,13800,12500],units:12,active:false,where:['G1']},
+ {id:12,sku:'GN-8003',name:'Baby Wipes, 6 x 80s',brand:'Softly',barcode:'8851008003',unit:'480 wipes',size:'6 x 80 sheets',weight:'2.1 kg',cat:'Grocery Non-Food',details:'Fragrance-free, flip-lid packs. Steady repeat line across all towers.',img:'',cost:16400,retail:26000,prices:[23500,21500,19500,18000],units:38,active:true,where:['G1','G2','G3']},
+ {id:13,sku:'HL-9010',name:'Rice Cooker, 1.8L',brand:'Panatech',barcode:'8851009010',unit:'1 unit',size:'1.8 L / 700W',weight:'2.4 kg',cat:'Hardline',details:'Non-stick bowl, one-year local warranty through Capital Retail service desk.',img:'',cost:42000,retail:68000,prices:[63000,60000,57000,54000],units:8,active:true,where:['G1','G2']},
+ {id:14,sku:'SL-9120',name:'Cotton Bath Towel, 2-pack',brand:'Loomhouse',barcode:'8851009120',unit:'2 towels',size:'70 x 140 cm',weight:'0.9 kg',cat:'Softline',details:'480gsm combed cotton, four colourways — colour picked at the collection table.',img:'',cost:12000,retail:20000,prices:[18500,17500,16500,15500],units:14,active:true,where:['G1','G2','G3']},
+ {id:15,sku:'HM-9205',name:'Bedsheet Set, Queen',brand:'Loomhouse',barcode:'8851009205',unit:'4-piece set',size:'180 x 200 cm',weight:'1.6 kg',cat:'Homeline',details:'Fitted sheet, flat sheet and two pillowcases. 200TC percale.',img:'',cost:28000,retail:46000,prices:[42000,40000,37500,35000],units:6,active:true,where:['G1','G2']},
+ {id:16,sku:'PH-9301',name:'Paracetamol 500mg, 100s',brand:'MyanPharm',barcode:'8851009301',unit:'100 tablets',size:'100 x 500mg',weight:'0.12 kg',cat:'Pharmacy',details:'FDA Myanmar registered. Pharmacy lines are capped at 2 packs per household per cycle.',img:'',cost:3200,retail:5500,prices:[5000,4700,4400,4100],units:22,active:true,where:['G1','G2','G3','G4']}
+];
+const PROMOS=[
+ {id:1,name:'Rice week',kind:'tier',value:'Unlock 50+ at 20',item:'Paw San Rice, 10kg sack',where:['G1','G2'],from:'19 Aug',to:'25 Aug',uptake:'88 units',live:true},
+ {id:2,name:'First order welcome',kind:'percent',value:'10%',item:'Any first order',where:['G4'],from:'1 Aug',to:'30 Sep',uptake:'21 households',live:true},
+ {id:3,name:'Water + detergent bundle',kind:'bundle',value:'K 2,500 off',item:'Mineral Water + Detergent',where:['G1','G2','G3'],from:'22 Aug',to:'29 Aug',uptake:'34 baskets',live:true},
+ {id:4,name:'Trolley Tuesday',kind:'threshold',value:'Free porter over K 60,000',item:'Basket total',where:['G1'],from:'—',to:'—',uptake:'not started',live:false},
+ {id:5,name:'Salmon flash',kind:'percent',value:'8%',item:'Salmon Fillet, frozen',where:['G1','G2','G3'],from:'12 Aug',to:'15 Aug',uptake:'47 units',live:false}
+];
+const KINDS=[
+ {k:'tier',label:'Unlock a deeper tier early',note:'Give the block a tier price before it hits the unit count',vl:'Tier to unlock'},
+ {k:'percent',label:'Percentage off',note:'Straight discount on one item or the whole basket',vl:'Percent off'},
+ {k:'bundle',label:'Bundle discount',note:'Two or more items bought together',vl:'Kyat off bundle'},
+ {k:'threshold',label:'Basket threshold perk',note:'Free porter or delivery above a basket value',vl:'Basket threshold'}
+];
+const HH=[
+ {id:1,unit:'A #14-07',name:'Thida Aung',phone:'09 771 204 118',acct:'active',temp:'—',orders:18,since:'Member since Feb 2026'},
+ {id:2,unit:'A #11-03',name:'Nilar Win',phone:'09 662 445 902',acct:'active',temp:'—',orders:12,since:'Member since Mar 2026'},
+ {id:3,unit:'A #07-12',name:'Ko Myat',phone:'09 425 118 330',acct:'active',temp:'—',orders:9,since:'Member since Apr 2026'},
+ {id:4,unit:'B #09-05',name:'Su Su Hlaing',phone:'09 880 337 214',acct:'active',temp:'—',orders:14,since:'Member since Feb 2026'},
+ {id:5,unit:'B #03-11',name:'Zaw Min',phone:'09 253 990 641',acct:'issued',temp:'gems-4471',orders:0,since:'Slip printed 20 Aug'},
+ {id:6,unit:'B #12-08',name:'May Thu',phone:'09 118 774 205',acct:'active',temp:'—',orders:6,since:'Member since Jun 2026'},
+ {id:7,unit:'C #05-02',name:'Hla Hla Moe',phone:'09 447 226 018',acct:'none',temp:'—',orders:0,since:'On roster, no login yet'},
+ {id:8,unit:'C #08-09',name:'Aung Kyaw',phone:'09 336 552 771',acct:'none',temp:'—',orders:0,since:'On roster, no login yet'},
+ {id:9,unit:'C #10-04',name:'Khin Marlar',phone:'09 774 331 806',acct:'suspended',temp:'—',orders:3,since:'Moved out, pending handover'},
+ {id:10,unit:'A #02-06',name:'Yin Yin Aye',phone:'09 559 004 213',acct:'none',temp:'—',orders:0,since:'On roster, no login yet'}
+];
+const VERIFS=[
+ {id:1,name:'Sandar Oo',unit:'B #06-10',phone:'09 448 220 917',kind:'New unit claim',match:'Not on roster',proof:'Lease photo',via:'Guardhouse desk',when:'today 09:12',note:'Says she moved in on 1 Aug. Unit B #06-10 is listed as vacant on the roster from July.'},
+ {id:2,name:'Tun Tun Naing',unit:'C #10-04',phone:'09 217 664 553',kind:'Tenant change',match:'Roster shows Khin Marlar',proof:'Agent letter',via:'Property manager',when:'today 08:40',note:'New tenant taking over from the suspended account. Old account should be closed on approval.'},
+ {id:3,name:'Ei Mon (household 2nd login)',unit:'A #14-07',phone:'09 771 204 552',kind:'Second login',match:'Roster match',proof:'Not needed',via:'Resident request',when:'yesterday',note:'Daughter collects on Tuesdays when Thida is away. Same unit, separate login, shared order history.'},
+ {id:4,name:'Wai Phyo',unit:'D #04-08',phone:'09 660 118 402',kind:'New unit claim',match:'Block D not contracted',proof:'None',via:'App waitlist',when:'yesterday',note:'Block D is outside the current Gems 1 contract. Hold until the office confirms coverage with Capital Retail.'}
+];
+const ORD=[
+ {id:1,code:'G1-2481',unit:'A #14-07',name:'Thida Aung',items:'Rice 10kg, Water case x2',total:51000,stage:'ready',pay:'paid',method:'MMQR'},
+ {id:2,code:'G1-2476',unit:'A #11-03',name:'Nilar Win',items:'Salmon, Eggs, Oil',total:61500,stage:'packing',pay:'due',method:'Cash at table'},
+ {id:3,code:'G1-2470',unit:'A #07-12',name:'Ko Myat',items:'Detergent, Tomatoes 3kg',total:30200,stage:'placed',pay:'due',method:'Cash at table'},
+ {id:4,code:'G1-2468',unit:'B #09-05',name:'Su Su Hlaing',items:'Toilet roll 30s, Wipes',total:43500,stage:'ready',pay:'paid',method:'MMQR'},
+ {id:5,code:'G1-2465',unit:'B #12-08',name:'May Thu',items:'Dumplings, Water case',total:22000,stage:'ready',pay:'due',method:'Cash at table'},
+ {id:6,code:'G1-2462',unit:'B #03-11',name:'Zaw Min',items:'Beef x4, Rice 10kg',total:153000,stage:'packing',pay:'paid',method:'MMQR'},
+ {id:7,code:'G1-2390',unit:'C #05-02',name:'Hla Hla Moe',items:'Salmon x2, Toilet roll',total:78000,stage:'collected',pay:'paid',method:'MMQR'},
+ {id:8,code:'G1-2352',unit:'C #10-04',name:'Khin Marlar',items:'Chicken 2kg, Water case',total:42600,stage:'collected',pay:'due',method:'Unpaid'}
+];
+const WISH=[
+ {id:1,name:'Yoghurt, 1kg tub',note:'chilled, needs cold chain',votes:23,households:6,comms:'Gems 1, Gems 2',added:false},
+ {id:2,name:'Village eggs, 30s',note:'free-range, local farm',votes:18,households:11,comms:'Gems 1, Gems 3',added:false},
+ {id:3,name:'Instant coffee mix, 30s',note:'Capital Retail can source',votes:14,households:9,comms:'Gems 1',added:false},
+ {id:4,name:'Dog food, 8kg bag',note:'three households keen',votes:9,households:3,comms:'Gems 2',added:false},
+ {id:5,name:'Nappies, size 4',note:'asked twice this month',votes:16,households:7,comms:'Gems 1, Gems 4',added:false},
+ {id:6,name:'Charcoal, 5kg',note:'seasonal, low margin',votes:7,households:5,comms:'Gems 3',added:false}
+];
+const ANNS=[
+ {id:1,title:'Tuesday collection moves to the guardhouse',body:'Lobby renovation runs to 5 Sep, so the 6-9pm table is at the Tower 1 guardhouse instead. Bring a trolley for bulk cases.',when:'today 08:05',reach:'143 households · 118 opened'},
+ {id:2,title:'Cutoff is Sunday 10pm, no exceptions',body:'Late orders roll into the Friday drop. Edits are free until cutoff.',when:'yesterday',reach:'143 households · 131 opened'},
+ {id:3,title:'Two cash payments still outstanding',body:'If you collected on 12 Aug and paid nothing at the table, settle at the office before the next drop.',when:'20 Aug',reach:'143 households · 96 opened'}
+];
+const STAGE_LIST=[{k:'open',label:'Sheet open',when:'until cutoff'},{k:'confirmed',label:'Orders confirmed',when:'Sun 10pm'},{k:'picking',label:'Picking at DC',when:'Mon 06:00'},{k:'packed',label:'Packed per unit',when:'Mon 18:00'},{k:'dispatched',label:'Dispatched',when:'Tue 16:00'}];
+const OSTAGE={placed:'Order in',packing:'Packing',ready:'Ready',collected:'Collected'};
+
+class Component extends DCLogic {
+  fileRef=React.createRef();
+  imgRef=React.createRef();
+  blank(over){return {sku:'NEW-'+String(Date.now()).slice(-4),name:'Untitled line',brand:'',barcode:'',unit:'1 pack',size:'',weight:'',cat:'Grocery',details:'',img:'',cost:1000,retail:2000,prices:[1900,1800,1700,1600],units:0,active:false,where:['G1'],...over};}
+  state={
+    phase:'home',authRole:'office',authComm:'G1',authUser:'',authPw:'',authErr:'',remember:true,
+    role:this.props.startRole==='office'?'office':'retail',rs:'overview',os:'verify',scope:'G1',rScope:'all',
+    items:ITEMS.map(i=>({...i,prices:[...i.prices],where:[...i.where]})),
+    sel:5,cq:'',cat:'All',
+    promos:PROMOS.map(p=>({...p})),
+    np:{name:'',kind:'tier',value:'',item:'Paw San Rice, 10kg sack',from:'2026-08-24',to:'2026-08-31',where:['G1']},
+    hh:HH.map(h=>({...h})),picked:[],
+    verifs:VERIFS.map(v=>({...v})),vlog:[{text:'Approved Ma Khine · A #05-09 · account issued',when:'today 07:55',fg:'#0C7C58'},{text:'Rejected duplicate claim on B #09-05',when:'yesterday 17:20',fg:'#B3253A'}],
+    orders:ORD.map(o=>({...o})),oFilter:'all',
+    wish:WISH.map(w=>({...w})),
+    anns:ANNS.map(a=>({...a})),annTitle:'',annBody:'',
+    comms:COMMS.map(c=>({...c})),
+    fulComm:'G1',fulStage:{G1:'picking',G2:'confirmed',G3:'open',G4:'open'},
+    pickedQty:{},ticked:[1,4],cashCount:'',
+    imp:null,impTarget:null,toast:''
+  };
+  componentWillUnmount(){if(this.tt)clearTimeout(this.tt);}
+  flash(m){this.setState({toast:m});if(this.tt)clearTimeout(this.tt);this.tt=setTimeout(()=>this.setState({toast:''}),2400);}
+  xl(name,rows){const XL=window.XLSX;if(!XL){this.flash('Spreadsheet engine still loading — try again in a second');return;}
+    if(!rows.length){this.flash('Nothing to export in this view');return;}
+    const ws=XL.utils.json_to_sheet(rows);const wb=XL.utils.book_new();XL.utils.book_append_sheet(wb,ws,'Gather');XL.writeFile(wb,name);this.flash(name+' downloaded');}
+  openImp(target){this.setState({impTarget:target,imp:null});}
+  read(file){const XL=window.XLSX;if(!XL){this.flash('Spreadsheet engine still loading');return;}
+    const r=new FileReader();
+    r.onload=()=>{try{
+      const wb=XL.read(new Uint8Array(r.result),{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const rows=XL.utils.sheet_to_json(ws,{defval:''});
+      this.setState({imp:{file:file.name,sheet:wb.SheetNames[0],rows,cols:Object.keys(rows[0]||{})}});
+    }catch(e){this.flash('Could not read that file — is it a real .xlsx or .csv?');}};
+    r.readAsArrayBuffer(file);}
+
+  renderVals(){
+    const s=this.state,retail=s.role==='retail';
+    const commOf=k=>s.comms.find(c=>c.k===k)||s.comms[0];
+    const scopeC=commOf(s.scope);
+    const showM=this.props.showMargins!==false;
+    const marginPct=(p,c)=>Math.round((1-c/p)*100);
+    const mLabel=m=>showM?m+'%':'—';
+    const tierOf=u=>u>=100?3:u>=50?2:u>=20?1:0;
+
+    /* ---------- shared item math ---------- */
+    const items=s.items.map(i=>{
+      const t=tierOf(i.units),price=i.prices[t];
+      return {...i,tier:t,price,margin:marginPct(price,i.cost)};
+    });
+    const setItem=(id,patch)=>this.setState({items:s.items.map(i=>i.id===id?{...i,...patch}:i)});
+    const ed0=items.find(i=>i.id===s.sel)||items[0];
+
+    /* ---------- retail overview ---------- */
+    const commRow=c=>{
+      const os=s.orders.filter(o=>o.code.indexOf(c.k)===0);
+      const orders=Math.max(os.length,Math.round(c.households*0.42));
+      const units=Math.round(c.units*0.72);
+      const value=Math.round(items.reduce((a,i)=>a+i.price*i.units*c.f,0)/9);
+      const margin=Math.round(items.reduce((a,i)=>a+(i.price-i.cost)*i.units*c.f,0)/9);
+      return {c,orders,units,value,margin,pct:Math.round(margin/value*100)};
+    };
+    const boardData=s.comms.map(commRow);
+    const gmv=boardData.reduce((a,b)=>a+b.value,0);
+    const gm=boardData.reduce((a,b)=>a+b.margin,0);
+    const outstanding=s.orders.filter(o=>o.pay==='due').reduce((a,o)=>a+o.total,0);
+    const officeOrders=s.orders.filter(o=>o.code.indexOf(s.scope)===0);
+    const oList=s.oFilter==='all'?officeOrders:officeOrders.filter(o=>s.oFilter==='due'?o.pay==='due':s.oFilter==='collected'?o.stage==='collected':o.stage!=='collected');
+
+    /* ---------- fulfilment ---------- */
+    const fc=commOf(s.fulComm);
+    const picks=items.filter(i=>i.active&&i.where.indexOf(s.fulComm)>-1).map(i=>{
+      const ordered=Math.max(1,Math.round(i.units*fc.f));
+      const key=s.fulComm+'-'+i.id;
+      const picked=s.pickedQty[key]===undefined?ordered:num(s.pickedQty[key]);
+      const v=picked-ordered;
+      return {name:i.name,sku:i.sku,unit:i.unit,ordered:String(ordered),
+        tier:['base','20+','50+','100+'][tierOf(ordered)],
+        tierFg:tierOf(ordered)>1?'#0C7C58':'#6F6678',
+        cases:String(Math.ceil(ordered/12)),value:money(i.prices[tierOf(ordered)]*ordered),
+        picked:String(picked),variance:v===0?'ok':(v>0?'+'+v:String(v)),
+        varFg:v===0?'#0C7C58':'#B3253A',
+        onPicked:e=>this.setState({pickedQty:{...s.pickedQty,[key]:e.target.value}}),
+        _o:ordered,_p:picked,_i:i};
+    });
+    const shortLines=picks.filter(p=>p._p<p._o).length;
+    const stageK=s.fulStage[s.fulComm];
+    const stageIdx=STAGE_LIST.findIndex(x=>x.k===stageK);
+
+    /* ---------- collection sheet ---------- */
+    const collectList=officeOrders.filter(o=>o.stage!=='placed');
+    const tickedN=collectList.filter(o=>s.ticked.indexOf(o.id)>-1).length;
+    const expectedCash=collectList.filter(o=>o.pay==='due').reduce((a,o)=>a+o.total,0);
+    const counted=num(s.cashCount);
+    const varN=s.cashCount===''?0:counted-expectedCash;
+
+    /* ---------- nav ---------- */
+    const rNav=[{k:'overview',label:'Overview'},{k:'catalog',label:'Catalog & pricing',badge:items.filter(i=>i.active).length},
+      {k:'promos',label:'Promotions',badge:s.promos.filter(p=>p.live).length},{k:'fulfil',label:'Fulfilment',badge:shortLines||''},
+      {k:'cycles',label:'Cycles & accounts',badge:s.comms.length},{k:'demand',label:'Resident demand',badge:s.wish.filter(w=>!w.added).length}];
+    const oNav=[{k:'verify',label:'Verification',badge:s.verifs.length},{k:'roster',label:'Households',badge:s.hh.length},
+      {k:'orders',label:'Orders',badge:officeOrders.filter(o=>o.stage!=='collected').length},{k:'collect',label:'Collection sheet',badge:collectList.length},
+      {k:'pay',label:'Payments',badge:officeOrders.filter(o=>o.pay==='due').length},{k:'setup',label:'Cycle setup'},{k:'announce',label:'Announcements'}];
+    const navList=(retail?rNav:oNav).map(n=>{
+      const on=retail?s.rs===n.k:s.os===n.k;
+      return {label:n.label,badge:n.badge===0?'':(n.badge||''),rule:on?'#5B34D9':'#EDE5DC',fg:on?'#1E1926':'#6F6678',
+        weight:on?800:600,badgeFg:on?'#5B34D9':'#A79E9E',
+        pick:()=>retail?this.setState({rs:n.k}):this.setState({os:n.k})};});
+
+    /* ---------- import wiring ---------- */
+    const T={
+      catalog:{title:'Import SKUs, specs & tier prices',blurb:'Matched on SKU — existing lines are updated, unknown SKUs are created as drafts. Recognised columns: SKU, Item, Brand, Barcode, Category, Pack, Size, Weight, Details, ImageURL, Cost, Retail, Base, Tier20, Tier50, Tier100, Communities. Category must be one of Grocery, Grocery Non-Food, Hardline, Softline, Homeline, Pharmacy, Fresh & Frozen. Photos can also be dropped per item in the editor.',
+        tpl:[{SKU:'GR-3010',Item:'Paw San Rice, 10kg sack',Brand:'Shwe Bo Paw San',Barcode:'8851003010',Category:'Grocery',Pack:'10kg sack',Size:'10 kg',Weight:'10.2 kg',Details:'New crop, double-polished',ImageURL:'',Cost:31000,Retail:48000,Base:44000,Tier20:41000,Tier50:38000,Tier100:35000,Communities:'G1,G2,G3,G4'}],apply:'Apply to catalog'},
+      roster:{title:'Import household roster',blurb:'Recognised columns: Unit, Household, Phone. Existing units are updated, new ones are added without accounts.',
+        tpl:[{Unit:'A #01-01',Household:'Name',Phone:'09 000 000 000'}],apply:'Add to roster'},
+      picked:{title:'Import picked counts',blurb:'Recognised columns: SKU, Picked. Warehouse staff can fill this on the DC laptop and drop it back here.',
+        tpl:[{SKU:'PN-3010',Picked:0}],apply:'Update pick sheet'},
+      collect:{title:'Import ticked collection sheet',blurb:'Recognised columns: Order, Collected (yes/no). Use when the guard ticks the printed sheet.',
+        tpl:[{Order:'G1-2481',Collected:'yes'}],apply:'Mark collected'},
+      payments:{title:'Import bank / CTZPay file',blurb:'Recognised columns: Order, Amount, Method. Matched orders are marked paid.',
+        tpl:[{Order:'G1-2476',Amount:61500,Method:'MMQR'}],apply:'Reconcile payments'},
+      cycles:{title:'Import cycle calendar',blurb:'Recognised columns: Community, Cutoff, Delivery, Point.',
+        tpl:[{Community:'Gems 1 Condo',Cutoff:'2026-08-23',Delivery:'2026-08-25',Point:'Tower 1 guardhouse'}],apply:'Update calendar'},
+      promos:{title:'Import promotions',blurb:'Recognised columns: Name, Mechanic, Value, Item, Communities, From, To.',
+        tpl:[{Name:'Rice week',Mechanic:'tier',Value:'Unlock 50+ at 20',Item:'Paw San Rice, 10kg sack',Communities:'G1,G2',From:'19 Aug',To:'25 Aug'}],apply:'Add promotions'}
+    };
+    const tgt=s.impTarget?T[s.impTarget]:null;
+    const imp=s.imp;
+    const get=(r,keys)=>{for(const k of keys){const hit=Object.keys(r).find(x=>x.toLowerCase().replace(/[^a-z0-9]/g,'')===k);if(hit!==undefined&&r[hit]!=='')return r[hit];}return undefined;};
+    const applyImport=()=>{
+      if(!imp||!imp.rows.length)return;
+      const rows=imp.rows;let n=0;
+      if(s.impTarget==='catalog'){
+        const rowSku=r=>String(get(r,['sku','skucode','itemcode'])||'').trim();
+        const merge=(i,r)=>{
+          const p=[...i.prices];
+          const b=get(r,['base','baseprice','groupprice']),t20=get(r,['tier20','t20','20units']),t50=get(r,['tier50','t50','50units']),t100=get(r,['tier100','t100','100units']);
+          if(b!==undefined)p[0]=num(b);if(t20!==undefined)p[1]=num(t20);if(t50!==undefined)p[2]=num(t50);if(t100!==undefined)p[3]=num(t100);
+          const str=(keys,fb)=>{const v=get(r,keys);return v===undefined?fb:String(v).trim();};
+          const c=get(r,['cost','landedcost','unitcost']),rt=get(r,['retail','shelfretail','rrp']);
+          const catRaw=str(['category','cat','department'],i.cat);
+          const cat=CATS.find(x=>x.toLowerCase()===catRaw.toLowerCase())||CATS.find(x=>catRaw.toLowerCase().indexOf(x.toLowerCase().split(' ')[0])===0)||i.cat;
+          const comms=str(['communities','towers','where'],'');
+          return {...i,prices:p,
+            name:str(['item','name','itemname','description'],i.name),
+            brand:str(['brand','supplier'],i.brand),
+            barcode:str(['barcode','ean','upc'],i.barcode),
+            unit:str(['pack','packsize','unit','uom'],i.unit),
+            size:str(['size','volume','netcontent'],i.size),
+            weight:str(['weight','grossweight','kg'],i.weight),
+            details:str(['details','itemdetails','notes','longdescription'],i.details),
+            img:str(['imageurl','image','photo','photourl'],i.img).indexOf('http')===0?str(['imageurl','image','photo','photourl'],i.img):i.img,
+            cat,cost:c!==undefined?num(c):i.cost,retail:rt!==undefined?num(rt):i.retail,
+            where:comms?comms.split(/[,;]/).map(x=>x.trim()).filter(Boolean):i.where};
+        };
+        let created=0;
+        const next=s.items.map(i=>{
+          const r=rows.find(x=>rowSku(x).toLowerCase()===i.sku.toLowerCase()||String(get(x,['item','name'])||'').trim().toLowerCase()===i.name.toLowerCase());
+          if(!r)return i;n++;return merge(i,r);
+        });
+        const fresh=[];
+        rows.forEach((r,k)=>{
+          const sku=rowSku(r);if(!sku)return;
+          if(next.some(i=>i.sku.toLowerCase()===sku.toLowerCase()))return;
+          created++;
+          fresh.push(merge({...this.blank({sku}),id:Date.now()+k},r));
+        });
+        this.setState({items:[...next,...fresh],imp:null,impTarget:null,sel:fresh.length?fresh[0].id:s.sel});
+        this.flash(n+' existing SKUs updated, '+created+' new SKUs created as drafts');return;
+      }
+      if(s.impTarget==='roster'){
+        const add=[];let upd=0;
+        rows.forEach((r,k)=>{const u=String(get(r,['unit'])||'').trim();if(!u)return;
+          const ex=s.hh.find(h=>h.unit.toLowerCase()===u.toLowerCase());
+          if(ex){upd++;return;}
+          add.push({id:1000+k,unit:u,name:String(get(r,['household','name','resident'])||'Unnamed household'),
+            phone:String(get(r,['phone','mobile'])||'—'),acct:'none',temp:'—',orders:0,since:'Imported '+imp.file});});
+        this.setState({hh:[...s.hh,...add],imp:null,impTarget:null});
+        this.flash(add.length+' households added, '+upd+' already on the roster');return;
+      }
+      if(s.impTarget==='picked'){
+        const next={...s.pickedQty};
+        rows.forEach(r=>{const sku=String(get(r,['sku'])||'').trim();const it=s.items.find(i=>i.sku.toLowerCase()===sku.toLowerCase());
+          const pk=get(r,['picked','count','qty']);if(it&&pk!==undefined){next[s.fulComm+'-'+it.id]=String(num(pk));n++;}});
+        this.setState({pickedQty:next,imp:null,impTarget:null});this.flash(n+' pick lines updated');return;
+      }
+      if(s.impTarget==='collect'){
+        const t=[...s.ticked];
+        rows.forEach(r=>{const code=String(get(r,['order','code'])||'').trim().toUpperCase();
+          const yes=String(get(r,['collected','tick','done'])||'').trim().toLowerCase();
+          const o=s.orders.find(x=>x.code.toUpperCase()===code);
+          if(o&&(yes==='yes'||yes==='y'||yes==='1'||yes==='true')){if(t.indexOf(o.id)<0)t.push(o.id);n++;}});
+        this.setState({ticked:t,imp:null,impTarget:null});this.flash(n+' orders ticked off from '+imp.file);return;
+      }
+      if(s.impTarget==='payments'){
+        const next=s.orders.map(o=>{
+          const r=rows.find(x=>String(get(x,['order','code'])||'').trim().toUpperCase()===o.code.toUpperCase());
+          if(!r)return o;n++;return {...o,pay:'paid',method:String(get(r,['method'])||'MMQR')};});
+        this.setState({orders:next,imp:null,impTarget:null});this.flash(n+' payments reconciled');return;
+      }
+      if(s.impTarget==='cycles'){
+        const next=s.comms.map(c=>{
+          const r=rows.find(x=>String(get(x,['community','name'])||'').trim().toLowerCase()===c.name.toLowerCase());
+          if(!r)return c;n++;
+          return {...c,cutoff:String(get(r,['cutoff'])||c.cutoff),delivery:String(get(r,['delivery'])||c.delivery),point:String(get(r,['point','collectionpoint'])||c.point)};});
+        this.setState({comms:next,imp:null,impTarget:null});this.flash(n+' communities updated');return;
+      }
+      if(s.impTarget==='promos'){
+        const add=rows.map((r,k)=>({id:2000+k,name:String(get(r,['name'])||'Imported promo'),kind:String(get(r,['mechanic','kind'])||'percent'),
+          value:String(get(r,['value'])||''),item:String(get(r,['item'])||'Basket total'),
+          where:String(get(r,['communities','where'])||'G1').split(/[,;]/).map(x=>x.trim()).filter(Boolean),
+          from:String(get(r,['from'])||'—'),to:String(get(r,['to'])||'—'),uptake:'not started',live:false}));
+        this.setState({promos:[...s.promos,...add],imp:null,impTarget:null});this.flash(add.length+' promotions imported as drafts');return;
+      }
+      this.flash('Imported '+rows.length+' rows');this.setState({imp:null,impTarget:null});
+    };
+
+    const npKind=KINDS.find(k=>k.k===s.np.kind)||KINDS[0];
+    const setNp=patch=>this.setState({np:{...s.np,...patch}});
+
+    const aOffice=s.authRole==='office';
+    const aComm=commOf(s.authComm);
+    const DEMO={office:{user:'gems1.office',pw:'office-2026'},retail:{user:'ye.naing@capitalretail.mm',pw:'retail-2026'}};
+
+    return {
+      /* gate */
+      isHome:s.phase==='home',isAuth:s.phase==='auth',inApp:s.phase==='app',
+      homeStats:[{value:String(s.comms.length),label:'communities contracted'},
+        {value:String(s.comms.reduce((a,c)=>a+c.households,0)),label:'households on the sheets'},
+        {value:String(items.filter(i=>i.active).length),label:'lines live this cycle'}],
+      portals:[
+        {k:'office',title:'Property office',who:'one login per community',rule:'#C026D3',
+          blurb:'Verify households against your unit roster, issue logins, run the collection table and cash-up, and post notices to residents.',
+          tags:[{label:'Verification queue'},{label:'Household roster'},{label:'Collection sheet'},{label:'Cash-up'}],
+          cta:'Sign in to an office console',note:'Issued by Capital Retail to the property manager',
+          pick:()=>this.setState({phase:'auth',authRole:'office',authUser:'',authPw:'',authErr:''})},
+        {k:'retail',title:'Capital Retail console',who:'staff accounts',rule:'#4F46E5',
+          blurb:'List items, set volume tiers and promotions across every tower, then pick, pack and dispatch each drop with margin visible line by line.',
+          tags:[{label:'Catalog & tiers'},{label:'Promotions'},{label:'Fulfilment'},{label:'Margin reporting'}],
+          cta:'Sign in as Capital Retail',note:'SSO in production; password here for the demo',
+          pick:()=>this.setState({phase:'auth',authRole:'retail',authUser:'',authPw:'',authErr:''})}],
+      requestConsole:()=>this.flash('Request sent — the Capital Retail account team will call the property manager'),
+      authKicker:aOffice?'Property office':'Capital Retail',
+      authTitle:aOffice?'Office console':'Retail console',
+      authBlurb:aOffice?('Signing in as the '+aComm.name+' office. This console only sees its own households, orders and collection days.')
+        :'Signing in across every contracted community. Catalog, tier pricing and dispatch for all four towers.',
+      authIsOffice:aOffice,
+      authComm:s.authComm,onAuthComm:e=>this.setState({authComm:e.target.value}),
+      authCommOpts:s.comms.map(c=>({v:c.k,label:c.name+' · '+c.households+' households'})),
+      authUserLabel:aOffice?'Office username':'Work email',
+      authUserHint:aOffice?'gems1.office':'name@capitalretail.mm',
+      authUser:s.authUser,onAuthUser:e=>this.setState({authUser:e.target.value,authErr:''}),
+      authPw:s.authPw,onAuthPw:e=>this.setState({authPw:e.target.value,authErr:''}),
+      rememberLabel:aOffice?'Keep this guardhouse laptop signed in for 12 hours':'Remember this device for 30 days',
+      rememberTick:s.remember?'✓':'',rememberBorder:s.remember?'#5B34D9':'#D6CEC6',rememberBg:s.remember?'#5B34D9':'#fff',
+      toggleRemember:()=>this.setState({remember:!s.remember}),
+      authError:s.authErr,
+      authCta:aOffice?('Open '+aComm.short+' office console'):'Open retail console',
+      authFoot:aOffice?'Resident accounts are created inside this console, never here. Residents sign in on the Gather app with the slip you hand them.'
+        :'Every price change and promotion is logged against your staff account and visible to the property offices.',
+      signIn:()=>{if(!s.authUser.trim()||!s.authPw.trim()){this.setState({authErr:'Enter both your username and password.'});return;}
+        this.setState({phase:'app',role:s.authRole,scope:aOffice?s.authComm:s.scope,
+          rs:'overview',os:'verify',authPw:'',authErr:''});
+        this.flash(aOffice?('Signed in · '+aComm.name+' office'):'Signed in · Capital Retail');},
+      demoFill:()=>this.setState({authUser:DEMO[s.authRole].user,authPw:DEMO[s.authRole].pw,authErr:''}),
+      backHome:()=>this.setState({phase:'home',authErr:'',authPw:''}),
+      signOut:()=>this.setState({phase:'home',authUser:'',authPw:'',authErr:'',picked:[]}),
+
+      /* chrome */
+      roles:[{k:'office',label:'Property office'},{k:'retail',label:'Retail console'}].map(r=>({
+        label:r.label,bg:s.role===r.k?'#1E1926':'#fff',fg:s.role===r.k?'#fff':'#6F6678',
+        pick:()=>this.setState({role:r.k})})),
+      roleBlurb:retail?'Capital Retail · listing, tier pricing, promotions and dispatch across every contracted community.'
+        :'Gems 1 property office · verifying households, issuing logins and running the collection table.',
+      navTitle:retail?'Capital Retail':'Property office',
+      nav:navList,
+      scope:retail?s.rScope:s.scope,
+      onScope:e=>retail?this.setState({rScope:e.target.value}):this.setState({scope:e.target.value}),
+      scopeOpts:retail?[{v:'all',label:'All communities'},...s.comms.map(c=>({v:c.k,label:c.name}))]:s.comms.map(c=>({v:c.k,label:c.name})),
+      scopeName:scopeC.name,
+      cycleNo:retail?'34':String(scopeC.cycle),
+      cutoffIn:retail?'Sun 10pm':'Sun 10pm',
+      meName:retail?'Ye Naing · Capital Retail':'Daw Moe · Gems 1 office',
+      meInitials:retail?'YN':'DM',meGrad:retail?grad('#4F46E5','#06B6D4'):grad('#C026D3','#6D28D9'),
+      toast:s.toast,openImport:()=>this.openImp(retail?'catalog':'roster'),
+
+      /* screen flags */
+      isOverview:retail&&s.rs==='overview',isCatalog:retail&&s.rs==='catalog',isPromos:retail&&s.rs==='promos',
+      isFulfil:retail&&s.rs==='fulfil',isCycles:retail&&s.rs==='cycles',isDemand:retail&&s.rs==='demand',
+      isVerify:!retail&&s.os==='verify',isRoster:!retail&&s.os==='roster',isOrdersView:!retail&&s.os==='orders',
+      isCollect:!retail&&s.os==='collect',isPayments:!retail&&s.os==='pay',isSetup:!retail&&s.os==='setup',isAnnounce:!retail&&s.os==='announce',
+
+      /* overview */
+      overviewSub:s.comms.length+' communities · '+items.filter(i=>i.active).length+' lines live · cutoff Sunday 10pm',
+      kpis:[
+        {value:money(gmv),label:'Group order value',note:'this cycle, all towers',fg:'#1E1926'},
+        {value:String(boardData.reduce((a,b)=>a+b.orders,0)),label:'Household orders',note:'placed since Wednesday',fg:'#1E1926'},
+        {value:String(boardData.reduce((a,b)=>a+b.units,0)),label:'Units on the sheets',note:'drives tier unlocks',fg:'#1E1926'},
+        {value:Math.round(gm/gmv*100)+'%',label:'Blended margin',note:money(gm)+' contribution',fg:'#0C7C58'},
+        {value:money(outstanding),label:'Cash outstanding',note:'unpaid at collection',fg:'#B3253A'}],
+      boardTitle:'Communities this cycle',boardCol1:'Community',
+      board:boardData.map(b=>({name:b.c.name,sub:b.c.households+' households · '+b.c.point,
+        orders:String(b.orders),units:String(b.units),value:money(b.value),margin:b.pct+'%',
+        marginFg:b.pct<18?'#B3253A':'#0C7C58',
+        stage:STAGE_LIST[STAGE_LIST.findIndex(x=>x.k===s.fulStage[b.c.k])].label,
+        stageFg:s.fulStage[b.c.k]==='open'?'#6F6678':'#5B34D9',
+        actLabel:'Fulfilment',act:()=>this.setState({rs:'fulfil',fulComm:b.c.k})})),
+      todos:[
+        {title:shortLines+' short lines in the Gems 1 pick',body:'Picked counts are under what households ordered. Decide substitutions before packing closes.',cta:'Open fulfilment',act:()=>this.setState({rs:'fulfil',fulComm:'G1'})},
+        {title:'Coconut water is delisted but still wished for',body:'12 units last cycle, 8 households asking again. Reprice or drop it from the sheet.',cta:'Open the item',act:()=>this.setState({rs:'catalog',sel:11})},
+        {title:'Gems 4 is on pilot terms',body:'38 households and rising. Pilot margin is 4 points under the signed towers.',cta:'Review cycles',act:()=>this.setState({rs:'cycles'})},
+        {title:'Rice week ends Monday',body:'88 units so far. Extend it or let the tier revert on the next sheet.',cta:'Open promotions',act:()=>this.setState({rs:'promos'})}],
+      movers:items.slice().sort((a,b)=>b.units-a.units).slice(0,5).map(i=>({name:i.name,note:i.sku+' · '+['base','20+','50+','100+'][i.tier]+' tier · '+i.margin+'% margin',units:i.units+' u'})),
+      exportOverview:()=>this.xl('gather-cycle-34-overview.xlsx',boardData.map(b=>({Community:b.c.name,Households:b.c.households,Orders:b.orders,Units:b.units,Value:b.value,Margin:b.margin,MarginPct:b.pct+'%',Stage:s.fulStage[b.c.k],CollectionPoint:b.c.point}))),
+      exportOverviewCsv:()=>this.xl('gather-cycle-34-overview.csv',boardData.map(b=>({Community:b.c.name,Orders:b.orders,Units:b.units,Value:b.value,Margin:b.margin}))),
+
+      /* catalog */
+      catalogSub:items.length+' lines · '+items.filter(i=>i.active).length+' on the sheet · tiers at 20 / 50 / 100 units',
+      cq:s.cq,cqBorder:s.cq?'#5B34D9':'#DED5CC',onCq:e=>this.setState({cq:e.target.value}),
+      catTabs:['All',...CATS].map(c=>({label:c,count:c==='All'?items.length:items.filter(i=>i.cat===c).length,
+        fg:s.cat===c?'#1E1926':'#7B7280',weight:s.cat===c?800:600,line:s.cat===c?'#5B34D9':'transparent',
+        pick:()=>this.setState({cat:c})})),
+      rows:items.filter(i=>(s.cat==='All'||i.cat===s.cat)&&(!s.cq.trim()||(i.name+' '+i.sku+' '+i.cat+' '+i.brand+' '+i.barcode).toLowerCase().indexOf(s.cq.trim().toLowerCase())>-1)).map(i=>({
+        sku:i.sku,name:i.name,unit:i.unit,status:i.active?'live':'delisted',
+        thumb:i.img?('url('+i.img+') center/cover no-repeat'):SLOT,
+        meta:[i.brand,i.size,i.weight].filter(Boolean).join(' · ')||'no spec yet',
+        cost:money(i.cost),costFg:'#6F6678',
+        p0:money(i.prices[0]),p1:money(i.prices[1]),p2:money(i.prices[2]),p3:money(i.prices[3]),
+        margin:mLabel(i.margin),mFg:i.margin<15?'#B3253A':'#0C7C58',units:String(i.units),
+        bg:i.id===s.sel?'#FDFBF7':'#fff',rule:i.id===s.sel?'#5B34D9':'transparent',
+        pick:()=>this.setState({sel:i.id})})),
+      noRows:items.filter(i=>(s.cat==='All'||i.cat===s.cat)&&(!s.cq.trim()||(i.name+' '+i.sku).toLowerCase().indexOf(s.cq.trim().toLowerCase())>-1)).length===0,
+      resetCatalog:()=>this.setState({cq:'',cat:'All'}),
+      catOpts:CATS.map(c=>({v:c,label:c})),
+      ed:{sku:ed0.sku,name:ed0.name,unit:ed0.unit,cat:ed0.cat,cost:String(ed0.cost),retail:String(ed0.retail),
+        brand:ed0.brand||'',barcode:ed0.barcode||'',size:ed0.size||'',weight:ed0.weight||'',details:ed0.details||'',
+        thumb:ed0.img?('url('+ed0.img+') center/cover no-repeat'):SLOT,
+        imgLabel:ed0.img?'Replace photo':'Upload photo',
+        imgHint:ed0.img?'Shown on the resident sheet and the product page.':'Residents see a striped placeholder until you upload one. 1:1 or 4:3, at least 800px.',
+        hasImg:!!ed0.img,
+        status:ed0.active?'Live on the sheet':'Delisted',statusFg:ed0.active?'#0C7C58':'#B3253A',
+        tiers:[{i:0,label:'Any quantity'},{i:1,label:'20+ units'},{i:2,label:'50+ units'},{i:3,label:'100+ units'}].map(t=>{
+          const p=ed0.prices[t.i],m=marginPct(p,ed0.cost),on=ed0.tier>=t.i;
+          return {label:t.label,price:String(p),margin:mLabel(m),
+            marginFg:m<12?'#B3253A':m<18?'#946200':'#0C7C58',
+            fg:on?'#1E1926':'#6F6678',border:m<12?'#D98A96':'#E5DCD3',
+            state:on?'reached':'',
+            onPrice:e=>{const p2=[...ed0.prices];p2[t.i]=num(e.target.value);setItem(ed0.id,{prices:p2});}};}),
+        warn:ed0.prices.some(p=>marginPct(p,ed0.cost)<12)?'Deepest tier is under 12% margin — check the landed cost before publishing.'
+          :ed0.prices[3]>=ed0.prices[0]?'Tiers should get cheaper as units grow. Residents see this ladder live.'
+          :'Ladder looks healthy. '+ed0.units+' units ordered this cycle at the '+['base','20+','50+','100+'][ed0.tier]+' tier.',
+        warnFg:ed0.prices.some(p=>marginPct(p,ed0.cost)<12)||ed0.prices[3]>=ed0.prices[0]?'#B3253A':'#6F6678',
+        where:s.comms.map(c=>{const on=ed0.where.indexOf(c.k)>-1;
+          return {label:c.short,border:on?'#5B34D9':'#E5DCD3',bg:on?'#F5F1FD':'#fff',fg:on?'#5B34D9':'#6F6678',
+            toggle:()=>setItem(ed0.id,{where:on?ed0.where.filter(x=>x!==c.k):[...ed0.where,c.k]})};}),
+        toggleLabel:ed0.active?'Delist':'Relist',toggleFg:ed0.active?'#B3253A':'#0C7C58'},
+      onEdName:e=>setItem(ed0.id,{name:e.target.value}),
+      onEdBrand:e=>setItem(ed0.id,{brand:e.target.value}),
+      onEdBarcode:e=>setItem(ed0.id,{barcode:e.target.value}),
+      onEdSize:e=>setItem(ed0.id,{size:e.target.value}),
+      onEdWeight:e=>setItem(ed0.id,{weight:e.target.value}),
+      onEdDetails:e=>setItem(ed0.id,{details:e.target.value}),
+      onEdSku:e=>setItem(ed0.id,{sku:e.target.value}),
+      imgRef:this.imgRef,
+      pickImg:()=>{if(this.imgRef.current)this.imgRef.current.click();},
+      onImg:e=>{const f=e.target.files&&e.target.files[0];if(!f)return;
+        const r=new FileReader();r.onload=()=>{setItem(ed0.id,{img:r.result});this.flash('Photo attached to '+ed0.sku);};r.readAsDataURL(f);},
+      dropImg:e=>{e.preventDefault();const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];if(!f)return;
+        const r=new FileReader();r.onload=()=>{setItem(ed0.id,{img:r.result});this.flash('Photo attached to '+ed0.sku);};r.readAsDataURL(f);},
+      overImg:e=>{e.preventDefault();},
+      removeImg:()=>setItem(ed0.id,{img:''}),
+      onEdUnit:e=>setItem(ed0.id,{unit:e.target.value}),
+      onEdCat:e=>setItem(ed0.id,{cat:e.target.value}),
+      onEdCost:e=>setItem(ed0.id,{cost:num(e.target.value)}),
+      onEdRetail:e=>setItem(ed0.id,{retail:num(e.target.value)}),
+      saveItem:()=>this.flash(ed0.name+' published to '+ed0.where.length+' communities'),
+      toggleItem:()=>{setItem(ed0.id,{active:!ed0.active});this.flash(ed0.active?ed0.name+' delisted':ed0.name+' back on the sheet');},
+      newItem:()=>{const id=Date.now();this.setState({items:[...s.items,{id,...this.blank({cat:s.cat==='All'?'Grocery':s.cat})}],sel:id,cq:''});this.flash('Draft line created — add SKU, spec and tiers');},
+      importCatalog:()=>this.openImp('catalog'),
+      exportCatalog:()=>this.xl('gather-catalog.xlsx',items.map(i=>({SKU:i.sku,Item:i.name,Brand:i.brand,Barcode:i.barcode,Category:i.cat,Pack:i.unit,Size:i.size,Weight:i.weight,Details:i.details,ImageURL:i.img&&i.img.indexOf('data:')===0?'[uploaded]':i.img,Cost:i.cost,Retail:i.retail,Base:i.prices[0],Tier20:i.prices[1],Tier50:i.prices[2],Tier100:i.prices[3],MarginPct:i.margin,UnitsThisCycle:i.units,Status:i.active?'live':'delisted',Communities:i.where.join(',')}))),
+
+      /* promotions */
+      promoSub:s.promos.filter(p=>p.live).length+' live · repricing is always downward, never up',
+      promoRows:s.promos.map(p=>({name:p.name,scope:p.item+' · '+p.where.join(', '),
+        kind:(KINDS.find(k=>k.k===p.kind)||{label:p.kind}).label,value:p.value,window:p.from+' – '+p.to,
+        uptake:p.uptake,state:p.live?'Live':'Paused',stateFg:p.live?'#0C7C58':'#6F6678',
+        rule:p.live?'#5B34D9':'transparent',
+        btnLabel:p.live?'Pause':'Go live',btnBorder:p.live?'#E5DCD3':'#1E1926',
+        btnBg:p.live?'#fff':'#1E1926',btnFg:p.live?'#1E1926':'#fff',
+        toggle:()=>{this.setState({promos:s.promos.map(x=>x.id===p.id?{...x,live:!x.live}:x)});this.flash(p.name+(p.live?' paused':' is live on the resident sheet'));}})),
+      np:{name:s.np.name,value:s.np.value,item:s.np.item,from:s.np.from,to:s.np.to,
+        valueLabel:npKind.vl,
+        kinds:KINDS.map(k=>({label:k.label,note:k.note,ring:s.np.kind===k.k?'#5B34D9':'#D6CEC6',
+          fill:s.np.kind===k.k?'#5B34D9':'#fff',fg:s.np.kind===k.k?'#1E1926':'#6F6678',
+          pick:()=>setNp({kind:k.k})})),
+        itemOpts:[{v:'Basket total',label:'Basket total'},...items.map(i=>({v:i.name,label:i.name}))],
+        where:s.comms.map(c=>{const on=s.np.where.indexOf(c.k)>-1;
+          return {label:c.short,border:on?'#5B34D9':'#E5DCD3',bg:on?'#F5F1FD':'#fff',fg:on?'#5B34D9':'#6F6678',
+            toggle:()=>setNp({where:on?s.np.where.filter(x=>x!==c.k):[...s.np.where,c.k]})};}),
+        preview:(s.np.name||'Untitled')+' · '+npKind.label.toLowerCase()+' of '+(s.np.value||'—')+' on '+s.np.item+' for '+(s.np.where.length||0)+' communities.'},
+      onNpName:e=>setNp({name:e.target.value}),onNpValue:e=>setNp({value:e.target.value}),
+      onNpItem:e=>setNp({item:e.target.value}),onNpFrom:e=>setNp({from:e.target.value}),onNpTo:e=>setNp({to:e.target.value}),
+      createPromo:()=>{if(!s.np.name.trim()||!s.np.value.trim()){this.flash('Give it a name and a value first');return;}
+        this.setState({promos:[{id:Date.now(),name:s.np.name,kind:s.np.kind,value:s.np.value,item:s.np.item,
+          where:s.np.where,from:s.np.from,to:s.np.to,uptake:'just published',live:true},...s.promos],
+          np:{...s.np,name:'',value:''}});this.flash(s.np.name+' is live for '+s.np.where.length+' communities');},
+      exportPromos:()=>this.xl('gather-promotions.xlsx',s.promos.map(p=>({Name:p.name,Mechanic:p.kind,Value:p.value,Item:p.item,Communities:p.where.join(','),From:p.from,To:p.to,Uptake:p.uptake,State:p.live?'live':'paused'}))),
+      importPromos:()=>this.openImp('promos'),
+
+      /* fulfilment */
+      fulComm:fc.name,
+      fulSub:'Delivery '+fc.delivery+' · collection at '+fc.point+' · '+picks.length+' lines',
+      stages:STAGE_LIST.map((st,k)=>({num:'0'+(k+1),label:st.label,when:st.when,
+        bg:k===stageIdx?'#FDFBF7':'#fff',fg:k<=stageIdx?'#1E1926':'#9A9199',
+        numFg:k<=stageIdx?'#5B34D9':'#C9C0C0',weight:k===stageIdx?800:600,
+        pick:()=>{this.setState({fulStage:{...s.fulStage,[s.fulComm]:st.k}});this.flash(fc.short+' moved to '+st.label.toLowerCase());}})),
+      picks,
+      dropStats:[{label:'Lines to pick',value:String(picks.length),fg:'#1E1926'},
+        {label:'Units ordered',value:String(picks.reduce((a,p)=>a+p._o,0)),fg:'#1E1926'},
+        {label:'Short lines',value:String(shortLines),fg:shortLines?'#B3253A':'#0C7C58'},
+        {label:'Drop value',value:money(picks.reduce((a,p)=>a+p._i.prices[tierOf(p._o)]*p._p,0)),fg:'#1E1926'},
+        {label:'Margin on drop',value:money(picks.reduce((a,p)=>a+(p._i.prices[tierOf(p._o)]-p._i.cost)*p._p,0)),fg:'#0C7C58'}],
+      advanceLabel:stageIdx>=STAGE_LIST.length-1?'Mark delivered to '+fc.short:'Advance to '+STAGE_LIST[stageIdx+1].label.toLowerCase(),
+      advance:()=>{const nx=STAGE_LIST[Math.min(STAGE_LIST.length-1,stageIdx+1)];
+        this.setState({fulStage:{...s.fulStage,[s.fulComm]:nx.k}});this.flash(fc.short+' → '+nx.label.toLowerCase());},
+      notifyOffice:()=>this.flash('Office at '+fc.short+' notified · '+picks.length+' lines, '+shortLines+' short'),
+      otherComms:s.comms.filter(c=>c.k!==s.fulComm).map(c=>({name:c.name,note:c.households+' households · delivery '+c.delivery,
+        stage:STAGE_LIST[STAGE_LIST.findIndex(x=>x.k===s.fulStage[c.k])].label,
+        fg:s.fulStage[c.k]==='open'?'#6F6678':'#5B34D9',
+        pick:()=>this.setState({fulComm:c.k})})),
+      exportPick:()=>this.xl('gather-picksheet-'+fc.k+'.xlsx',picks.map(p=>({SKU:p.sku,Item:p.name,Unit:p.unit,Ordered:p._o,Tier:p.tier,Cases:p.cases,Picked:p._p,Variance:p._p-p._o}))),
+      exportDispatch:()=>this.xl('gather-dispatch-'+fc.k+'.csv',picks.map(p=>({SKU:p.sku,Item:p.name,Qty:p._p,Community:fc.name,Point:fc.point,Delivery:fc.delivery}))),
+      importPicked:()=>this.openImp('picked'),
+
+      /* cycles */
+      cycleRows:s.comms.map(c=>({name:c.name,sub:c.households+' households · '+c.units+' units on sheet',
+        cycle:String(c.cycle),cutoff:c.cutoff,delivery:c.delivery,point:c.point,
+        contract:c.contract,contractFg:c.contract==='Signed'?'#0C7C58':'#946200',
+        onCutoff:e=>this.setState({comms:s.comms.map(x=>x.k===c.k?{...x,cutoff:e.target.value}:x)}),
+        onDelivery:e=>this.setState({comms:s.comms.map(x=>x.k===c.k?{...x,delivery:e.target.value}:x)}),
+        onPoint:e=>this.setState({comms:s.comms.map(x=>x.k===c.k?{...x,point:e.target.value}:x)}),
+        btnLabel:'Publish',btnBorder:'#1E1926',btnBg:'#1E1926',btnFg:'#fff',
+        publish:()=>this.flash('Cycle '+(c.cycle+1)+' sheet published to '+c.name)})),
+      cycleNotes:[
+        {title:'Two delivery waves',body:'Gems 1 and 2 run Tue/Fri off the same truck; Gems 3 and 4 share the Thursday route. Keep cutoffs 48 hours ahead of each wave.',cta:'Export the calendar',act:()=>this.xl('gather-cycle-calendar.xlsx',s.comms.map(c=>({Community:c.name,Cycle:c.cycle,Cutoff:c.cutoff,Delivery:c.delivery,Point:c.point,Contract:c.contract})))},
+        {title:'Office accounts',body:'Each community has one office login that issues resident accounts. Gems 4 still shares a login with Gems 3 — split it before the pilot ends.',cta:'Message the office',act:()=>this.flash('Note sent to Gems 4 property manager')},
+        {title:'Pilot terms end 30 Sep',body:'Gems 4 moves to signed terms at 60 households. It is at 38 and adding roughly 6 a week.',cta:'Draft the contract note',act:()=>this.flash('Contract note drafted for Gems 4')}],
+      exportCycles:()=>this.xl('gather-cycles.xlsx',s.comms.map(c=>({Community:c.name,Cycle:c.cycle,Households:c.households,Cutoff:c.cutoff,Delivery:c.delivery,Point:c.point,Contract:c.contract}))),
+      importCycles:()=>this.openImp('cycles'),
+
+      /* demand */
+      demandRows:s.wish.map(w=>({name:w.name,note:w.note,votes:String(w.votes),households:String(w.households),comms:w.comms,
+        btnLabel:w.added?'Added':'Add as line',btnBorder:w.added?'#0C7C58':'#1E1926',
+        btnBg:w.added?'#fff':'#1E1926',btnFg:w.added?'#0C7C58':'#fff',
+        act:()=>{if(w.added)return;const id=Date.now();
+          this.setState({wish:s.wish.map(x=>x.id===w.id?{...x,added:true}:x),
+            items:[...s.items,{id,...this.blank({name:w.name})}]});
+          this.flash(w.name+' added as a draft line — set spec, cost and tiers');}})),
+      demandStats:[{label:'Requests this cycle',value:String(s.wish.length)},
+        {label:'Votes across towers',value:String(s.wish.reduce((a,w)=>a+w.votes,0))},
+        {label:'Converted to lines',value:String(s.wish.filter(w=>w.added).length)}],
+      exportDemand:()=>this.xl('gather-demand.xlsx',s.wish.map(w=>({Item:w.name,Note:w.note,Votes:w.votes,Households:w.households,Communities:w.comms,Added:w.added?'yes':'no'}))),
+
+      /* office · verification */
+      verifySub:s.verifs.length+' claims waiting · roster of '+s.hh.length+' households at '+scopeC.name,
+      verifyRows:s.verifs.map(v=>({name:v.name,unit:v.unit,phone:v.phone,kind:v.kind,when:v.when,proof:v.proof,via:v.via,note:v.note,
+        match:v.match,matchFg:v.match.indexOf('Roster match')>-1?'#0C7C58':'#B3253A',
+        kindFg:v.kind==='New unit claim'?'#5B34D9':'#6F6678',
+        rule:v.match.indexOf('Roster match')>-1?'#0C7C58':'#5B34D9',
+        approve:()=>{const temp='gems-'+Math.floor(1000+Math.random()*9000);
+          this.setState({verifs:s.verifs.filter(x=>x.id!==v.id),
+            hh:[{id:Date.now(),unit:v.unit,name:v.name,phone:v.phone,acct:'issued',temp,orders:0,since:'Verified today'},...s.hh],
+            vlog:[{text:'Approved '+v.name+' · '+v.unit+' · temp '+temp,when:'just now',fg:'#0C7C58'},...s.vlog]});
+          this.flash(v.name+' verified · temp password '+temp);},
+        hold:()=>{this.setState({vlog:[{text:'Asked '+v.name+' for proof of residence',when:'just now',fg:'#946200'},...s.vlog]});this.flash('Proof requested from '+v.name);},
+        reject:()=>{this.setState({verifs:s.verifs.filter(x=>x.id!==v.id),
+          vlog:[{text:'Rejected '+v.name+' · '+v.unit,when:'just now',fg:'#B3253A'},...s.vlog]});this.flash(v.name+' rejected');}})),
+      verifyEmpty:s.verifs.length===0,
+      verifyLog:s.vlog,
+      exportVerify:()=>this.xl('gather-verification-queue.xlsx',s.verifs.map(v=>({Name:v.name,Unit:v.unit,Phone:v.phone,Type:v.kind,RosterMatch:v.match,Proof:v.proof,Via:v.via,Received:v.when,Note:v.note}))),
+
+      /* office · roster */
+      rosterSub:s.hh.filter(h=>h.acct==='active').length+' active logins · '+s.hh.filter(h=>h.acct==='none').length+' units without one',
+      rq:s.rq||'',rqBorder:s.rq?'#5B34D9':'#DED5CC',onRq:e=>this.setState({rq:e.target.value}),
+      rosterRows:s.hh.filter(h=>!s.rq||(h.unit+' '+h.name+' '+h.phone).toLowerCase().indexOf(String(s.rq).toLowerCase())>-1).map(h=>{
+        const on=s.picked.indexOf(h.id)>-1;
+        const st={active:['Active login','#0C7C58'],issued:['Slip issued','#946200'],none:['No account','#B3253A'],suspended:['Suspended','#6F6678']}[h.acct];
+        return {unit:h.unit,name:h.name,phone:h.phone,since:h.since,temp:h.temp,orders:String(h.orders),
+          state:st[0],stateFg:st[1],
+          tick:on?'✓':'',boxBorder:on?'#5B34D9':'#D6CEC6',boxBg:on?'#5B34D9':'#fff',
+          toggle:()=>this.setState({picked:on?s.picked.filter(x=>x!==h.id):[...s.picked,h.id]}),
+          actLabel:h.acct==='none'?'Issue':h.acct==='suspended'?'Restore':'Reset',
+          actFg:h.acct==='none'?'#5B34D9':'#1E1926',
+          act:()=>{const temp='gems-'+Math.floor(1000+Math.random()*9000);
+            this.setState({hh:s.hh.map(x=>x.id===h.id?{...x,acct:h.acct==='suspended'?'active':'issued',temp}:x)});
+            this.flash(h.unit+' · temp password '+temp);}};}),
+      pickedNote:s.picked.length?s.picked.length+' households selected':'Select households to issue logins in bulk — the office hands out the printed slips.',
+      selectNoAccount:()=>this.setState({picked:s.hh.filter(h=>h.acct==='none').map(h=>h.id)}),
+      issueAccounts:()=>{if(!s.picked.length){this.flash('Select at least one household');return;}
+        this.setState({hh:s.hh.map(h=>s.picked.indexOf(h.id)>-1?{...h,acct:'issued',temp:'gems-'+Math.floor(1000+Math.random()*9000)}:h),picked:[]});
+        this.flash(s.picked.length+' accounts issued with temporary passwords');},
+      exportCreds:()=>{const rows=s.hh.filter(h=>h.temp!=='—').map(h=>({Unit:h.unit,Household:h.name,Username:h.name.toLowerCase().replace(/[^a-z]+/g,'.'),TempPassword:h.temp,Community:scopeC.name}));
+        if(!rows.length){this.flash('Issue some accounts first');return;}this.xl('gather-credential-slips.csv',rows);},
+      importRoster:()=>this.openImp('roster'),
+      exportRoster:()=>this.xl('gather-roster-'+scopeC.k+'.xlsx',s.hh.map(h=>({Unit:h.unit,Household:h.name,Phone:h.phone,Account:h.acct,TempPassword:h.temp,Orders:h.orders,Note:h.since}))),
+
+      /* office · orders */
+      ordersSub:officeOrders.length+' orders at '+scopeC.name+' · cycle '+scopeC.cycle,
+      orderFilters:[{k:'all',label:'All'},{k:'open',label:'Not collected'},{k:'collected',label:'Collected'},{k:'due',label:'Payment due'}].map(f=>({
+        label:f.label,count:(f.k==='all'?officeOrders:officeOrders.filter(o=>f.k==='due'?o.pay==='due':f.k==='collected'?o.stage==='collected':o.stage!=='collected')).length,
+        fg:s.oFilter===f.k?'#1E1926':'#7B7280',weight:s.oFilter===f.k?800:600,
+        line:s.oFilter===f.k?'#5B34D9':'transparent',pick:()=>this.setState({oFilter:f.k})})),
+      orderRows:oList.map(o=>({code:o.code,unit:o.unit,name:o.name,items:o.items,total:money(o.total),
+        stage:OSTAGE[o.stage],stageFg:o.stage==='ready'?'#5B34D9':o.stage==='collected'?'#6F6678':'#1E1926',
+        pay:o.pay==='paid'?'Paid · '+o.method:'Due · '+o.method,payFg:o.pay==='paid'?'#0C7C58':'#B3253A'})),
+      exportOrders:()=>this.xl('gather-orders-'+scopeC.k+'.xlsx',officeOrders.map(o=>({Order:o.code,Unit:o.unit,Household:o.name,Items:o.items,Total:o.total,Stage:o.stage,Payment:o.pay,Method:o.method}))),
+
+      /* office · collection */
+      collectSub:scopeC.point+' · '+scopeC.delivery+' 6–9pm · '+collectList.length+' orders on the table',
+      collectStats:[{value:tickedN+'/'+collectList.length,label:'Handed over',fg:'#1E1926'},
+        {value:String(collectList.length-tickedN),label:'Still waiting',fg:collectList.length-tickedN?'#B3253A':'#0C7C58'},
+        {value:money(expectedCash),label:'Cash expected at the table',fg:'#1E1926'},
+        {value:String(collectList.filter(o=>o.pay==='paid').length),label:'Already paid by MMQR',fg:'#0C7C58'}],
+      collectRows:collectList.map(o=>{const on=s.ticked.indexOf(o.id)>-1;
+        return {code:o.code,unit:o.unit,name:o.name,items:String(o.items.split(',').length),total:money(o.total),
+          pay:o.pay==='paid'?'Paid':'Collect '+money(o.total),payFg:o.pay==='paid'?'#0C7C58':'#B3253A',
+          by:on?'Resident · ticked':'—',bg:on?'#FDFBF7':'#fff',weight:on?600:700,
+          tick:on?'✓':'',boxBorder:on?'#5B34D9':'#D6CEC6',boxBg:on?'#5B34D9':'#fff',
+          toggle:()=>this.setState({ticked:on?s.ticked.filter(x=>x!==o.id):[...s.ticked,o.id]})};}),
+      exportCollect:()=>this.xl('gather-collection-'+scopeC.k+'.xlsx',collectList.map(o=>({Order:o.code,Unit:o.unit,Household:o.name,Items:o.items,Total:o.total,Payment:o.pay==='paid'?'paid':'collect cash',Collected:s.ticked.indexOf(o.id)>-1?'yes':''}))),
+      importCollect:()=>this.openImp('collect'),
+      closeCollect:()=>this.flash(tickedN+' of '+collectList.length+' handed over · report sent to Capital Retail'),
+
+      /* office · payments */
+      paySub:officeOrders.filter(o=>o.pay==='due').length+' unsettled · '+money(officeOrders.filter(o=>o.pay==='due').reduce((a,o)=>a+o.total,0))+' outstanding',
+      payRows:officeOrders.map(o=>({code:o.code,unit:o.unit,name:o.name,amount:money(o.total),method:o.method,
+        state:o.pay==='paid'?'Settled':'Outstanding',stateFg:o.pay==='paid'?'#0C7C58':'#B3253A',
+        btnLabel:o.pay==='paid'?'Receipt':'Mark paid',
+        btnBorder:o.pay==='paid'?'#E5DCD3':'#1E1926',btnBg:o.pay==='paid'?'#fff':'#1E1926',btnFg:o.pay==='paid'?'#1E1926':'#fff',
+        act:()=>{if(o.pay==='paid'){this.flash('Receipt '+o.code+'.pdf downloaded');return;}
+          this.setState({orders:s.orders.map(x=>x.id===o.id?{...x,pay:'paid',method:'Cash at table'}:x)});this.flash(o.code+' marked paid in cash');}})),
+      cashLines:[{label:'Cash expected',value:money(expectedCash),fg:'#1E1926'},
+        {label:'MMQR settled',value:money(officeOrders.filter(o=>o.pay==='paid').reduce((a,o)=>a+o.total,0)),fg:'#0C7C58'},
+        {label:'Orders on the table',value:String(collectList.length),fg:'#1E1926'}],
+      cashCount:s.cashCount,onCashCount:e=>this.setState({cashCount:e.target.value}),
+      variance:s.cashCount===''?'—':(varN>0?'+':'')+money(varN),
+      varianceFg:s.cashCount===''?'#9A9199':varN===0?'#0C7C58':'#B3253A',
+      varianceNote:s.cashCount===''?'Count the tin at the end of the window and enter the total.':varN===0?'Balanced. Submit and the office copy is filed with the cycle.':varN<0?'Short — check whether an order was handed over without payment.':'Over — likely a prepaid resident who paid twice.',
+      submitCash:()=>this.flash(s.cashCount===''?'Enter the counted cash first':'Cash-up submitted · variance '+((varN>0?'+':'')+money(varN))),
+      exportPayments:()=>this.xl('gather-payments-'+scopeC.k+'.xlsx',officeOrders.map(o=>({Order:o.code,Unit:o.unit,Household:o.name,Amount:o.total,Method:o.method,State:o.pay==='paid'?'settled':'outstanding'}))),
+      importPayments:()=>this.openImp('payments'),
+
+      /* office · setup */
+      setupFields:[
+        {label:'Collection point',value:scopeC.point,hint:'Shown on every resident order',onChange:e=>this.setState({comms:s.comms.map(c=>c.k===s.scope?{...c,point:e.target.value}:c)})},
+        {label:'Collection window',value:'6–9pm',hint:'Guard on duty for the whole window',onChange:()=>{}},
+        {label:'Cutoff',value:scopeC.cutoff,hint:'Sunday 10pm local',onChange:e=>this.setState({comms:s.comms.map(c=>c.k===s.scope?{...c,cutoff:e.target.value}:c)})},
+        {label:'Delivery day',value:scopeC.delivery,hint:'Set with Capital Retail',onChange:e=>this.setState({comms:s.comms.map(c=>c.k===s.scope?{...c,delivery:e.target.value}:c)})},
+        {label:'Blocks covered',value:'A, B, C',hint:'Block D not in this contract',onChange:()=>{}},
+        {label:'Office contact',value:'09 771 000 214',hint:'Residents see this for account issues',onChange:()=>{}}],
+      saveSetup:()=>this.flash('Setup saved · '+scopeC.households+' households notified'),
+      contractLines:[{label:'Retailer',value:'Capital Retail'},{label:'Terms',value:scopeC.contract},
+        {label:'Tiers',value:'20 / 50 / 100 units'},{label:'Cycle',value:'#'+scopeC.cycle+', twice weekly'},
+        {label:'Office commission',value:'1.5% of drop value'}],
+      requestChange:()=>this.flash('Change request sent to Capital Retail'),
+
+      /* office · announcements */
+      annTitle:s.annTitle,annBody:s.annBody,
+      onAnnTitle:e=>this.setState({annTitle:e.target.value}),onAnnBody:e=>this.setState({annBody:e.target.value}),
+      postAnn:()=>{if(!s.annTitle.trim()){this.flash('Give it a headline first');return;}
+        this.setState({anns:[{id:Date.now(),title:s.annTitle,body:s.annBody,when:'just now',reach:scopeC.households+' households · sending'},...s.anns],annTitle:'',annBody:''});
+        this.flash('Published to '+scopeC.households+' households');},
+      pinAnn:()=>this.flash('Saved as a draft'),
+      annList:s.anns.map((a,k)=>({title:a.title,body:a.body,when:a.when,reach:a.reach,bg:k===0?'#FDFBF7':'#fff'})),
+
+      /* import modal */
+      impOpen:!!s.impTarget,
+      impTitle:tgt?tgt.title:'',impBlurb:tgt?tgt.blurb:'',
+      fileRef:this.fileRef,
+      browse:()=>{if(this.fileRef.current)this.fileRef.current.click();},
+      onFile:e=>{const f=e.target.files&&e.target.files[0];if(f)this.read(f);},
+      onDragOver:e=>{e.preventDefault();},
+      onDrop:e=>{e.preventDefault();const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];if(f)this.read(f);},
+      dropTitle:imp?imp.file+' · sheet “'+imp.sheet+'”':'Drop a spreadsheet here, or click to browse',
+      dropBorder:imp?'#5B34D9':'#D6CEC6',dropBg:imp?'#F5F1FD':'#fff',
+      impHasRows:!!(imp&&imp.rows.length),
+      impSummary:imp?imp.rows.length+' rows · '+imp.cols.length+' columns detected':'',
+      impCols:imp?imp.cols.slice(0,7).map(c=>({label:String(c)})):[],
+      impRows:imp?imp.rows.slice(0,6).map(r=>({cells:imp.cols.slice(0,7).map(c=>({v:String(r[c]===''?'—':r[c])}))})):[],
+      impNote:imp?(imp.cols.length?'Columns are matched by name, case and spacing ignored. Anything unrecognised is left alone.':'No header row found — the first row of the sheet must name the columns.'):'',
+      impNoteFg:imp&&imp.cols.length?'#6F6678':'#B3253A',
+      impApplyLabel:tgt?tgt.apply:'Apply',
+      applyImport,
+      clearImport:()=>this.setState({imp:null}),
+      closeImport:()=>this.setState({imp:null,impTarget:null}),
+      downloadTemplate:()=>{if(tgt)this.xl('gather-'+s.impTarget+'-template.xlsx',tgt.tpl);}
+    };
+  }
+}
+</script>
+
+
+</body></html>

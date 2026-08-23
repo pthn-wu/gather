@@ -1,0 +1,93 @@
+name: Deploy
+
+# Deployment is gated on static security analysis. `security` must succeed for
+# this commit before anything is built or promoted — that is the whole point of
+# `workflow_run` with the conclusion check below.
+on:
+  workflow_run:
+    workflows: [Security]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    name: Confirm security scans passed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Block if security scans did not pass
+        if: >-
+          github.event_name == 'workflow_run' &&
+          github.event.workflow_run.conclusion != 'success'
+        run: |
+          echo "::error::Security workflow concluded '${{ github.event.workflow_run.conclusion }}'. Deployment blocked."
+          exit 1
+      - run: echo "Security scans passed — proceeding."
+
+  deploy-web:
+    name: Deploy web + admin (Vercel)
+    runs-on: ubuntu-latest
+    needs: gate
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      # Two Vercel projects share one repo: the resident site and the back
+      # office. Each needs its own VERCEL_PROJECT_ID secret.
+      - name: Deploy resident web app
+        working-directory: web
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
+        run: |
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy back office
+        working-directory: admin
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ADMIN }}
+        run: |
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+  migrate:
+    name: Migrate database (Supabase)
+    runs-on: ubuntu-latest
+    needs: gate
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: npm, cache-dependency-path: server/package-lock.json }
+      - working-directory: server
+        run: npm ci --ignore-scripts
+
+      # Migrations run as the MIGRATOR role, which owns the schema. The API's
+      # own credential (gather_app) has no DDL rights and cannot do this — that
+      # separation is the point (see prisma/security/01_roles.sql).
+      - name: Apply migrations
+        working-directory: server
+        env:
+          DATABASE_URL: ${{ secrets.MIGRATOR_DATABASE_URL }}
+        run: npx prisma migrate deploy
+
+      # Re-assert grants so a table added by this migration inherits least
+      # privilege rather than defaulting open.
+      - name: Re-apply role grants
+        env:
+          PGPASSWORD: ${{ secrets.MIGRATOR_PGPASSWORD }}
+        run: |
+          psql "${{ secrets.MIGRATOR_DATABASE_URL }}" \
+            -v ON_ERROR_STOP=1 -f server/prisma/security/01_roles.sql

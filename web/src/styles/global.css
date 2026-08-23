@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: #f8f5f1;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #1e1926;
+}
+a {
+  color: #5b34d9;
+  text-decoration: none;
+}
+a:hover {
+  color: #3f1fb0;
+}
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+}
+button {
+  appearance: none;
+}
+.row:hover {
+  background: #fdfbf7;
+}
+.card:hover {
+  border-color: #d8cfc5;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #ded5cc;
+  border-radius: 6px;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

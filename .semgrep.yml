@@ -1,0 +1,155 @@
+# Project-specific Semgrep rules.
+#
+# The public rulesets (p/owasp-top-ten, p/typescript, p/react) cover the generic
+# vulnerability classes. These encode Gather's own invariants — things a generic
+# scanner has no way to know are rules here.
+#
+# Every pattern is a block scalar (|) so that TypeScript syntax containing ":"
+# and quotes never has to fight YAML escaping.
+
+rules:
+  # ---------------------------------------------------------------------------
+  # Parameterized queries
+  # ---------------------------------------------------------------------------
+  - id: gather-no-raw-unsafe
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: >-
+      $queryRawUnsafe / $executeRawUnsafe do not parameterize their input and are
+      an SQL-injection vector. Use the Prisma query builder, or the tagged
+      template form, which does parameterize.
+    pattern-either:
+      - pattern: |
+          $X.$queryRawUnsafe(...)
+      - pattern: |
+          $X.$executeRawUnsafe(...)
+
+  # ---------------------------------------------------------------------------
+  # Margin confidentiality (CONTRACT.md §1)
+  # ---------------------------------------------------------------------------
+  - id: gather-no-cost-in-public-serializer
+    languages: [typescript]
+    severity: ERROR
+    message: >-
+      Landed cost and margin belong to Capital Retail alone and must never be
+      assembled into a resident- or office-facing payload. Return them only from
+      serializeProductRetail(), which is reachable exclusively behind
+      requireAdmin('retail').
+    paths:
+      include:
+        - '**/server/src/lib/serialize.ts'
+    patterns:
+      - pattern-inside: |
+          export function serializeProductPublic(...) { ... }
+      - pattern-either:
+          - pattern: |
+              cost: $V
+          - pattern: |
+              margin: $V
+
+  # ---------------------------------------------------------------------------
+  # Auth and secrets
+  # ---------------------------------------------------------------------------
+  - id: gather-no-secret-fallback
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: >-
+      A secret with a hard-coded fallback is not a secret — every deployment that
+      forgets to set it shares a signing key with the source. Fail closed
+      instead (see resolveJwtSecret()).
+    patterns:
+      - pattern-either:
+          - pattern: |
+              process.env.$KEY || "..."
+          - pattern: |
+              process.env.$KEY ?? "..."
+      - metavariable-regex:
+          metavariable: $KEY
+          regex: '.*(SECRET|TOKEN|PASSWORD|KEY|CREDENTIAL).*'
+
+  # ---------------------------------------------------------------------------
+  # CORS
+  # ---------------------------------------------------------------------------
+  - id: gather-no-permissive-cors
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: >-
+      Reflecting every Origin while credentials are enabled lets any site on the
+      internet make authenticated requests on a signed-in user's behalf. Use the
+      CORS_ORIGINS allowlist in server/src/lib/security.ts.
+    paths:
+      exclude:
+        - '**/server/src/lib/security.ts'
+    pattern-either:
+      - pattern: |
+          cors({..., origin: true, ...})
+      - pattern: |
+          cors({..., origin: "*", ...})
+
+  # ---------------------------------------------------------------------------
+  # Error handling
+  # ---------------------------------------------------------------------------
+  - id: gather-no-error-message-to-client
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: >-
+      Returning an exception message to the client leaks Prisma constraint text,
+      file paths and query fragments to anyone who can trigger a 500. Log the
+      detail with a correlation id and return a generic message (errorHandler()).
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $RES.json({..., error: $E.message, ...})
+          - pattern: |
+              $RES.send($E.message)
+      - metavariable-regex:
+          metavariable: $E
+          regex: '^(err|error|e|ex)$'
+
+  # ---------------------------------------------------------------------------
+  # Client-side (web + admin + mobile)
+  # ---------------------------------------------------------------------------
+  - id: gather-no-dangerous-html
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: >-
+      dangerouslySetInnerHTML renders unescaped HTML. Product details, household
+      names and announcements are all operator- or resident-supplied — render
+      them as text.
+    paths:
+      include:
+        - '**/web/src'
+        - '**/admin/src'
+        - '**/mobile/src'
+    pattern-either:
+      - pattern: |
+          <$EL dangerouslySetInnerHTML={...} />
+      - pattern: |
+          <$EL dangerouslySetInnerHTML={...}>...</$EL>
+
+  - id: gather-no-eval
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: >-
+      eval / new Function execute attacker-controllable strings. There is no
+      legitimate use of either in this codebase.
+    pattern-either:
+      - pattern: |
+          eval(...)
+      - pattern: |
+          new Function(...)
+
+  - id: gather-mobile-token-storage
+    languages: [typescript]
+    severity: WARNING
+    message: >-
+      On a device the auth token belongs in expo-secure-store (Keychain /
+      Keystore), not AsyncStorage. The web fallback in mobile/src/api/client.ts
+      is the deliberate, documented exception.
+    paths:
+      include:
+        - '**/mobile/src'
+      exclude:
+        - '**/mobile/src/api/client.ts'
+    pattern: |
+      AsyncStorage.setItem(...)

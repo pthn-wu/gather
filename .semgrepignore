@@ -1,0 +1,12 @@
+# Design handoff artifacts, not application code. `project/` holds the original
+# Claude Design HTML/JS prototypes (including their own toy framework, which
+# uses new Function to evaluate components); `chats/` holds transcripts.
+project/
+chats/
+
+node_modules/
+dist/
+build/
+.expo/
+coverage/
+*.min.js

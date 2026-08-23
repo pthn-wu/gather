@@ -1,0 +1,332 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Community {
+  id            String   @id @default(cuid())
+  name          String
+  label         String
+  abbr          String
+  code          String   @unique
+  address       String
+  collectPoint  String
+  cycleNo       Int
+  isOpen        Boolean  @default(true)
+  cutoffAt      DateTime
+  deliveryLabel String
+
+  // --- v2: cycle + contract record edited in the office "Cycle setup" screen ---
+  cutoffDate       DateTime
+  deliveryDate     DateTime
+  collectionWindow String   @default("6–9pm")
+  contractStatus   String   @default("Signed") // "Signed" | "Pilot" | "Lapsed"
+  blocksCovered    String   @default("A, B, C")
+  officeContact    String   @default("")
+  weightFactor     Float    @default(1) // demand scaling vs the largest tower
+
+  users          User[]
+  adminUsers     AdminUser[]
+  orders         Order[]
+  wishlists      Wishlist[]
+  splits         Split[]
+  activities     Activity[]
+  alerts         Alert[]
+  productListing ProductCommunity[]
+  promotions     PromotionCommunity[]
+  verifications  VerificationRequest[]
+  fulfilmentRuns FulfilmentRun[]
+  cashUps        CashUp[]
+}
+
+model User {
+  id              String  @id @default(cuid())
+  communityId     String
+  username        String  @unique
+  passwordHash    String
+  mustSetPassword Boolean @default(true)
+  displayName     String
+  block           String
+  unit            String
+  verified        Boolean @default(false)
+  avatarIndex     Int     @default(0)
+  avatarPhoto     String?
+
+  // --- v2: roster record maintained by the property office ---
+  phone        String?
+  accountState String    @default("active") // "none" | "issued" | "active" | "suspended"
+  tempPassword String? // cleared once the resident sets their own password
+  memberSince  DateTime?
+  blockUnit    String    @default("") // display form, e.g. "A #14-07"
+
+  community        Community          @relation(fields: [communityId], references: [id])
+  orders           Order[]
+  comments         Comment[]
+  wishlistVotes    WishlistVote[]
+  splitParticipant SplitParticipant[]
+  activities       Activity[]
+}
+
+model AdminUser {
+  id           String  @id @default(cuid())
+  role         String // "office" | "retail"
+  communityId  String? // non-null iff role = "office"
+  username     String  @unique
+  email        String?
+  passwordHash String
+  displayName  String
+
+  community     Community? @relation(fields: [communityId], references: [id])
+  announcements Alert[]
+}
+
+model Product {
+  id          String  @id @default(cuid())
+  sku         String  @unique
+  name        String
+  brand       String  @default("")
+  barcode     String  @default("")
+  unit        String
+  size        String  @default("")
+  grossWeight String  @default("")
+  category    String // Grocery | Grocery Non-Food | Hardline | Softline | Homeline | Pharmacy | Fresh & Frozen
+  details     String  @default("")
+  cost        Int     @default(0) // landed cost — RETAIL CONSOLE ONLY, never serialised to office/resident
+  retailPrice Int
+  price0      Int
+  price1      Int
+  price2      Int
+  price3      Int
+  imageSlot   String
+  imageUrl    String?
+  active      Boolean @default(true)
+
+  orderLines OrderLine[]
+  comments   Comment[]
+  splits     Split[]
+  listedAt   ProductCommunity[]
+  promotions Promotion[]
+  pickLines  PickLine[]
+}
+
+// Listing scope — a product is only orderable in the communities it is listed at.
+model ProductCommunity {
+  id          String @id @default(cuid())
+  productId   String
+  communityId String
+
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  community Community @relation(fields: [communityId], references: [id])
+
+  @@unique([productId, communityId])
+}
+
+model Promotion {
+  id         String   @id @default(cuid())
+  name       String
+  mechanic   String // "tier" | "percent" | "bundle" | "threshold"
+  value      String // human-readable, e.g. "Unlock 50+ at 20", "10%", "K 2,500 off"
+  productId  String? // null = basket-wide
+  startsAt   DateTime
+  endsAt     DateTime
+  live       Boolean  @default(false)
+  uptakeNote String   @default("not started")
+  createdAt  DateTime @default(now())
+
+  product     Product?             @relation(fields: [productId], references: [id])
+  communities PromotionCommunity[]
+}
+
+model PromotionCommunity {
+  id          String @id @default(cuid())
+  promotionId String
+  communityId String
+
+  promotion Promotion @relation(fields: [promotionId], references: [id], onDelete: Cascade)
+  community Community @relation(fields: [communityId], references: [id])
+
+  @@unique([promotionId, communityId])
+}
+
+model VerificationRequest {
+  id             String    @id @default(cuid())
+  communityId    String
+  name           String
+  unit           String
+  phone          String
+  kind           String // "New unit claim" | "Tenant change" | "Second login"
+  rosterMatch    String
+  proof          String
+  requestedVia   String
+  note           String    @default("")
+  status         String    @default("pending") // "pending" | "approved" | "held" | "rejected"
+  createdAt      DateTime  @default(now())
+  resolvedAt     DateTime?
+  resolutionNote String?
+
+  community Community @relation(fields: [communityId], references: [id])
+}
+
+model FulfilmentRun {
+  id          String   @id @default(cuid())
+  communityId String
+  cycleNo     Int
+  stage       String   @default("open") // open | confirmed | picking | packed | dispatched
+  updatedAt   DateTime @updatedAt
+
+  community Community  @relation(fields: [communityId], references: [id])
+  lines     PickLine[]
+
+  @@unique([communityId, cycleNo])
+}
+
+model PickLine {
+  id              String @id @default(cuid())
+  fulfilmentRunId String
+  productId       String
+  orderedQty      Int
+  pickedQty       Int? // null = not counted yet
+
+  run     FulfilmentRun @relation(fields: [fulfilmentRunId], references: [id], onDelete: Cascade)
+  product Product       @relation(fields: [productId], references: [id])
+
+  @@unique([fulfilmentRunId, productId])
+}
+
+model CashUp {
+  id             String   @id @default(cuid())
+  communityId    String
+  cycleNo        Int
+  expectedAmount Int
+  countedAmount  Int
+  variance       Int
+  submittedAt    DateTime @default(now())
+  submittedBy    String
+
+  community Community @relation(fields: [communityId], references: [id])
+}
+
+model Order {
+  id            String    @id @default(cuid())
+  code          String    @unique
+  communityId   String
+  userId        String
+  status        String // "placed" | "packing" | "ready" | "collected"
+  paymentMethod String // "mmqr" | "collection"
+  paid          Boolean   @default(false)
+  note          String?
+  placedAt      DateTime  @default(now())
+  packingAt     DateTime?
+  readyAt       DateTime?
+  collectedAt   DateTime?
+  collectedBy   String?
+  collectLabel  String
+
+  community Community   @relation(fields: [communityId], references: [id])
+  user      User        @relation(fields: [userId], references: [id])
+  lines     OrderLine[]
+}
+
+model OrderLine {
+  id        String @id @default(cuid())
+  orderId   String
+  productId String
+  qty       Int
+  unitPrice Int
+  tierIndex Int
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  productId String
+  userId    String
+  text      String
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+}
+
+model Wishlist {
+  id             String  @id @default(cuid())
+  communityId    String
+  name           String
+  note           String
+  addedToCatalog Boolean @default(false)
+  householdCount Int     @default(0)
+
+  community Community      @relation(fields: [communityId], references: [id])
+  votes     WishlistVote[]
+}
+
+model WishlistVote {
+  id         String @id @default(cuid())
+  wishlistId String
+  userId     String
+
+  wishlist Wishlist @relation(fields: [wishlistId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@unique([wishlistId, userId])
+}
+
+model Split {
+  id            String @id @default(cuid())
+  communityId   String
+  productId     String
+  initiatorName String
+  detail        String
+  neededCount   Int
+
+  community    Community          @relation(fields: [communityId], references: [id])
+  product      Product            @relation(fields: [productId], references: [id])
+  participants SplitParticipant[]
+}
+
+model SplitParticipant {
+  id      String @id @default(cuid())
+  splitId String
+  userId  String
+
+  split Split @relation(fields: [splitId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@unique([splitId, userId])
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  communityId String
+  userId      String?
+  text        String
+  createdAt   DateTime @default(now())
+
+  community Community @relation(fields: [communityId], references: [id])
+  user      User?     @relation(fields: [userId], references: [id])
+}
+
+// Announcements. Published rows are what residents see in "Updates"; drafts never leave the office.
+model Alert {
+  id            String   @id @default(cuid())
+  communityId   String
+  title         String
+  body          String
+  ctaLabel      String
+  ctaType       String // "orders" | "product" | "cart" | "none"
+  ctaRef        String?
+  isDraft       Boolean  @default(false)
+  authorAdminId String?
+  reachCount    Int      @default(0)
+  openedCount   Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  community   Community  @relation(fields: [communityId], references: [id])
+  authorAdmin AdminUser? @relation(fields: [authorAdminId], references: [id])
+}
