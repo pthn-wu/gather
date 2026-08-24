@@ -5,11 +5,38 @@
  */
 import {
   accountState, anyPassword, avatarIndex, category, communityRef, contractStatus, countFrom0,
-  dataUrlImage, displayName, id, importRows, isoDate, longText, money, password, paymentMethod,
-  phone, promoMechanic, qty, searchTerm, shortText, username, z,
+  contactRole, dataUrlImage, displayName, id, importRows, isoDate, longText, money, optionalEmail,
+  password, paymentMethod, phone, promoMechanic, qty, searchTerm, shortText, username, z,
 } from './validate';
 
 const strict = <T extends z.ZodRawShape>(shape: T) => z.object(shape).strict();
+
+// ---------------------------------------------------------------------------
+// Public (unauthenticated)
+// ---------------------------------------------------------------------------
+
+export const publicSchemas = {
+  /**
+   * "Register interest" from the property picker. Unauthenticated, so every
+   * field is bounded and the free-text note is short: this is the one write
+   * path on the API that anyone at all can reach.
+   *
+   * `phone` is required rather than email — a Yangon property office is reached
+   * by phone, and requiring an address people may not have would cost leads.
+   */
+  propertyEnquiry: strict({
+    propertyName: displayName,
+    township: displayName,
+    address: shortText.optional(),
+    householdCount: countFrom0,
+    blockCount: countFrom0.optional(),
+    contactName: displayName,
+    contactRole,
+    contactPhone: phone.refine((v) => v.replace(/\D/g, '').length >= 7, 'Enter a contact phone number'),
+    contactEmail: optionalEmail.optional(),
+    note: shortText.optional(),
+  }),
+};
 
 // ---------------------------------------------------------------------------
 // Resident auth

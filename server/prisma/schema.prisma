@@ -330,3 +330,24 @@ model Alert {
   community   Community  @relation(fields: [communityId], references: [id])
   authorAdmin AdminUser? @relation(fields: [authorAdminId], references: [id])
 }
+
+// "Register interest" from the public property picker. Anyone can write one and
+// nobody can read one without an admin session — it holds a named contact and a
+// phone number for a property Gather has no relationship with yet.
+model PropertyEnquiry {
+  id             String   @id @default(cuid())
+  propertyName   String
+  township       String
+  address        String?
+  householdCount Int
+  blockCount     Int?
+  contactName    String
+  contactRole    String // "resident" | "committee" | "office" | "developer" | "other"
+  contactPhone   String
+  contactEmail   String?
+  note           String?
+  status         String   @default("new") // "new" | "contacted" | "closed"
+  createdAt      DateTime @default(now())
+
+  @@index([status, createdAt])
+}

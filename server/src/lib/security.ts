@@ -86,13 +86,19 @@ export function securityHeaders() {
  * worth brute-forcing; everything else gets a generous ceiling that only a
  * runaway client or a scraper would reach.
  */
-const limiter = (windowMs: number, max: number, message: string) =>
+const limiter = (
+  windowMs: number,
+  max: number,
+  message: string,
+  opts: { skipFailedRequests?: boolean } = {}
+) =>
   rateLimit({
     windowMs,
     max,
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: message },
+    ...opts,
     // Deliberately using the library's default key generator. A hand-rolled
     // `req.ip` key silently lets IPv6 clients bypass the limit by rotating
     // addresses within their /64 — the default normalises the prefix. What
@@ -112,6 +118,23 @@ export const writeLimiter = limiter(
   60 * 1000,
   Number(process.env.RATE_LIMIT_WRITE ?? 120),
   'Too many requests. Slow down.'
+);
+
+/**
+ * The public enquiry form: 5 per hour. It is the only write on the API that
+ * needs no session, so it is the only one a passer-by can spam. A property
+ * office submits this once.
+ */
+export const enquiryLimiter = limiter(
+  60 * 60 * 1000,
+  Number(process.env.RATE_LIMIT_ENQUIRY ?? 5),
+  'Thanks — we already have your enquiry. Give us a little time to come back to you.',
+  // Count submissions that were actually stored, not attempts. Rejected bodies
+  // are the ones a person makes by mistyping a phone number, and locking them
+  // out for an hour — with a message saying we already have their enquiry —
+  // would lose exactly the lead this form exists to collect. Invalid requests
+  // write nothing and are still bounded by the global write ceiling.
+  { skipFailedRequests: true }
 );
 
 /** Everything else: 600 per minute. */

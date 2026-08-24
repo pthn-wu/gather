@@ -24,6 +24,22 @@ import type {
 // ---- Public ----
 export const getCommunities = () => api.get<{ data: Community[] }>('/api/communities').then((r) => r.data);
 
+export type PropertyEnquiry = {
+  propertyName: string;
+  township: string;
+  address?: string;
+  householdCount: number;
+  blockCount?: number;
+  contactName: string;
+  contactRole: 'resident' | 'committee' | 'office' | 'developer' | 'other';
+  contactPhone: string;
+  contactEmail?: string;
+  note?: string;
+};
+
+export const submitPropertyEnquiry = (enquiry: PropertyEnquiry) =>
+  api.post<{ ok: true }>('/api/enquiries', enquiry);
+
 // ---- Resident auth ----
 export const login = (username: string, password: string) =>
   api.post<{ token: string; user: User; mustSetPassword: boolean }>('/api/auth/login', { username, password });

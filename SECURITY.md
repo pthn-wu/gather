@@ -34,6 +34,12 @@ descend as volume rises, avatar photos restricted to PNG/JPEG/WebP/GIF data URLs
 under 2 MB (**SVG is deliberately excluded — it can carry script**), and import
 sheets capped at 5000 rows.
 
+The one unauthenticated write, `POST /api/enquiries`, is bounded the same way as every
+authenticated one — `.strict()`, every field length-capped, `contactRole` an enum — plus a
+dedicated 5-per-hour limit that counts only submissions that were actually stored. It returns
+`{ok:true}` and nothing else: no id, no echo, and the same response whether or not that property
+has enquired before.
+
 Search terms keep their punctuation — product names contain commas, dashes and
 ampersands — and only control characters are stripped. Prisma parameterises the
 value, so punctuation is inert on the way to the database.

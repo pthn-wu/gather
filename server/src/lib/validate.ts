@@ -132,6 +132,14 @@ export const fulfilmentStage = z.enum(['open', 'confirmed', 'picking', 'packed',
 export const accountState = z.enum(['none', 'issued', 'active', 'suspended']);
 export const contractStatus = z.enum(['Signed', 'Pilot', 'Lapsed']);
 export const verificationKind = z.enum(['New unit claim', 'Tenant change', 'Second login']);
+export const contactRole = z.enum(['resident', 'committee', 'office', 'developer', 'other']);
+
+/**
+ * Optional email on the public enquiry form. Zod's email check is the whole
+ * validation here: this address is only ever stored and read back by staff, so
+ * it needs to be well-formed and bounded, not deliverable.
+ */
+export const optionalEmail = z.string().trim().toLowerCase().max(160).email('Enter a valid email address');
 
 /**
  * Free-text search. Bounded in length and stripped of control characters (which

@@ -108,6 +108,12 @@ Office publishes these; they are what residents see in **Updates**.
 ### Changed: `Wishlist`
 Add: `addedToCatalog` (bool), `householdCount` (Int, derived/stored).
 
+### New: `PropertyEnquiry` (register interest)
+`propertyName`, `township`, `address?`, `householdCount`, `blockCount?`, `contactName`,
+`contactRole` (`resident|committee|office|developer|other`), `contactPhone`, `contactEmail?`,
+`note?`, `status` (`new|contacted|closed`, default `new`), `createdAt`.
+Written by the public property picker; readable only with an admin session.
+
 ---
 
 ## 3. Endpoints
@@ -115,6 +121,13 @@ Add: `addedToCatalog` (bool), `householdCount` (Int, derived/stored).
 Existing resident endpoints (`/api/auth/*`, `/api/products`, `/api/orders`, `/api/wishlist`,
 `/api/splits`, `/api/activity`, `/api/alerts`) keep their paths and shapes, **extended** with
 the new product fields (minus `cost`) and promotion-adjusted prices.
+
+### Public (no session)
+- `GET /api/communities` → the property picker's list.
+- `POST /api/enquiries` → 201 `{ok:true}`. "Register interest" from the property picker: the
+  only write on this API that needs no session, so it carries its own rate limit (5 stored
+  submissions per hour per IP; rejected bodies do not count, so a mistyped phone number cannot
+  lock someone out). The response deliberately echoes nothing back.
 
 ### Back-office auth
 - `POST /api/admin/login` `{username, password, communityId?}` → `{token, admin}`.

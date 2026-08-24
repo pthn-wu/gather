@@ -106,3 +106,20 @@ END $$;
 -- Writes the role is not supposed to have are still refused (expect f, t):
 --   SELECT has_table_privilege('gather_app_user', 'public."Order"', 'DELETE'),
 --          has_table_privilege('gather_app_user', 'public."Comment"', 'DELETE');
+
+-- ---------------------------------------------------------------------------
+-- Applied later: PropertyEnquiry (migration `add_property_enquiry`)
+-- ---------------------------------------------------------------------------
+-- A table added after this file first ran needs the same treatment, and this is
+-- what that looks like. Worth doing carefully here: this is the only table
+-- written through an endpoint that needs no session, and it holds a named
+-- contact and a phone number for people who are not customers yet.
+--
+--   REVOKE ALL ON public."PropertyEnquiry" FROM anon, authenticated;
+--   GRANT SELECT, INSERT, UPDATE ON public."PropertyEnquiry" TO gather_app;
+--   ALTER TABLE public."PropertyEnquiry" ENABLE ROW LEVEL SECURITY;
+--   CREATE POLICY gather_app_all ON public."PropertyEnquiry"
+--     AS PERMISSIVE FOR ALL TO gather_app USING (true) WITH CHECK (true);
+--
+-- No DELETE, matching "Order": staff mark an enquiry closed, they do not erase
+-- it. Verified live: gather_app_user can insert and read, anon cannot read.

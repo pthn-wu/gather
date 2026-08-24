@@ -4,16 +4,16 @@ import logo from '../assets/gather-logo-web.png';
 import { getCommunities } from '../api/endpoints';
 import type { Community } from '../api/types';
 import { useAuth } from '../context/AuthContext';
-import { useToast } from '../context/ToastContext';
 import { linkButton, mono, primaryButton } from '../styles/shared';
+import { RegisterInterest } from '../components/RegisterInterest';
 
 export function Home() {
   const [query, setQuery] = useState('');
+  const [enquiring, setEnquiring] = useState(false);
   const [communities, setCommunities] = useState<Community[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { setPendingCommunity } = useAuth();
-  const { flash } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -183,7 +183,7 @@ export function Home() {
             with the office.
           </div>
           <button
-            onClick={() => flash('Interest registered — the office will hear from Capital Retail')}
+            onClick={() => setEnquiring(true)}
             style={{ ...primaryButton, marginTop: 14, padding: '11px 16px', fontSize: 12.5 }}
           >
             Register interest
@@ -196,6 +196,8 @@ export function Home() {
           </div>
         </div>
       </div>
+
+      {enquiring && <RegisterInterest onClose={() => setEnquiring(false)} />}
     </div>
   );
 }
