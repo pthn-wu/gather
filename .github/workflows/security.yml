@@ -100,7 +100,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        workspace: [server, web, admin, mobile]
+        workspace: [server, web, mobile]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

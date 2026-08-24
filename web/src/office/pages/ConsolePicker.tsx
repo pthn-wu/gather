@@ -100,8 +100,11 @@ export default function ConsolePicker() {
             fontSize: 12, color: C.faint2, lineHeight: 1.6, marginTop: 32, maxWidth: 420,
           }}
         >
-          Residents don't sign in here — they use the Gather app. Lost your console password? The
-          Capital Retail account team resets both sides.
+          Residents don't sign in here — they use{" "}
+          <a href="/" style={{ fontWeight: 700 }}>
+            the Gather storefront
+          </a>
+          . Lost your console password? The Capital Retail account team resets both sides.
         </div>
       </div>
 

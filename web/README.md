@@ -1,8 +1,16 @@
-# Gather — customer web app
+# Gather — the site
 
-The resident-facing web app for Gather: browse this cycle's group-buy sheet, add items to your
-order, check out, and track orders/community activity for your condo community. React +
-TypeScript + Vite, calling the `server/` API described in `/CONTRACT.md` at the repo root.
+One React + TypeScript + Vite app serving both audiences, calling the `server/` API described
+in `/CONTRACT.md` at the repo root.
+
+- **`/`** — the resident storefront: browse this cycle's group-buy sheet, add items to your
+  order, check out, and track orders and community activity for your condo.
+- **`/office`** — the back office: the Capital Retail console and the property-office console,
+  behind their own sign-in. Source in `src/office/` (see its README).
+
+They share a domain and a build, and nothing else. The two sessions use different
+`localStorage` keys, so signing in as a resident does not disturb an office session in the same
+browser. `src/office/` is a lazy chunk, so a shopper never downloads the back office.
 
 Desktop only (1440px layout) — this is not a responsive/mobile build.
 

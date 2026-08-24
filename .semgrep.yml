@@ -119,7 +119,6 @@ rules:
     paths:
       include:
         - '**/web/src'
-        - '**/admin/src'
         - '**/mobile/src'
     pattern-either:
       - pattern: |

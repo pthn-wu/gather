@@ -28,7 +28,7 @@ jobs:
       - run: echo "Security scans passed — proceeding."
 
   deploy-web:
-    name: Deploy web + admin (Vercel)
+    name: Deploy web (Vercel)
     runs-on: ubuntu-latest
     needs: gate
     environment: production
@@ -40,23 +40,13 @@ jobs:
       - name: Install Vercel CLI
         run: npm i -g vercel@latest
 
-      # Two Vercel projects share one repo: the resident site and the back
-      # office. Each needs its own VERCEL_PROJECT_ID secret.
-      - name: Deploy resident web app
+      # One front-end project. The resident storefront and the back office are
+      # the same build, served from one domain: / and /office.
+      - name: Deploy web app (storefront + back office)
         working-directory: web
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
-        run: |
-          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy back office
-        working-directory: admin
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ADMIN }}
         run: |
           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}

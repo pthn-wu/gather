@@ -188,6 +188,12 @@ export function Home() {
           >
             Register interest
           </button>
+          <div style={{ marginTop: 20, fontSize: 12.5, color: '#8B8194' }}>
+            Building office or retail team?{' '}
+            <a href="/office" style={{ fontWeight: 700 }}>
+              Staff sign in
+            </a>
+          </div>
         </div>
       </div>
     </div>

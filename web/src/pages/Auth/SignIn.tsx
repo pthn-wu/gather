@@ -83,6 +83,12 @@ export function SignIn() {
           >
             Choose another property
           </button>
+          <div style={{ marginTop: 18, textAlign: 'center', fontSize: 12, color: '#8B8194' }}>
+            Building office or retail team?{' '}
+            <a href="/office" style={{ fontWeight: 700 }}>
+              Staff sign in
+            </a>
+          </div>
         </div>
       </div>
     </div>

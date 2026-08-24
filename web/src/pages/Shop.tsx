@@ -181,7 +181,7 @@ export function Shop() {
                 return (
                   <div
                     key={p.id}
-                    className="card"
+                    className="res-card"
                     onClick={() => navigate(`/shop/${p.id}`)}
                     style={{
                       background: '#fff',

@@ -1,13 +1,16 @@
 # Deploying Gather
 
-Three Vercel projects off one repo, plus the Supabase database that is already
+Two Vercel projects off one repo, plus the Supabase database that is already
 provisioned and seeded.
 
 | Project | Root directory | What it serves |
 |---|---|---|
 | `gather-api` | `server` | the Express API, as a serverless function |
-| `gather` | `web` | the resident site |
-| `gather-office` | `admin` | the back office (retail + community consoles) |
+| `gather-web` | `web` | the whole site |
+
+One site, two audiences. `/` is the resident storefront and `/office` is the
+back office (retail and community consoles), from the same build and the same
+domain. The office code is a lazy chunk, so shoppers never download it.
 
 The mobile app (`mobile/`) is not deployed here — it builds through EAS and
 points at the same API.
@@ -40,43 +43,51 @@ port 5432 — that is the direct connection, one session per function instance.
 ```bash
 DATABASE_URL=            # transaction pooler string from §1, as gather_app_user
 JWT_SECRET=              # ≥32 chars: openssl rand -base64 48
-CORS_ORIGINS=            # comma-separated, no trailing slash:
-                         # https://gather.vercel.app,https://gather-office.vercel.app
+CORS_ORIGINS=            # every hostname the site answers on, comma-separated,
+                         # no spaces, no trailing slash
 NODE_ENV=production
 TRUST_PROXY_HOPS=1
 ```
 
-`CORS_ORIGINS` must list the two front-end deployment URLs exactly. An origin
-that is not on the list is refused, which is the intended behaviour and also the
-first thing to check when the site loads but every request fails.
+An origin that is not on the list is refused, which is the intended behaviour and
+also the first thing to check when the site loads but every request fails.
 
 `JWT_SECRET` fails closed: in production the server refuses to boot without it,
 and refuses a value that looks like a placeholder.
 
-## 3. Environment variables — `gather` and `gather-office`
+## 3. Environment variables — `gather-web`
 
 ```bash
-VITE_API_URL=       # https://gather-api.vercel.app
+VITE_API_URL=       # the API's URL, no trailing slash
 ```
 
 This is baked in at build time, so changing it needs a redeploy, not just a
 restart.
 
+`CORS_ORIGINS` on the API must list every hostname the site is reachable on.
+Vercel gives each project two production aliases (a short random one and a
+`-<team-slug>` one) and CORS matches the `Origin` header exactly, so list both or
+a link shared later will fail in a way that looks like the app is broken.
+
 ## 4. Order of operations
 
-The front ends need the API's URL and the API needs theirs, so the first pass is
-circular. Break it by deploying the API first with `CORS_ORIGINS` set to the URLs
-Vercel *will* assign (they are predictable from the project names), then deploy
-the two front ends, then confirm the origins match what was assigned.
+The site needs the API's URL and the API needs the site's, so the first pass is
+circular. Deploy the API first, deploy the site against it, then come back and
+fix `CORS_ORIGINS` with the hostname Vercel actually assigned.
 
-1. Import the repo three times, once per project, setting **Root Directory** per
-   the table above.
+1. Import the repo twice, once per project, setting **Root Directory** per the
+   table above. The picker offers to descend into `src` and `public`; don't —
+   the root is the folder holding `package.json`.
 2. `gather-api`: add §2's variables, deploy. `server/vercel.json` routes
    everything to `api/index.ts`; there is no build step to configure.
-3. `gather` and `gather-office`: add §3's variable, deploy. Both are Vite SPAs —
-   framework preset **Vite**, output `dist`.
-4. If Vercel assigned different URLs than expected, correct `CORS_ORIGINS` on
-   `gather-api` and redeploy it.
+3. `gather-web`: add §3's variable, deploy. Vite SPA — framework preset
+   **Vite**, output `dist`. `web/vercel.json` rewrites all paths to
+   `index.html` so `/office` and deep links survive a refresh.
+4. Turn **Vercel Authentication** off on both (Settings → Deployment
+   Protection). It is on by default and redirects every visitor, including the
+   browser's API calls, to a Vercel login page.
+5. Correct `CORS_ORIGINS` on `gather-api` to the hostnames Vercel actually
+   assigned, and redeploy it. Don't predict them from project names.
 
 ## 5. After deploying, before trusting it
 
@@ -94,8 +105,10 @@ Postgres, so walk the round trip by hand rather than assuming it works:
   corrected for this by reading, not by running.
 - Retail console: log in, delist a product from one tower, confirm it vanishes
   from that tower's resident sheet and stays on the others.
-- Office console: log in as a community, publish an announcement, confirm it
-  appears on the resident site — and confirm a *draft* does not.
+- Office console at `/office`: log in as a community, publish an announcement,
+  confirm it appears on the resident site — and confirm a *draft* does not.
+- Sign in as a resident and as an office user in the same browser. The two
+  sessions use different `localStorage` keys and must not disturb each other.
 - Anywhere the office console shows money, confirm no cost or margin is present.
   Check the network response, not only the rendered page.
 

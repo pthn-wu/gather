@@ -1,7 +1,8 @@
 # Gather — API contract v2 (backend ⇄ customer web ⇄ back office)
 
-Shared reference for three codebases: `server/` (API), `web/` (resident-facing app),
-`admin/` (the **back office** — two consoles). Supersedes v1. Where v2 differs from what is
+Shared reference for two codebases: `server/` (API) and `web/` (the site). The site serves
+both audiences from one build — the resident storefront at `/`, and the **back office** (two
+consoles) at `/office`, whose source lives in `web/src/office/`. Supersedes v1. Where v2 differs from what is
 already built, **v2 wins** and the existing code must be migrated to it.
 
 v2 exists because the product owner supplied a back-office design
@@ -157,7 +158,7 @@ the new product fields (minus `cost`) and promotion-adjusted prices.
   `PATCH /announcements/:id`
 
 ### Import / export
-Spreadsheet parsing happens **client-side in `admin/`** using SheetJS (`xlsx`), exactly as the
+Spreadsheet parsing happens **client-side in `web/src/office/`** using ExcelJS, exactly as the
 design does: read the file → show the preview modal → POST the parsed rows to the relevant
 `/bulk` or batch endpoint above. Exports are generated client-side from already-fetched data.
 Seven import targets, with the blank-template columns given in the design file's `T` object:

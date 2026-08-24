@@ -32,7 +32,10 @@ button {
 .row:hover {
   background: #fdfbf7;
 }
-.card:hover {
+/* Renamed from `.card`: the back office defines its own `.card` (white panel,
+   border, radius) and both stylesheets are global now that the two apps share a
+   build. `.res-card` keeps this hover to the storefront. */
+.res-card:hover {
   border-color: #d8cfc5;
 }
 ::-webkit-scrollbar {

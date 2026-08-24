@@ -6,6 +6,8 @@ import Shell from "./components/Shell";
 import ConsolePicker from "./pages/ConsolePicker";
 import SignIn from "./pages/SignIn";
 
+import "./styles.css";
+
 import Overview from "./pages/retail/Overview";
 import Catalog from "./pages/retail/Catalog";
 import Promotions from "./pages/retail/Promotions";
@@ -71,7 +73,7 @@ function Router() {
   return phase === "auth" ? <SignIn /> : <ConsolePicker />;
 }
 
-export default function App() {
+export function OfficeApp() {
   return (
     <AuthProvider>
       <ToastProvider>

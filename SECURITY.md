@@ -108,7 +108,7 @@ schedule so newly-disclosed CVEs surface without waiting for a commit:
 - **Semgrep** — `p/owasp-top-ten`, `p/javascript`, `p/typescript`, `p/react`,
   `p/secrets`, plus `.semgrep.yml` (this project's own invariants)
 - **CodeQL** — `security-extended` dataflow analysis
-- **Per workspace** (server/web/admin/mobile) — typecheck + `npm audit --audit-level=high`
+- **Per workspace** (server/web/mobile) — typecheck + `npm audit --audit-level=high`
 - **SQL safety guard**
 - **Dependency review** — blocks a PR adding a vulnerable or badly-licensed package
 

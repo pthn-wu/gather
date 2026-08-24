@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { Suspense, lazy, type ReactNode } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
@@ -19,6 +19,15 @@ import { Orders } from './pages/Orders';
 import { Updates } from './pages/Updates';
 import { Community } from './pages/Community';
 import { Account } from './pages/Account';
+
+/**
+ * The back office is a separate audience on the same domain, so residents
+ * should not pay to download it. Lazily loaded, it stays out of the bundle
+ * every shopper fetches and arrives only when someone opens /office.
+ */
+const OfficeApp = lazy(() =>
+  import('./office/App').then((m) => ({ default: m.OfficeApp })),
+);
 
 function Splash() {
   return (
@@ -73,21 +82,50 @@ function AppRoutes() {
   );
 }
 
-export function App() {
+/**
+ * The resident storefront, with its providers. They wrap only this subtree:
+ * the back office has its own auth and store, fetches nothing a resident
+ * needs, and mounting the resident providers around it would have every
+ * office page quietly loading a product catalogue on the side.
+ */
+function ResidentApp() {
   return (
     <AuthProvider>
       <ToastProvider>
         <CartProvider>
           <ProductsProvider>
             <OrdersProvider>
-              <BrowserRouter>
-                <AppRoutes />
-                <Toast />
-              </BrowserRouter>
+              <AppRoutes />
+              <Toast />
             </OrdersProvider>
           </ProductsProvider>
         </CartProvider>
       </ToastProvider>
     </AuthProvider>
+  );
+}
+
+/**
+ * One site, two audiences. `/office` is the back office — retail and community
+ * consoles behind their own sign-in — and everything else is the resident
+ * storefront. They share a domain, a build and the API, and nothing else: the
+ * two sessions use different localStorage keys, so a resident staying signed in
+ * on the same browser does not disturb an office session, or vice versa.
+ */
+export function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/office/*"
+          element={
+            <Suspense fallback={<Splash />}>
+              <OfficeApp />
+            </Suspense>
+          }
+        />
+        <Route path="/*" element={<ResidentApp />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
