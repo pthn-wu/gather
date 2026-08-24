@@ -95,12 +95,25 @@ export const linkButton: CSSProperties = {
   color: '#5B34D9',
 };
 
+/**
+ * Height of `stickyHeader` at every width the app supports. Anything else that
+ * sticks below it offsets by this, so the two cannot drift apart — they did,
+ * and the side panels sat 64px too low, overlapping the rows they belong to.
+ */
+export const HEADER_HEIGHT = 112;
+
+/** Vertical gap between the header and the panels that stick beneath it. */
+export const STICKY_BELOW_HEADER = HEADER_HEIGHT + 26;
+
 export const stickyHeader: CSSProperties = {
   position: 'sticky',
   top: 0,
   zIndex: 6,
-  background: 'rgba(248,245,241,.97)',
-  backdropFilter: 'blur(10px)',
+  // Opaque, and no backdrop-filter. A translucent blurred header repaints the
+  // whole strip on every scroll frame; the compositor lands that a frame late,
+  // so rows passing underneath smear through it and the header looks like it is
+  // dragging behind the page. Flat colour costs nothing and never ghosts.
+  background: '#F8F5F1',
   borderBottom: '1px solid #E7DFD5',
   padding: '28px 36px 0',
 };

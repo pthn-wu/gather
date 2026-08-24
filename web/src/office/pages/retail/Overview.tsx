@@ -10,7 +10,7 @@ import { writeSheet } from "../../lib/sheet";
 import { C, F } from "../../theme";
 import { Eyebrow, GhostBtn, KpiStrip, LinkBtn, PageHead, Panel, R, Row } from "../../components/ui";
 
-const TPL = "minmax(190px,1fr) 92px 78px 118px 96px 104px 112px";
+const TPL = "minmax(0,1fr) 92px 78px 118px 96px 104px 112px";
 
 export default function Overview() {
   const s = useStore();
@@ -139,7 +139,7 @@ export default function Overview() {
 
       <div
         style={{
-          display: "grid", gridTemplateColumns: "minmax(700px,1fr) 372px", gap: 26,
+          display: "grid", gridTemplateColumns: "minmax(0,1fr) clamp(310px, 30%, 372px)", gap: 26,
           alignItems: "start", marginTop: 30,
         }}
       >

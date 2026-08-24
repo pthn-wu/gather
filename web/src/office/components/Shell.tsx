@@ -60,12 +60,19 @@ export default function Shell({ children }: { children: ReactNode }) {
   ].filter((r) => allowedRoles.includes(r.k as AdminRole)) as { k: AdminRole; label: string }[];
 
   return (
-    <div>
+    // The consoles are dense: seven- and eight-column tables beside a detail
+    // panel. Below this width the columns cannot all fit, and the honest
+    // outcome is a horizontal scrollbar rather than tracks squeezed to a few
+    // pixels or rows overflowing across the panel beside them.
+    <div style={{ minWidth: 1360 }}>
       <div
         style={{
           position: "sticky", top: 0, zIndex: 12, display: "flex", alignItems: "center",
-          gap: 24, padding: "14px 28px", background: "rgba(248,245,241,.97)",
-          backdropFilter: "blur(10px)", borderBottom: `1px solid ${C.lineTop}`,
+          // Opaque, like the storefront header: a translucent blurred bar
+          // repaints on every scroll frame and the rows passing under it smear
+          // through, which reads as the header lagging behind the page.
+          gap: 24, padding: "14px 28px", background: C.bg,
+          borderBottom: `1px solid ${C.lineTop}`,
         }}
       >
         <img src="/gather-logo.png" alt="Gather" width={262} height={80}

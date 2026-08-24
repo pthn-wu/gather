@@ -5,7 +5,7 @@ import { writeSheet } from "../../lib/sheet";
 import { C, F } from "../../theme";
 import { Eyebrow, GhostBtn, PageHead, Panel, R, Row, Split, StatLine, TableHead } from "../../components/ui";
 
-const TPL = "minmax(200px,1fr) 88px 118px 160px 108px";
+const TPL = "minmax(0,1fr) 88px 118px 160px 108px";
 
 export default function Demand() {
   const s = useStore();

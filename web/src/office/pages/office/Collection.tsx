@@ -7,7 +7,7 @@ import { writeSheet } from "../../lib/sheet";
 import { C, F } from "../../theme";
 import { DarkBtn, GhostBtn, KpiStrip, PageHead, R, Row, TableHead, Tick } from "../../components/ui";
 
-const TPL = "40px 96px 78px minmax(180px,1fr) 92px 118px 132px 116px";
+const TPL = "40px 96px 78px minmax(0,1fr) 92px 118px 132px 116px";
 
 /** The printed sheet the guard ticks at the collection table. */
 export default function Collection() {

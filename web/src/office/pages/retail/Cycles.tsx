@@ -6,7 +6,7 @@ import { writeSheet } from "../../lib/sheet";
 import { C, F } from "../../theme";
 import { Eyebrow, GhostBtn, LinkBtn, PageHead, Panel, R, Row, TableHead } from "../../components/ui";
 
-const TPL = "minmax(180px,1fr) 96px 140px 140px 168px 110px 108px";
+const TPL = "minmax(0,1fr) 96px 140px 140px 168px 110px 108px";
 
 /** ISO datetime -> the `yyyy-mm-dd` an <input type="date"> needs. */
 const dateInput = (v: string | undefined) => (v ? String(v).slice(0, 10) : "");

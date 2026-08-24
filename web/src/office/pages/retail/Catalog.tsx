@@ -13,7 +13,7 @@ import { marginPct, money, num } from "../../lib/format";
 import { writeSheet } from "../../lib/sheet";
 import { C, CATS, F, SLOT } from "../../theme";
 
-const TPL = "34px 72px minmax(140px,1fr) 72px 72px 72px 72px 72px 68px";
+const TPL = "34px 72px minmax(0,1fr) 72px 72px 72px 72px 72px 68px";
 
 const blank = (over: Partial<Product>): Product => ({
   id: String(Date.now()),
@@ -119,7 +119,7 @@ export default function Catalog() {
 
       <div
         style={{
-          display: "grid", gridTemplateColumns: "minmax(760px,1fr) 388px", gap: 24,
+          display: "grid", gridTemplateColumns: "minmax(0,1fr) clamp(320px, 30%, 388px)", gap: 24,
           alignItems: "start", marginTop: 20,
         }}
       >

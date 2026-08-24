@@ -11,7 +11,7 @@ import {
   Chip, DarkBtn, Eyebrow, Field, FieldLabel, GhostBtn, PageHead, Panel, R, Row, Split, TableHead,
 } from "../../components/ui";
 
-const TPL = "minmax(200px,1fr) 128px 108px 150px 96px 84px";
+const TPL = "minmax(0,1fr) 128px 108px 150px 96px 84px";
 
 /** The four mechanics, with the design's own copy and value-field labels. */
 const KINDS: { k: PromotionMechanic; label: string; note: string; valueLabel: string }[] = [

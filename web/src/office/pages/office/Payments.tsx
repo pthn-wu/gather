@@ -9,7 +9,7 @@ import {
   DarkBtn, Eyebrow, FieldLabel, GhostBtn, PageHead, Panel, R, Row, Split, StatLine, TableHead,
 } from "../../components/ui";
 
-const TPL = "96px 78px minmax(160px,1fr) 116px 128px 118px 108px";
+const TPL = "96px 78px minmax(0,1fr) 116px 128px 118px 108px";
 
 export default function Payments() {
   const s = useStore();

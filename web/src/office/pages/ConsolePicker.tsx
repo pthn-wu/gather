@@ -55,7 +55,7 @@ export default function ConsolePicker() {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "minmax(520px,1fr) minmax(620px,760px)",
+        gridTemplateColumns: "minmax(0,1fr) minmax(0,760px)",
         gap: 64, padding: "72px 80px", alignItems: "start", minHeight: "100vh",
       }}
     >

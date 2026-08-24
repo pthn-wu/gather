@@ -47,7 +47,7 @@ function RequireAuth({ children }: { children: ReactNode }) {
 
 function AppRoutes() {
   return (
-    <div style={{ display: 'flex', minWidth: 1420, minHeight: '100vh', background: '#F8F5F1' }}>
+    <div style={{ display: 'flex', minWidth: 1280, minHeight: '100vh', background: '#F8F5F1' }}>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/signin" element={<SignIn />} />

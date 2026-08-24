@@ -6,7 +6,7 @@ import { writeSheet } from "../../lib/sheet";
 import { C, F } from "../../theme";
 import { GhostBtn, PageHead, R, Row, TableHead, Tabs } from "../../components/ui";
 
-const TPL = "96px 78px minmax(170px,1fr) minmax(200px,1fr) 92px 118px 118px";
+const TPL = "96px 78px minmax(0,1fr) minmax(0,1fr) 92px 118px 118px";
 
 const STAGE_LABEL: Record<string, string> = {
   placed: "Order in",

@@ -10,7 +10,7 @@ import {
   DarkBtn, GhostBtn, LinkBtn, PageHead, R, Row, SearchInput, TableHead, Tick,
 } from "../../components/ui";
 
-const TPL = "34px 78px minmax(170px,1fr) 128px 140px 118px 96px 104px";
+const TPL = "34px 78px minmax(0,1fr) 128px 140px 118px 96px 104px";
 
 const STATE_LABEL: Record<AccountState, string> = {
   none: "No login yet",

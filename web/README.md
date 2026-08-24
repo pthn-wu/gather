@@ -12,7 +12,12 @@ They share a domain and a build, and nothing else. The two sessions use differen
 `localStorage` keys, so signing in as a resident does not disturb an office session in the same
 browser. `src/office/` is a lazy chunk, so a shopper never downloads the back office.
 
-Desktop only (1440px layout) — this is not a responsive/mobile build.
+Desktop only — this is not a responsive/mobile build. The storefront is designed at 1440 and
+laid out so that every page fits without a horizontal scrollbar from **1280** up; the back
+office is denser (seven- and eight-column tables beside a detail panel) and needs **1360**.
+Below those, the shell keeps its width and the page scrolls sideways, which is predictable —
+what is not acceptable is tracks squeezed to a few pixels or rows overflowing across the panel
+beside them, so no grid column in either app carries a px floor on its flexible track.
 
 ## Run it
 

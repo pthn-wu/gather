@@ -37,12 +37,12 @@ export function Cart() {
           {count} {count === 1 ? 'item' : 'items'} · cutoff {formatCutoff(community)}
         </div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(700px,1fr) 348px', gap: 26, alignItems: 'start', marginTop: 22 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(300px,348px)', gap: 26, alignItems: 'start', marginTop: 22 }}>
         <div style={{ minWidth: 0 }}>
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'minmax(220px,1fr) 120px 132px 110px 40px',
+              gridTemplateColumns: 'minmax(0,1fr) 120px 132px 110px 40px',
               gap: 14,
               alignItems: 'baseline',
               padding: '0 12px 11px',
@@ -69,7 +69,7 @@ export function Cart() {
                 className="row"
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'minmax(220px,1fr) 120px 132px 110px 40px',
+                  gridTemplateColumns: 'minmax(0,1fr) 120px 132px 110px 40px',
                   gap: 14,
                   alignItems: 'center',
                   padding: '15px 12px',

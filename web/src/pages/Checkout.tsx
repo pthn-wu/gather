@@ -65,7 +65,7 @@ export function Checkout() {
         ← Back to your order
       </button>
       <div style={{ ...pageTitle, marginTop: 16 }}>Checkout</div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(640px,1fr) 372px', gap: 28, alignItems: 'start', marginTop: 22 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(320px,372px)', gap: 28, alignItems: 'start', marginTop: 22 }}>
         <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 26 }}>
           <div style={card}>
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '.09em', textTransform: 'uppercase' }}>Collection</div>

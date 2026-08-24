@@ -7,7 +7,7 @@ import { useToast } from '../context/ToastContext';
 import { money } from '../utils/format';
 import { formatCutoff, deliveryDay } from '../utils/cycle';
 import { basketPromoLine, promoMarker } from '../utils/promo';
-import { card, linkButton, mono, primaryButton, sectionLabel, stickyHeader } from '../styles/shared';
+import { STICKY_BELOW_HEADER, card, linkButton, mono, primaryButton, sectionLabel, stickyHeader } from '../styles/shared';
 import { CartLineList } from '../components/CartLineList';
 import { ProductImage } from '../components/ProductImage';
 import type { Product } from '../api/types';
@@ -139,7 +139,7 @@ export function Shop() {
         style={{
           padding: '26px 36px 48px',
           display: 'grid',
-          gridTemplateColumns: 'minmax(740px,1fr) 348px',
+          gridTemplateColumns: 'minmax(0,1fr) clamp(296px, 30%, 348px)',
           gap: 26,
           alignItems: 'start',
         }}
@@ -283,7 +283,7 @@ export function Shop() {
           )}
         </div>
 
-        <div style={{ position: 'sticky', top: 176, ...card }}>
+        <div style={{ position: 'sticky', top: STICKY_BELOW_HEADER, ...card }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 9 }}>
             <div style={sectionLabel}>Your {deliveryDay(community)} order</div>
             <div style={{ flex: 1 }} />

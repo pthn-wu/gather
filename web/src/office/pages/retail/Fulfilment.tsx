@@ -11,7 +11,7 @@ import {
   DarkBtn, Eyebrow, GhostBtn, PageHead, Panel, R, Row, Split, StatLine, TableHead,
 } from "../../components/ui";
 
-const TPL = "minmax(190px,1fr) 84px 92px 78px 92px 108px 96px";
+const TPL = "minmax(0,1fr) 84px 92px 78px 92px 108px 96px";
 
 export default function Fulfilment() {
   const s = useStore();

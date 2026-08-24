@@ -10,7 +10,7 @@ import { buildOrderView, buildTimeline, orderPayDetail, orderSearchBlob, itemNam
 import { tierNoteForIndex } from '../utils/cutoff';
 import { collectPoint } from '../utils/cycle';
 import { promoName } from '../utils/promo';
-import { card, linkButton, mono, pageTitle, sectionLabel, stickyHeader } from '../styles/shared';
+import { STICKY_BELOW_HEADER, card, linkButton, mono, pageTitle, sectionLabel, stickyHeader } from '../styles/shared';
 
 const FILTERS = [
   { k: 'all', label: 'All' },
@@ -175,7 +175,7 @@ export function Orders() {
         </div>
       </div>
 
-      <div style={{ padding: '26px 36px 48px', display: 'grid', gridTemplateColumns: 'minmax(740px,1fr) 348px', gap: 26, alignItems: 'start' }}>
+      <div style={{ padding: '26px 36px 48px', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) clamp(296px, 30%, 348px)', gap: 26, alignItems: 'start' }}>
         <div style={{ minWidth: 0 }}>
           {error && <div style={{ padding: '32px 0', fontSize: 13, color: '#B3253A' }}>{error}. Make sure the Gather server is running.</div>}
 
@@ -232,7 +232,7 @@ export function Orders() {
           )}
         </div>
 
-        <div style={{ position: 'sticky', top: 176, ...card, padding: 24 }}>
+        <div style={{ position: 'sticky', top: STICKY_BELOW_HEADER, ...card, padding: 24 }}>
           {selected ? (
             <DetailPanel v={selected} onAct={() => handleAct(selected)} paying={paying === selected.order.id} />
           ) : (
@@ -263,8 +263,20 @@ function RowShell({
       onClick={onOpen}
       style={{
         display: 'grid',
-        gridTemplateColumns: '112px 172px minmax(160px,1fr) 96px 108px',
-        gap: 14,
+        // Order code, collection line, item names, money, action.
+        //
+        // The two text columns both flex, and neither has a px floor. A floor
+        // makes the five tracks add up to more than the cell on a 1280 screen,
+        // and the row overflows to the right — that is what slid the action
+        // buttons underneath the detail panel. Fixing that by pinning the
+        // collection column then starved the item names down to "Shan …", so
+        // the slack is shared: collection gets slightly more because it wraps
+        // to a second line, names truncate instead of wrapping.
+        //
+        // Money is 118px because "Pay on collection" wrapped under the amount
+        // at 96.
+        gridTemplateColumns: '112px minmax(0,1.1fr) minmax(0,1fr) 118px 100px',
+        gap: 12,
         alignItems: 'baseline',
         padding,
         borderBottom: '1px solid #EFE8E0',
