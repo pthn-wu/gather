@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/asyncRouter';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/prisma';
 import { officeCommunityId, requireAdmin } from '../middleware/auth';
@@ -7,7 +7,7 @@ import { COLS, Row, boolish, num, str } from '../lib/importRows';
 import { validate } from '../lib/validate';
 import { commonSchemas, officeSchemas } from '../lib/schemas';
 
-const router = Router();
+const router = createRouter();
 
 /**
  * The property-office console. Every route is scoped to the admin's own community —

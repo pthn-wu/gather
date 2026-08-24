@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/asyncRouter';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/prisma';
 import { signUserToken } from '../lib/jwt';
@@ -7,7 +7,7 @@ import { requireUser } from '../middleware/auth';
 import { validate } from '../lib/validate';
 import { authSchemas } from '../lib/schemas';
 
-const router = Router();
+const router = createRouter();
 
 // POST /api/auth/login
 router.post('/login', validate({ body: authSchemas.login }), async (req, res) => {

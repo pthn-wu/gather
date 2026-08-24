@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/asyncRouter';
 import { prisma } from '../lib/prisma';
 import { requireUser } from '../middleware/auth';
 import {
@@ -12,7 +12,7 @@ import { serializeProductPublic, tierLadder } from '../lib/serialize';
 import { validate } from '../lib/validate';
 import { commonSchemas, shopSchemas } from '../lib/schemas';
 
-const router = Router();
+const router = createRouter();
 
 // GET /api/products/categories — the seven v2 categories, with live counts for this community.
 router.get('/categories', requireUser, async (req, res) => {

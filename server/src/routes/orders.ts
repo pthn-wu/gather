@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/asyncRouter';
 import { prisma } from '../lib/prisma';
 import { requireUser } from '../middleware/auth';
 import { basketPromotions, priceProduct, promotionsForProduct } from '../lib/pricing';
@@ -6,7 +6,7 @@ import { promotionsForCommunity } from '../lib/catalog';
 import { validate } from '../lib/validate';
 import { commonSchemas, shopSchemas } from '../lib/schemas';
 
-const router = Router();
+const router = createRouter();
 
 const ORDER_INCLUDE = {
   lines: { include: { product: true } },

@@ -1,8 +1,8 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/asyncRouter';
 import { prisma } from '../lib/prisma';
 import { serializeCommunity } from '../lib/serialize';
 
-const router = Router();
+const router = createRouter();
 
 // GET /api/communities
 router.get('/communities', async (req, res) => {

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/asyncRouter';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/prisma';
 import { AdminRole, signAdminToken } from '../lib/jwt';
@@ -7,7 +7,7 @@ import { resolveCommunity } from '../lib/catalog';
 import { validate } from '../lib/validate';
 import { adminAuthSchemas } from '../lib/schemas';
 
-const router = Router();
+const router = createRouter();
 
 // POST /api/admin/login { username, password, communityId? }
 // Shared by both consoles. `communityId` is the console picker's community: for an

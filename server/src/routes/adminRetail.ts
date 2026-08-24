@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/asyncRouter';
 import { Community, Product } from '@prisma/client';
 import { prisma } from '../lib/prisma';
 import { requireAdmin } from '../middleware/auth';
@@ -24,7 +24,7 @@ import { COLS, Row, boolish, get, intOr, num, splitList, str } from '../lib/impo
 import { validate } from '../lib/validate';
 import { commonSchemas, retailSchemas } from '../lib/schemas';
 
-const router = Router();
+const router = createRouter();
 
 // Every route below is Capital Retail only. An office token gets 403 here.
 router.use(requireAdmin('retail'));

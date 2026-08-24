@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/asyncRouter';
 import { prisma } from '../lib/prisma';
 import { requireUser } from '../middleware/auth';
 import { serializeAnnouncement } from '../lib/serialize';
@@ -7,7 +7,7 @@ import { promotionsForCommunity } from '../lib/catalog';
 import { validate } from '../lib/validate';
 import { commonSchemas, shopSchemas } from '../lib/schemas';
 
-const router = Router();
+const router = createRouter();
 
 function serializeWishlist(w: any, userId: string) {
   return {
