@@ -96,14 +96,23 @@ export const linkButton: CSSProperties = {
 };
 
 /**
- * Height of `stickyHeader` at every width the app supports. Anything else that
- * sticks below it offsets by this, so the two cannot drift apart — they did,
- * and the side panels sat 64px too low, overlapping the rows they belong to.
+ * Where a panel sits when it sticks below the page header.
+ *
+ * The header's height is not a constant — it grows when its title or filter row
+ * wraps, which depends on the window width and the text. `PageHeader` measures
+ * it and publishes `--gather-header-h`; this reads it, with the common height
+ * as the fallback for the first paint. It used to be a hardcoded 176 against a
+ * 112px header, so the panels sat 64px out and overlapped the rows they
+ * describe.
  */
-export const HEADER_HEIGHT = 112;
+export const STICKY_BELOW_HEADER = 'calc(var(--gather-header-h, 112px) + 26px)';
 
-/** Vertical gap between the header and the panels that stick beneath it. */
-export const STICKY_BELOW_HEADER = HEADER_HEIGHT + 26;
+/**
+ * Space the fixed cart button occupies in the top right. Any page header with
+ * right-aligned controls must reserve it, or those controls sit underneath the
+ * button.
+ */
+export const CART_CLEARANCE = 128;
 
 export const stickyHeader: CSSProperties = {
   position: 'sticky',
@@ -115,5 +124,7 @@ export const stickyHeader: CSSProperties = {
   // dragging behind the page. Flat colour costs nothing and never ghosts.
   background: '#F8F5F1',
   borderBottom: '1px solid #E7DFD5',
-  padding: '28px 36px 0',
+  // Right padding clears the fixed cart button in the top right corner. Without
+  // it a page's own right-aligned controls run underneath it.
+  padding: `28px ${CART_CLEARANCE}px 0 36px`,
 };

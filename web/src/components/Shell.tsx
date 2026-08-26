@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useOrders } from '../context/OrdersContext';
 import { getAlerts } from '../api/endpoints';
+import { CartButton } from './CartButton';
 import { collectPoint, collectionWindow, cutoffIso, deliveryDay, formatCutoff } from '../utils/cycle';
 
 function useCountdown(cutoffAt: string | undefined) {
@@ -161,6 +162,7 @@ export function Shell() {
       </div>
 
       <div style={{ flex: 1, minWidth: 0 }}>
+        <CartButton />
         <Outlet />
       </div>
     </div>

@@ -5,7 +5,7 @@ import type { Alert } from '../api/types';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { relativeTime } from '../utils/relativeTime';
-import { linkButton, pageTitle } from '../styles/shared';
+import { CART_CLEARANCE, linkButton, pageTitle } from '../styles/shared';
 
 export function Updates() {
   const { community } = useAuth();
@@ -41,7 +41,7 @@ export function Updates() {
 
   return (
     <div style={{ padding: '28px 36px 48px' }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 24 }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, paddingRight: CART_CLEARANCE - 36 }}>
         <div style={pageTitle}>Updates</div>
         <div style={{ fontSize: 12.5, color: '#7B7280' }}>
           Price drops, cutoffs and collection notices for {community?.label ?? 'your community'}

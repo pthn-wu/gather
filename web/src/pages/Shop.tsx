@@ -7,7 +7,8 @@ import { useToast } from '../context/ToastContext';
 import { money } from '../utils/format';
 import { formatCutoff, deliveryDay } from '../utils/cycle';
 import { basketPromoLine, promoMarker } from '../utils/promo';
-import { STICKY_BELOW_HEADER, card, linkButton, mono, primaryButton, sectionLabel, stickyHeader } from '../styles/shared';
+import { STICKY_BELOW_HEADER, card, linkButton, mono, primaryButton, sectionLabel } from '../styles/shared';
+import { PageHeader } from '../components/PageHeader';
 import { CartLineList } from '../components/CartLineList';
 import { ProductImage } from '../components/ProductImage';
 import type { Product } from '../api/types';
@@ -47,7 +48,7 @@ export function Shop() {
 
   return (
     <>
-      <div style={stickyHeader}>
+      <PageHeader>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 26 }}>
           <div style={{ fontFamily: 'Poppins, sans-serif', fontSize: 27, fontWeight: 600, letterSpacing: '-.02em' }}>
             This week's sheet
@@ -62,7 +63,7 @@ export function Shop() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 8,
-                width: 280,
+                width: 216,
                 padding: '7px 0',
                 borderBottom: `1.5px solid ${pq ? '#5B34D9' : '#DED5CC'}`,
               }}
@@ -133,7 +134,7 @@ export function Shop() {
             );
           })}
         </div>
-      </div>
+      </PageHeader>
 
       <div
         style={{

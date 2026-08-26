@@ -10,7 +10,8 @@ import { buildOrderView, buildTimeline, orderPayDetail, orderSearchBlob, itemNam
 import { tierNoteForIndex } from '../utils/cutoff';
 import { collectPoint } from '../utils/cycle';
 import { promoName } from '../utils/promo';
-import { STICKY_BELOW_HEADER, card, linkButton, mono, pageTitle, sectionLabel, stickyHeader } from '../styles/shared';
+import { STICKY_BELOW_HEADER, card, linkButton, mono, pageTitle, sectionLabel } from '../styles/shared';
+import { PageHeader } from '../components/PageHeader';
 
 const FILTERS = [
   { k: 'all', label: 'All' },
@@ -110,7 +111,7 @@ export function Orders() {
 
   return (
     <>
-      <div style={stickyHeader}>
+      <PageHeader>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 26 }}>
           <div style={pageTitle}>Your orders</div>
           <div style={{ fontSize: 12.5, color: '#7B7280' }}>{headline}</div>
@@ -121,7 +122,7 @@ export function Orders() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 8,
-                width: 300,
+                width: 232,
                 padding: '7px 0',
                 borderBottom: `1.5px solid ${query ? '#5B34D9' : '#DED5CC'}`,
               }}
@@ -173,7 +174,7 @@ export function Orders() {
             );
           })}
         </div>
-      </div>
+      </PageHeader>
 
       <div style={{ padding: '26px 36px 48px', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) clamp(296px, 30%, 348px)', gap: 26, alignItems: 'start' }}>
         <div style={{ minWidth: 0 }}>
