@@ -46,12 +46,22 @@ export function Updates() {
         <div style={{ fontSize: 12.5, color: '#7B7280' }}>
           Price drops, cutoffs and collection notices for {community?.label ?? 'your community'}
         </div>
-        <div style={{ flex: 1 }} />
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          maxWidth: 820,
+          marginTop: 18,
+          paddingBottom: 10,
+          borderBottom: '1px solid #EFE8E0',
+        }}
+      >
         <button onClick={() => flash('All updates marked read')} style={{ ...linkButton, fontSize: 12.5 }}>
           Mark all read
         </button>
       </div>
-      <div style={{ maxWidth: 820, marginTop: 22 }}>
+      <div style={{ maxWidth: 820, marginTop: 4 }}>
         {loading && <div style={{ padding: '18px 12px', fontSize: 13, color: '#6F6678' }}>Loading updates…</div>}
         {error && <div style={{ padding: '18px 12px', fontSize: 13, color: '#B3253A' }}>{error}. Make sure the Gather server is running.</div>}
         {!loading && !error && alerts.length === 0 && (

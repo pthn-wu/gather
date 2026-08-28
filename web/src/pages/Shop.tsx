@@ -9,12 +9,17 @@ import { formatCutoff, deliveryDay } from '../utils/cycle';
 import { basketPromoLine, promoMarker } from '../utils/promo';
 import { STICKY_BELOW_HEADER, card, linkButton, mono, primaryButton, sectionLabel } from '../styles/shared';
 import { PageHeader } from '../components/PageHeader';
+import { SortSelect } from '../components/SortSelect';
 import { CartLineList } from '../components/CartLineList';
 import { ProductImage } from '../components/ProductImage';
 import type { Product } from '../api/types';
 
-const SORT_LABELS: Record<string, string> = { pop: 'Most joined', price: 'Lowest price', save: 'Biggest saving' };
-const SORT_NEXT: Record<string, 'pop' | 'price' | 'save'> = { pop: 'price', price: 'save', save: 'pop' };
+type SortKey = 'pop' | 'price' | 'save';
+const SORT_OPTIONS: { value: SortKey; label: string }[] = [
+  { value: 'pop', label: 'Most joined' },
+  { value: 'price', label: 'Lowest price' },
+  { value: 'save', label: 'Biggest saving' },
+];
 
 function sortProducts(list: Product[], sort: 'pop' | 'price' | 'save'): Product[] {
   const copy = [...list];
@@ -33,7 +38,7 @@ export function Shop() {
 
   const [cat, setCat] = useState('All');
   const [pq, setPq] = useState('');
-  const [sort, setSort] = useState<'pop' | 'price' | 'save'>('pop');
+  const [sort, setSort] = useState<SortKey>('pop');
 
   const filtered = useMemo(() => {
     const q = pq.trim().toLowerCase();
@@ -90,17 +95,12 @@ export function Shop() {
                 </button>
               )}
             </div>
-            <button
-              onClick={() => setSort(SORT_NEXT[sort])}
-              style={{ ...linkButton, fontSize: 12.5, whiteSpace: 'nowrap' }}
-            >
-              {SORT_LABELS[sort]}
-            </button>
           </div>
         </div>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 20, marginTop: 20 }}>
         <div
           className="no-scrollbar"
-          style={{ display: 'flex', alignItems: 'flex-end', gap: 18, marginTop: 20, overflowX: 'auto' }}
+          style={{ display: 'flex', alignItems: 'flex-end', gap: 18, flex: 1, minWidth: 0, overflowX: 'auto' }}
         >
           {['All', ...categories].map((c) => {
             const on = cat === c;
@@ -133,6 +133,13 @@ export function Shop() {
               </button>
             );
           })}
+        </div>
+          <SortSelect
+            value={sort}
+            options={SORT_OPTIONS}
+            onChange={setSort}
+            style={{ marginBottom: 10 }}
+          />
         </div>
       </PageHeader>
 

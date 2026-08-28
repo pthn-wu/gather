@@ -12,6 +12,7 @@ import { collectPoint } from '../utils/cycle';
 import { promoName } from '../utils/promo';
 import { STICKY_BELOW_HEADER, card, linkButton, mono, pageTitle, sectionLabel } from '../styles/shared';
 import { PageHeader } from '../components/PageHeader';
+import { SortSelect } from '../components/SortSelect';
 
 const FILTERS = [
   { k: 'all', label: 'All' },
@@ -22,8 +23,12 @@ const FILTERS = [
 ] as const;
 type FilterKey = (typeof FILTERS)[number]['k'];
 
-const SORT_LABELS: Record<string, string> = { new: 'Newest first', old: 'Oldest first', big: 'Largest first' };
-const SORT_NEXT: Record<string, 'new' | 'old' | 'big'> = { new: 'old', old: 'big', big: 'new' };
+type SortKey = 'new' | 'old' | 'big';
+const SORT_OPTIONS: { value: SortKey; label: string }[] = [
+  { value: 'new', label: 'Newest first' },
+  { value: 'old', label: 'Oldest first' },
+  { value: 'big', label: 'Largest first' },
+];
 
 function passFilter(v: OrderRowView, f: FilterKey): boolean {
   if (f === 'all') return true;
@@ -42,7 +47,7 @@ export function Orders() {
 
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<FilterKey>('all');
-  const [sort, setSort] = useState<'new' | 'old' | 'big'>('new');
+  const [sort, setSort] = useState<SortKey>('new');
   const [selId, setSelId] = useState<string | null>(null);
   const [paying, setPaying] = useState<string | null>(null);
 
@@ -139,12 +144,13 @@ export function Orders() {
                 </button>
               )}
             </div>
-            <button onClick={() => setSort(SORT_NEXT[sort])} style={{ ...linkButton, fontSize: 12.5, whiteSpace: 'nowrap' }}>
-              {SORT_LABELS[sort]}
-            </button>
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 22, marginTop: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 20, marginTop: 20 }}>
+          <div
+            className="no-scrollbar"
+            style={{ display: 'flex', alignItems: 'flex-end', gap: 22, flex: 1, minWidth: 0, overflowX: 'auto' }}
+          >
           {FILTERS.map((f) => {
             const on = filter === f.k;
             return (
@@ -173,6 +179,13 @@ export function Orders() {
               </button>
             );
           })}
+          </div>
+          <SortSelect
+            value={sort}
+            options={SORT_OPTIONS}
+            onChange={setSort}
+            style={{ marginBottom: 10 }}
+          />
         </div>
       </PageHeader>
 
